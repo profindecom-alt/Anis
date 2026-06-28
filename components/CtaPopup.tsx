@@ -27,6 +27,11 @@ export default function CtaPopup({
   href?: string;
 }) {
   const [open, setOpen] = useState(false);
+  // Le filet doré du surtitre est animé par EyebrowAnimator, qui ne scanne le
+  // DOM qu'au montage / changement de route. La fenêtre étant montée à la
+  // volée (après un délai), son surtitre échappe à ce scan : on déclenche donc
+  // le tracé localement, via un rAF pour laisser la transition CSS s'amorcer.
+  const [revealed, setRevealed] = useState(false);
 
   // Programme l'ouverture après le délai, sauf si la fenêtre a déjà été fermée.
   useEffect(() => {
@@ -59,6 +64,16 @@ export default function CtaPopup({
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
+  // Trace le filet une fois la fenêtre ouverte (rAF = après le premier paint).
+  useEffect(() => {
+    if (!open) {
+      setRevealed(false);
+      return;
+    }
+    const raf = requestAnimationFrame(() => setRevealed(true));
+    return () => cancelAnimationFrame(raf);
   }, [open]);
 
   if (!open) return null;
@@ -125,7 +140,7 @@ export default function CtaPopup({
         </button>
 
         <div className="relative px-8 py-8 sm:px-10">
-          <span className="eyebrow eyebrow-light mb-5">Premier rendez-vous</span>
+          <span className={`eyebrow eyebrow-light mb-5${revealed ? ' eyebrow--visible' : ''}`}>Premier rendez-vous</span>
           <h2 className="max-w-md text-balance text-2xl font-semibold leading-[1.15] text-cream sm:text-[1.9rem]">
             {title}
           </h2>
