@@ -118,27 +118,30 @@ export default async function HomePage() {
               </span>
               <h1 className="text-balance font-serif text-[2.5rem] font-medium leading-[1.05] text-cream animate-fade-up sm:text-[3.25rem] md:text-[3.75rem] lg:text-[4.25rem]">
                 Votre patrimoine mérite une{' '}
-                <span className="relative inline-block">
-                  <span className="bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent">
-                    stratégie
+                <span className="whitespace-nowrap">
+                  <span className="relative inline-block">
+                    <span className="bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent">
+                      stratégie
+                    </span>
+                    <svg
+                      className="absolute -bottom-2 left-0 w-full text-gold animate-fade-up"
+                      style={{ animationDelay: '360ms' }}
+                      viewBox="0 0 200 12"
+                      fill="none"
+                      preserveAspectRatio="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M2 8C40 3 80 3 120 6C150 8 175 7 198 4"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
                   </span>
-                  <svg
-                    className="absolute -bottom-2 left-0 w-full text-gold animate-fade-up"
-                    style={{ animationDelay: '360ms' }}
-                    viewBox="0 0 200 12"
-                    fill="none"
-                    preserveAspectRatio="none"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M2 8C40 3 80 3 120 6C150 8 175 7 198 4"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </span>
-                , pas un produit.
+                  ,
+                </span>{' '}
+                pas un produit.
               </h1>
               <p
                 className="mt-6 max-w-lg text-base leading-relaxed text-cream/75 animate-fade-up md:mt-7 md:text-lg"
