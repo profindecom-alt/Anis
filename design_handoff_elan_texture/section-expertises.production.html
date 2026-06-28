@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ELAN PATRIMOINE — Section « Nos expertises » (production)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Spectral:wght@400;500;600&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#11254a;
+    --navy-deep:#0d1d3b;
+    --gold:#c2a25c;
+    --ink-100:#f3f1ea;
+    --ink-300:#b9c2d4;
+    --line:rgba(255,255,255,0.10);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Archivo',system-ui,sans-serif;background:var(--navy-deep);}
+
+  /* =========================================================
+     SECTION « Nos expertises »
+     - container-type makes the responsive layout react to the
+       SECTION width (works on real viewports of any size).
+     - "Élan" texture baked in: navy + gold halo + rising curves.
+     ========================================================= */
+  .expertises{
+    position:relative;
+    container-type:inline-size;
+    overflow:hidden;
+    padding:104px 0 120px;
+    background-color:var(--navy);
+    background-image:
+      url("elan-texture.svg"),
+      radial-gradient(120% 95% at 50% 0%, rgba(21,41,81,0.31) 0%, var(--navy) 70%);
+    background-repeat:no-repeat,no-repeat;
+    background-size:cover,cover;
+    background-position:center,center;
+  }
+  .expertises__wrap{position:relative;z-index:1;max-width:1320px;margin:0 auto;padding:0 56px;}
+
+  .expertises__head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:64px;}
+  .expertises__eyebrow{display:flex;align-items:center;gap:16px;margin:0 0 22px;
+    font-size:12px;font-weight:600;letter-spacing:.30em;text-transform:uppercase;color:var(--gold);}
+  .expertises__eyebrow::before{content:"";width:42px;height:1.5px;background:var(--gold);display:block;}
+  .expertises__title{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:50px;line-height:1.04;
+    margin:0 0 22px;color:var(--ink-100);letter-spacing:.005em;text-wrap:balance;}
+  .expertises__lede{font-size:16.5px;line-height:1.55;color:var(--ink-300);margin:0;max-width:46ch;}
+  .expertises__cta{flex:none;display:inline-flex;align-items:center;gap:10px;
+    padding:15px 30px;border:1px solid var(--line);border-radius:999px;
+    color:var(--ink-100);font-size:14px;font-weight:500;background:rgba(255,255,255,.015);
+    cursor:pointer;transition:.25s;white-space:nowrap;text-decoration:none;}
+  .expertises__cta:hover{border-color:rgba(194,162,92,.6);background:rgba(194,162,92,.08);}
+
+  .expertises__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+
+  .pillar{
+    position:relative;padding:44px 40px 38px;border-radius:6px;
+    border:1px solid var(--line);
+    background:linear-gradient(160deg, rgba(255,255,255,.055) 0%, rgba(255,255,255,.012) 42%, rgba(255,255,255,0) 100%);
+    backdrop-filter:blur(2px);transition:.3s;
+  }
+  .pillar:hover{border-color:rgba(194,162,92,.42);transform:translateY(-4px);
+    background:linear-gradient(160deg, rgba(255,255,255,.085) 0%, rgba(255,255,255,.02) 50%, rgba(255,255,255,0) 100%);}
+
+  /* small "Pilier 0X" label */
+  .pillar__label{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:15px;line-height:1;
+    color:var(--gold);margin:0 0 22px;letter-spacing:.06em;font-feature-settings:"onum" 1;}
+
+  /* icon badge — small on desktop, anchored top-right */
+  .pillar__icon{position:absolute;top:30px;right:30px;width:34px;height:34px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;color:var(--gold);
+    border:1px solid rgba(194,162,92,.32);background:rgba(194,162,92,.06);transition:.3s;}
+  .pillar__icon svg{width:17px;height:17px;display:block;}
+  .pillar:hover .pillar__icon{border-color:rgba(194,162,92,.62);background:rgba(194,162,92,.12);}
+
+  .pillar__title{font-family:'Spectral',serif;font-weight:500;font-size:23px;margin:0 0 18px;color:var(--ink-100);}
+  .pillar__text{font-size:15px;line-height:1.62;color:var(--ink-300);margin:0 0 30px;}
+  .pillar__more{display:inline-flex;align-items:center;gap:9px;color:var(--gold);font-size:13.5px;
+    font-weight:600;letter-spacing:.02em;text-decoration:none;}
+  .pillar__more svg{transition:transform .25s;}
+  .pillar:hover .pillar__more svg{transform:translateX(5px);}
+
+  /* ---- narrow / mobile (reacts to the section's own width) ---- */
+  @container (max-width: 720px){
+    .expertises{padding:62px 0 70px;}
+    .expertises__wrap{padding:0 24px;}
+    .expertises__head{flex-direction:column;align-items:flex-start;gap:26px;margin-bottom:42px;}
+    .expertises__title{font-size:33px;}
+    .expertises__lede{font-size:15px;}
+    .expertises__cta{width:100%;justify-content:center;padding:14px 24px;}
+    .expertises__grid{grid-template-columns:1fr;gap:16px;}
+    .pillar{padding:32px 26px 30px;}
+    .pillar__icon{top:28px;right:24px;width:46px;height:46px;}
+    .pillar__icon svg{width:22px;height:22px;}
+    .pillar__title{font-size:21px;margin-bottom:14px;}
+    .pillar__text{margin-bottom:24px;}
+  }
+</style>
+</head>
+<body>
+
+<section class="expertises">
+  <div class="expertises__wrap">
+    <div class="expertises__head">
+      <div>
+        <p class="expertises__eyebrow">Nos expertises</p>
+        <h2 class="expertises__title">Trois piliers, une vision d'ensemble</h2>
+        <p class="expertises__lede">Chaque expertise se déploie au sein d'une stratégie globale et cohérente.</p>
+      </div>
+      <a class="expertises__cta" href="#">Toutes nos expertises</a>
+    </div>
+
+    <div class="expertises__grid">
+
+      <article class="pillar">
+        <span class="pillar__icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 27 H27"/><path d="M6 22 L13 15 L18 19 L26 9"/><path d="M21 9 L26 9 L26 14"/></svg>
+        </span>
+        <p class="pillar__label">Pilier 01</p>
+        <h3 class="pillar__title">Gestion de Patrimoine</h3>
+        <p class="pillar__text">Allocation d'actifs, arbitrages et architecture ouverte pour faire fructifier et structurer votre patrimoine.</p>
+        <a class="pillar__more" href="#">En savoir plus
+          <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M1 5h15M12 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </article>
+
+      <article class="pillar">
+        <span class="pillar__icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="5.6" r="1.3"/><path d="M16 6.9 V26"/><path d="M9 26 H23"/><path d="M6 11 H26"/><path d="M6 11 V13.6"/><path d="M2 13.6 a4 4 0 0 0 8 0"/><path d="M26 11 V13.6"/><path d="M22 13.6 a4 4 0 0 0 8 0"/></svg>
+        </span>
+        <p class="pillar__label">Pilier 02</p>
+        <h3 class="pillar__title">Défiscalisation</h3>
+        <p class="pillar__text">Optimisation fiscale personnelle et professionnelle, dans le strict respect du cadre légal.</p>
+        <a class="pillar__more" href="#">En savoir plus
+          <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M1 5h15M12 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </article>
+
+      <article class="pillar">
+        <span class="pillar__icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4 L26 7.5 V16 C26 22 21.5 25.5 16 28 C10.5 25.5 6 22 6 16 V7.5 Z"/><path d="M11.5 16 L15 19.5 L21 12.5"/></svg>
+        </span>
+        <p class="pillar__label">Pilier 03</p>
+        <h3 class="pillar__title">Assurance &amp; Protection</h3>
+        <p class="pillar__text">Prévoyance, couverture des risques et transmission pour protéger vos proches et vos actifs.</p>
+        <a class="pillar__more" href="#">En savoir plus
+          <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M1 5h15M12 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

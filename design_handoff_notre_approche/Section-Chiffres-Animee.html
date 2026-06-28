@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>En quelques chiffres — animé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Spectral:wght@400;500;600&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#11254a;
+    --navy-deep:#0d1d3b;
+    --navy-hi:#17305c;
+    --gold:#c2a25c;
+    --gold-soft:#d8bd84;
+    --ink-100:#f3f1ea;
+    --ink-300:#b9c2d4;
+    --ink-500:#8893a8;
+    --line:rgba(255,255,255,0.10);
+    --track:rgba(255,255,255,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Archivo',system-ui,sans-serif;background:var(--navy-deep);color:var(--ink-100);-webkit-font-smoothing:antialiased;padding-bottom:84px;}
+
+  .frame{container-type:inline-size;width:100%;margin:0 auto;transition:width .35s ease;}
+  .frame.mobile{margin:30px auto;border-radius:34px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.5);outline:8px solid #05101f;}
+
+  .section{
+    position:relative;overflow:hidden;
+    background:
+      radial-gradient(110% 120% at 88% -10%, #1c3868 0%, rgba(28,56,104,0) 48%),
+      linear-gradient(120deg,var(--navy) 0%,var(--navy-deep) 100%);
+    padding:104px 0 112px;
+  }
+  .section::before{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
+    background-size:24px 24px;
+    -webkit-mask-image:linear-gradient(100deg,#000 0%,transparent 60%);
+            mask-image:linear-gradient(100deg,#000 0%,transparent 60%);
+  }
+  .wrap{position:relative;z-index:1;max-width:1320px;margin:0 auto;padding:0 56px;}
+
+  .head{margin-bottom:64px;max-width:60ch;}
+  .eyebrow{display:flex;align-items:center;gap:16px;margin:0 0 22px;
+    font-size:12px;font-weight:600;letter-spacing:.30em;text-transform:uppercase;color:var(--gold);}
+  .eyebrow::before{content:"";width:42px;height:1.5px;background:var(--gold);display:block;flex:none;}
+  .title{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:48px;line-height:1.05;
+    margin:0;color:var(--ink-100);letter-spacing:.005em;text-wrap:balance;}
+
+  .num{font-family:'Cormorant Garamond',serif;color:var(--gold);
+    font-feature-settings:"onum" 1,"lnum" 0;line-height:.82;
+    display:inline-flex;align-items:baseline;white-space:nowrap;font-variant-numeric:tabular-nums;}
+  .num .u{font-size:.44em;color:var(--gold-soft);margin-left:.12em;}
+  .stat-label{font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--ink-300);margin:0;}
+  .idx{font-family:'Archivo',sans-serif;font-size:11px;font-weight:600;letter-spacing:.22em;color:var(--gold);opacity:.7;}
+
+  /* ---------- BARRES (horizontal progress) ---------- */
+  .bars{display:flex;flex-direction:column;gap:6px;}
+  .barrow{padding:26px 0;border-top:1px solid var(--line);
+    transition:opacity .7s ease, transform .8s cubic-bezier(.22,.61,.36,1);}
+  .barrow:last-child{border-bottom:1px solid var(--line);}
+  .barrow .top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:20px;}
+  .barrow .left{display:flex;align-items:baseline;gap:18px;}
+  .barrow .left .idx{transform:translateY(-2px);}
+  .barrow .num{font-size:52px;}
+  .barrow .stat-label{padding-bottom:8px;}
+  .track{position:relative;height:3px;border-radius:3px;background:var(--track);overflow:hidden;}
+  .fill{position:absolute;left:0;top:0;height:100%;width:0;border-radius:3px;
+    background:linear-gradient(90deg,var(--gold) 0%,var(--gold-soft) 100%);
+    transition:width 1.25s cubic-bezier(.22,.61,.36,1);}
+  .fill::after{content:"";position:absolute;right:0;top:50%;width:7px;height:7px;border-radius:50%;
+    transform:translateY(-50%);background:var(--gold-soft);
+    box-shadow:0 0 12px 2px rgba(216,189,132,.6);transition:opacity .4s ease .9s;}
+
+  /* ---------- JAUGES (rings) ---------- */
+  .rings{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;}
+  .ring{display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px;
+    transition:opacity .7s ease, transform .8s cubic-bezier(.22,.61,.36,1);}
+  .dial{position:relative;width:168px;height:168px;}
+  .dial svg{transform:rotate(-90deg);display:block;}
+  .dial .ringtrack{stroke:var(--track);}
+  .dial .ringfill{stroke:url(#goldgrad);stroke-linecap:round;
+    transition:stroke-dashoffset 1.3s cubic-bezier(.22,.61,.36,1);}
+  .dial .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+  .dial .center .num{font-size:50px;}
+  .dial .center .idx{margin-top:2px;}
+
+  /* ---------- COMPTEUR (editorial big numbers) ---------- */
+  .counters{display:grid;grid-template-columns:repeat(4,1fr);}
+  .counter{position:relative;padding:6px 42px;
+    transition:opacity .7s ease, transform .8s cubic-bezier(.22,.61,.36,1);}
+  .counter:first-child{padding-left:0;}
+  .counter:last-child{padding-right:0;}
+  .counter + .counter::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:1px;
+    background:linear-gradient(rgba(194,162,92,.30),rgba(194,162,92,.04));}
+  .counter .idx{display:block;margin-bottom:30px;}
+  .counter .num{font-size:98px;display:block;}
+  .counter .rule{height:2px;width:0;margin:24px 0 18px;border-radius:2px;
+    background:linear-gradient(90deg,var(--gold),var(--gold-soft));
+    transition:width 1s cubic-bezier(.22,.61,.36,1);}
+
+  /* ---------- FRISE (timeline ribbon) ---------- */
+  .frise{position:relative;padding-top:6px;}
+  .frise .rail{position:absolute;left:0;right:0;top:114px;height:1px;background:var(--track);}
+  .frise .rail .prog{position:absolute;left:0;top:0;height:100%;width:0;
+    background:linear-gradient(90deg,var(--gold),var(--gold-soft));
+    transition:width 1.5s cubic-bezier(.22,.61,.36,1);}
+  .frise .nodes{position:relative;display:grid;grid-template-columns:repeat(4,1fr);}
+  .node{display:grid;grid-template-rows:96px 28px auto;justify-items:center;text-align:center;
+    transition:opacity .6s ease, transform .7s cubic-bezier(.22,.61,.36,1);}
+  .node .num{font-size:60px;align-self:end;}
+  .node .dot{width:12px;height:12px;transform:rotate(45deg) scale(0);transform-origin:center;
+    background:var(--gold);align-self:center;
+    box-shadow:0 0 14px 2px rgba(216,189,132,.5);
+    transition:transform .5s cubic-bezier(.34,1.56,.64,1);}
+  .node.lit .dot{transform:rotate(45deg) scale(1);}
+  .node .stat-label{align-self:start;margin-top:20px;}
+
+  @container (max-width:720px){
+    .section{padding:58px 0 64px;}
+    .wrap{padding:0 24px;}
+    .head{margin-bottom:38px;}
+    .title{font-size:31px;}
+    /* Barres */
+    .barrow{padding:18px 0;}
+    .barrow .num{font-size:42px;}
+    .barrow .top{align-items:baseline;margin-bottom:16px;gap:14px;}
+    .barrow .left{gap:13px;}
+    .barrow .stat-label{font-size:10.5px;letter-spacing:.1em;text-align:right;padding-bottom:0;}
+    /* Jauges */
+    .rings{grid-template-columns:1fr 1fr;gap:34px 16px;}
+    .dial{width:142px;height:142px;}
+    .dial .center .num{font-size:42px;}
+    .ring{gap:16px;}
+    /* Compteur */
+    .counters{grid-template-columns:1fr 1fr;gap:32px 24px;}
+    .counter{padding:0;}
+    .counter + .counter::before{display:none;}
+    .counter .idx{margin-bottom:14px;}
+    .counter .num{font-size:62px;}
+    .counter .rule{margin:16px 0 12px;}
+    .counter .stat-label{font-size:11px;letter-spacing:.1em;}
+    /* Frise */
+    .frise{padding-top:0;}
+    .frise .rail{display:none;}
+    .frise .nodes{grid-template-columns:1fr 1fr;gap:36px 16px;}
+    .node{grid-template-rows:auto auto auto;gap:14px;}
+    .node .num{font-size:52px;}
+    .node .stat-label{margin-top:0;font-size:11px;letter-spacing:.1em;}
+  }
+
+  /* ---------- toolbar ---------- */
+  .picker{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:50;
+    display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:center;
+    padding:9px 12px;border-radius:14px;max-width:96vw;
+    background:rgba(10,18,36,.85);border:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(14px);box-shadow:0 16px 40px rgba(0,0,0,.45);}
+  .picker .lab{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#8b95ab;padding:0 6px 0 4px;}
+  .picker button{font-family:'Archivo',sans-serif;font-size:12px;color:#cdd4e2;cursor:pointer;
+    padding:7px 12px;border-radius:8px;border:1px solid transparent;background:transparent;transition:.18s;white-space:nowrap;}
+  .picker button:hover{background:rgba(255,255,255,.06);color:#fff;}
+  .picker button.on{background:var(--gold);color:#1a1305;border-color:var(--gold);font-weight:600;}
+  .picker .sep{width:1px;height:22px;background:rgba(255,255,255,.14);margin:0 5px;}
+  .picker .replay{display:inline-flex;align-items:center;gap:7px;color:#e7d8b0;border:1px solid rgba(194,162,92,.4);}
+  .picker .replay:hover{background:rgba(194,162,92,.12);color:#fff;}
+  .picker .replay svg{width:13px;height:13px;}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+const STATS = [
+  { n:8,   u:'ans', label:"d'expérience",        fill:0.80 },
+  { n:100, u:'%',   label:'indépendant',         fill:1.00 },
+  { n:4,   u:'',    label:'expertises',          fill:0.55 },
+  { n:1,   u:'',    label:'interlocuteur dédié', fill:0.32 },
+];
+const idx = i => String(i+1).padStart(2,'0');
+const easeOut = t => 1 - Math.pow(1-t, 3);
+const STAGGER = 150;
+
+// count-up hook, re-runs when `run` (replay key) changes; waits `delay` ms first
+function useCountUp(target, run, duration=1200, delay=0){
+  const [val,setVal] = useState(0);
+  useEffect(()=>{
+    let raf, start;
+    setVal(0);
+    const tick = ts => {
+      if(start===undefined) start=ts;
+      const p = Math.min(1,(ts-start)/duration);
+      setVal(Math.round(easeOut(p)*target));
+      if(p<1) raf=requestAnimationFrame(tick);
+    };
+    const to = setTimeout(()=>{ raf=requestAnimationFrame(tick); }, delay);
+    // safety: guarantee final value even if rAF is throttled (background tab)
+    const safety = setTimeout(()=>setVal(target), delay+duration+250);
+    return ()=>{ clearTimeout(to); clearTimeout(safety); cancelAnimationFrame(raf); };
+  },[run,target,duration,delay]);
+  return val;
+}
+
+// reveal flag — flips true a frame after `run` changes (timer-based so it
+// still fires when the tab is backgrounded and rAF is paused)
+function usePlayed(run, delay=40){
+  const [on,setOn] = useState(false);
+  useEffect(()=>{ setOn(false); const t=setTimeout(()=>setOn(true), delay); return ()=>clearTimeout(t); },[run]);
+  return on;
+}
+
+const Stat = ({n,u,run,delay=0}) => {
+  const v = useCountUp(n, run, 1200, delay);
+  return <span className="num">{v}{u && <span className="u">{u}</span>}</span>;
+};
+
+// ---- Barres ----
+function Barres({run}){
+  const played = usePlayed(run);
+  return (
+    <div className="bars">
+      {STATS.map((s,i)=>(
+        <div className="barrow" key={i} style={{
+            opacity: played?1:0,
+            transform: played?'none':'translateY(18px)',
+            transitionDelay:(played? i*STAGGER:0)+'ms'
+          }}>
+          <div className="top">
+            <div className="left">
+              <span className="idx">{idx(i)}</span>
+              <Stat n={s.n} u={s.u} run={run} delay={i*STAGGER}/>
+            </div>
+            <p className="stat-label">{s.label}</p>
+          </div>
+          <div className="track">
+            <div className="fill" style={{
+              width:(played? s.fill*100:0)+'%',
+              transitionDelay:(i*STAGGER)+'ms'
+            }}></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ---- Jauges (rings) ----
+function Ring({s,i,run,delay=0}){
+  const played = usePlayed(run);
+  const R=74, C=2*Math.PI*R;
+  return (
+    <div className="ring" style={{
+        opacity: played?1:0,
+        transform: played?'none':'translateY(18px) scale(.97)',
+        transitionDelay:(played? delay:0)+'ms'
+      }}>
+      <div className="dial">
+        <svg width="168" height="168" viewBox="0 0 168 168">
+          <circle className="ringtrack" cx="84" cy="84" r={R} fill="none" strokeWidth="3"/>
+          <circle className="ringfill" cx="84" cy="84" r={R} fill="none" strokeWidth="3"
+            strokeDasharray={C} strokeDashoffset={played? C*(1-s.fill) : C}
+            style={{transitionDelay:delay+'ms'}}/>
+        </svg>
+        <div className="center">
+          <Stat n={s.n} u={s.u} run={run} delay={delay}/>
+          <span className="idx">{idx(i)}</span>
+        </div>
+      </div>
+      <p className="stat-label">{s.label}</p>
+    </div>
+  );
+}
+function Jauges({run}){
+  return (
+    <div className="rings">
+      <svg width="0" height="0" style={{position:'absolute'}}><defs>
+        <linearGradient id="goldgrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#c2a25c"/><stop offset="1" stopColor="#e0c789"/>
+        </linearGradient>
+      </defs></svg>
+      {STATS.map((s,i)=><Ring key={i} s={s} i={i} run={run} delay={i*STAGGER}/>)}
+    </div>
+  );
+}
+
+// ---- Compteur (editorial big numbers) ----
+function Compteur({run}){
+  const played = usePlayed(run);
+  return (
+    <div className="counters">
+      {STATS.map((s,i)=>(
+        <div className="counter" key={i} style={{
+            opacity: played?1:0,
+            transform: played?'none':'translateY(18px)',
+            transitionDelay:(played? i*STAGGER:0)+'ms'
+          }}>
+          <span className="idx">{idx(i)}</span>
+          <Stat n={s.n} u={s.u} run={run} delay={i*STAGGER}/>
+          <div className="rule" style={{width:(played?56:0)+'px',transitionDelay:(i*STAGGER+220)+'ms'}}></div>
+          <p className="stat-label">{s.label}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ---- Frise (timeline ribbon) ----
+function Frise({run}){
+  const played = usePlayed(run);
+  return (
+    <div className="frise">
+      <div className="rail"><div className="prog" style={{width:(played?100:0)+'%',transitionDelay:'140ms'}}></div></div>
+      <div className="nodes">
+        {STATS.map((s,i)=>(
+          <div className={"node"+(played?" lit":"")} key={i} style={{
+              opacity: played?1:0,
+              transform: played?'none':'translateY(14px)',
+              transitionDelay:(played? i*STAGGER:0)+'ms'
+            }}>
+            <Stat n={s.n} u={s.u} run={run} delay={i*STAGGER}/>
+            <span className="dot" style={{transitionDelay:(i*STAGGER+320)+'ms'}}></span>
+            <p className="stat-label">{s.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function App(){
+  const [style,setStyle] = useState('barres');
+  const [run,setRun] = useState(0);
+  const [mobile,setMobile] = useState(false);
+  // replay whenever the style changes too
+  useEffect(()=>{ setRun(r=>r+1); },[style]);
+
+  return (
+    <>
+      <div className={"frame"+(mobile?" mobile":"")} style={{width: mobile?'402px':'100%'}}>
+        <section className="section">
+          <div className="wrap">
+            <div className="head">
+              <p className="eyebrow">En quelques chiffres</p>
+              <h2 className="title">La mesure de notre engagement</h2>
+            </div>
+            {style==='barres'  ? <Barres run={run}/> :
+             style==='jauges'  ? <Jauges run={run}/> :
+             style==='compteur'? <Compteur run={run}/> :
+                                 <Frise run={run}/>}
+          </div>
+        </section>
+      </div>
+
+      <div className="picker">
+        <span className="lab">Style</span>
+        <button className={style==='barres'?'on':''} onClick={()=>setStyle('barres')}>Barres</button>
+        <button className={style==='jauges'?'on':''} onClick={()=>setStyle('jauges')}>Jauges</button>
+        <button className={style==='compteur'?'on':''} onClick={()=>setStyle('compteur')}>Compteur</button>
+        <button className={style==='frise'?'on':''} onClick={()=>setStyle('frise')}>Frise</button>
+        <span className="sep"></span>
+        <button className="replay" onClick={()=>setRun(r=>r+1)}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+          Rejouer
+        </button>
+        <span className="sep"></span>
+        <span className="lab">Aperçu</span>
+        <button className={!mobile?'on':''} onClick={()=>setMobile(false)}>Desktop</button>
+        <button className={mobile?'on':''} onClick={()=>setMobile(true)}>Mobile</button>
+      </div>
+    </>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

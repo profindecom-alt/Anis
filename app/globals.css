@@ -1,0 +1,1781 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --header-height: 80px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Respecte la préférence système de mouvement réduit */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  body {
+    @apply bg-cream text-ink font-sans antialiased;
+  }
+
+  ::selection {
+    background-color: #13315C;
+    color: #F5F0E8;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-serif;
+  }
+
+  /* Focus visibility for accessibility */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-cream;
+  }
+
+  /* Traitement photographique unifié : légère désaturation pour harmoniser
+     des visuels d'origines variées avec la palette du cabinet. Les visuels
+     interactifs (cartes / liens .group) retrouvent leurs couleurs au survol. */
+  img[data-nimg] {
+    filter: saturate(0.8) contrast(1.04) brightness(0.985);
+    transition: filter 0.6s ease;
+  }
+
+  .group:hover img[data-nimg] {
+    filter: saturate(1) contrast(1) brightness(1);
+  }
+
+  /* Grain discret sur les grands aplats sombres, pour donner de la profondeur
+     sans alourdir (invisible sur les petits éléments, ciblé sur les sections). */
+  section.bg-forest,
+  section.bg-forest-dark,
+  footer.bg-forest-dark {
+    background-image: radial-gradient(rgba(245, 240, 232, 0.05) 1px, transparent 1px);
+    background-size: 5px 5px;
+  }
+}
+
+@layer components {
+  .container-content {
+    @apply mx-auto w-full max-w-content px-6 md:px-10;
+  }
+
+  /* Petit label tracé en capitales, utilisé pour les surtitres.
+     Or antique foncé pour un contraste AA sur fond clair ; filet en or vif. */
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-[#7a5e22];
+  }
+
+  .eyebrow::before {
+    content: '';
+    @apply block h-px w-8 bg-gold;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .eyebrow--visible::before {
+    transform: scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eyebrow::before {
+      transform: scaleX(1);
+      transition: none;
+    }
+  }
+
+  /* Sur fond sombre, l'or vif offre un excellent contraste */
+  .eyebrow-light {
+    @apply text-gold;
+  }
+
+  /* Boutons */
+  .btn {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-lg px-7 py-3.5 text-sm font-medium tracking-wide transition-all duration-300;
+  }
+
+  /* Reflet lumineux qui balaie le bouton au survol (micro-interaction). */
+  .btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -125%;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(
+      100deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    transform: skewX(-18deg);
+    transition: left 0.6s ease;
+    pointer-events: none;
+  }
+
+  .btn:hover::after {
+    left: 135%;
+  }
+
+  .btn-primary {
+    @apply btn bg-forest text-cream hover:bg-forest-dark hover:shadow-elevated;
+  }
+
+  .btn-gold {
+    @apply btn bg-gold text-forest-dark hover:bg-gold-light hover:shadow-elevated;
+  }
+
+  .btn-cream {
+    @apply btn bg-cream text-forest-dark hover:bg-white hover:shadow-elevated;
+  }
+
+  .btn-outline {
+    @apply btn border border-forest/30 text-forest hover:border-forest hover:bg-forest hover:text-cream;
+  }
+
+  .btn-outline-light {
+    @apply btn border border-cream/40 text-cream hover:bg-cream hover:text-forest;
+  }
+
+  /* Liens de texte soulignés finement */
+  .link-underline {
+    @apply relative inline-flex items-center gap-2 font-medium text-forest transition-colors;
+  }
+
+  .link-underline::after {
+    content: '';
+    @apply absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-gold transition-transform duration-300;
+  }
+
+  .link-underline:hover::after {
+    @apply origin-left scale-x-100;
+  }
+
+  /* Numérotation forte 01 / 02 / 03 */
+  .pillar-number {
+    @apply font-serif text-5xl leading-none text-gold/60 md:text-6xl;
+  }
+
+  /* Carte générique : fin filet supérieur doré, accentué au survol. */
+  .card {
+    @apply rounded-2xl border border-ink/5 border-t-2 border-t-gold/30 bg-white p-8 shadow-card transition-all duration-500;
+  }
+
+  .card:hover {
+    @apply border-t-gold/70;
+  }
+
+  /* Texte de prose pour articles & pages légales */
+  .prose-anis {
+    @apply max-w-prose text-[1.0625rem] leading-relaxed text-ink/80;
+  }
+
+  .prose-anis h2 {
+    @apply mt-12 mb-4 text-2xl font-semibold text-forest md:text-3xl;
+  }
+
+  .prose-anis h3 {
+    @apply mt-8 mb-3 text-xl font-semibold text-forest;
+  }
+
+  .prose-anis p {
+    @apply mb-5;
+  }
+
+  .prose-anis ul {
+    @apply mb-6 space-y-2 pl-1;
+  }
+
+  .prose-anis li {
+    @apply relative pl-6;
+  }
+
+  .prose-anis li::before {
+    content: '';
+    @apply absolute left-0 top-[0.7em] h-1.5 w-1.5 rounded-full bg-gold;
+  }
+
+  .prose-anis a {
+    @apply font-medium text-forest underline decoration-gold/50 underline-offset-4 hover:decoration-gold;
+  }
+
+  .prose-anis strong {
+    @apply font-semibold text-forest;
+  }
+
+  /* Lettrine éditoriale (uniquement sur les articles, via .dropcap). */
+  .prose-anis.dropcap > p:first-of-type::first-letter {
+    @apply float-left mr-3 mt-2 font-serif text-[4.2rem] font-semibold leading-[0.72] text-gold-dark;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .bg-grain {
+    background-image: radial-gradient(rgba(28, 27, 24, 0.035) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Animations & motifs premium                                         */
+/* ------------------------------------------------------------------ */
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Bandeau défilant (mots-clés), avec bords estompés et pause au survol. */
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee-track {
+  display: inline-flex;
+  width: max-content;
+  animation: marquee 36s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Trait dessiné sous un mot-clé du titre (hero). */
+.draw-underline path {
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+  animation: draw 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+}
+
+/* ------------------------------------------------------------
+   Animation « écriture au stylo » (signature de marque manuscrite).
+   Le mot se révèle de gauche à droite tandis qu'un stylo (image, nib
+   en bas à gauche) suit le point d'écriture. Variables réglables :
+   durée, taille du stylo, calage du nib.
+   ------------------------------------------------------------ */
+.handwriting {
+  position: relative;
+  display: inline-block;
+  line-height: 1.1;
+  --hw-duration: 2600ms;
+  --hw-pen-h: 1.9em; /* hauteur du stylo, relative à la taille du texte */
+  --hw-nib-x: -14%; /* calage horizontal du nib sur le tracé */
+  --hw-nib-y: -52%; /* remontée verticale pour poser le nib sur la ligne */
+}
+
+.handwriting-ink {
+  display: inline-block;
+  /* État initial : entièrement masqué, révélé de la gauche. */
+  clip-path: inset(0 100% -0.3em 0);
+}
+
+.handwriting-pen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: var(--hw-pen-h);
+  width: auto;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(var(--hw-nib-x), var(--hw-nib-y));
+  filter: drop-shadow(0 8px 10px rgba(19, 49, 92, 0.28));
+}
+
+.handwriting[data-writing='true'] .handwriting-ink {
+  animation: hw-reveal var(--hw-duration) cubic-bezier(0.62, 0, 0.28, 1) forwards;
+}
+
+.handwriting[data-writing='true'] .handwriting-pen {
+  animation:
+    hw-pen-x var(--hw-duration) cubic-bezier(0.62, 0, 0.28, 1) forwards,
+    hw-pen-fade var(--hw-duration) ease-out forwards,
+    hw-pen-bob 280ms ease-in-out infinite;
+}
+
+@keyframes hw-reveal {
+  from {
+    clip-path: inset(0 100% -0.3em 0);
+  }
+  to {
+    clip-path: inset(0 -6% -0.3em 0);
+  }
+}
+
+@keyframes hw-pen-x {
+  from {
+    left: 0;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes hw-pen-fade {
+  0% {
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Léger balancement vertical pour imiter le geste d'écriture. */
+@keyframes hw-pen-bob {
+  0%,
+  100% {
+    transform: translate(var(--hw-nib-x), var(--hw-nib-y));
+  }
+  50% {
+    transform: translate(var(--hw-nib-x), calc(var(--hw-nib-y) + 4%));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .handwriting-ink {
+    clip-path: none;
+    animation: none;
+  }
+  .handwriting-pen {
+    display: none;
+  }
+}
+
+/* Chiffre/lettre géant en filigrane, purement décoratif. */
+.numeral-ghost {
+  font-family: var(--font-serif), 'Cormorant Garamond', Georgia, serif;
+  line-height: 0.78;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ============================================================
+   Section « Nos expertises » — texture « Élan » (design handoff)
+   Navy texturé (halo or + courbes ascendantes) + cartes Pilier.
+   Reproduit fidèlement le handoff ; polices = variables du projet.
+   ============================================================ */
+.expertises {
+  position: relative;
+  container-type: inline-size;
+  overflow: hidden;
+  padding: 104px 0 120px;
+  background-color: #0c2350;
+  /* Dégradé bleu simple et profond. */
+  background-image:
+    radial-gradient(120% 100% at 50% -10%, #1b4a8f 0%, #102f62 45%, #0a1d40 100%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+/* Vidéo de fond optionnelle (pilotée Sanity) : plein cadre, derrière le voile
+   bleu. Le fond dégradé de .expertises sert de repli avant chargement. */
+.expertises__video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Voile bleu conservé par-dessus la vidéo : reprend le dégradé de la section
+   en version semi-transparente, pour garder l'identité bleue et la lisibilité
+   du texte tout en laissant la vidéo transparaître. */
+.expertises__tint {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  /* Voile bleu en dégradé : profond en haut (où se posent surtitre et titre,
+     pour la lisibilité) puis qui s'éclaircit vers le bas pour laisser la vidéo
+     transparaître. Léger halo bleu clair en haut pour la profondeur. */
+  background-image:
+    linear-gradient(
+      165deg,
+      rgba(10, 29, 64, 0.92) 0%,
+      rgba(16, 47, 98, 0.74) 45%,
+      rgba(27, 74, 143, 0.5) 100%
+    ),
+    radial-gradient(120% 90% at 50% -10%, rgba(47, 122, 214, 0.35) 0%, rgba(16, 47, 98, 0) 60%);
+  pointer-events: none;
+}
+/* Avec une vidéo de fond, on retire les halos animés très flous : composer
+   trois éléments en blur(70px) qui s'animent PAR-DESSUS une vidéo en lecture
+   sature le GPU et fait saccader la section. La vidéo apporte déjà le mouvement,
+   et le voile (.expertises__tint) suffit à garder l'identité bleue. */
+.expertises--video .expertises__aurora {
+  display: none;
+}
+/* Vidéo isolée sur sa propre couche GPU pour éviter les repeints inutiles. */
+.expertises--video .expertises__video {
+  transform: translateZ(0);
+  will-change: transform;
+  contain: paint;
+}
+/* Fond bleu animé : deux ou trois grands halos bleus, très flous, qui
+   dérivent et respirent lentement sous le contenu. Couche décorative
+   (cf. ExpertisesSection.tsx). */
+.expertises__aurora {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.expertises__blob {
+  position: absolute;
+  width: 64vw;
+  height: 64vw;
+  border-radius: 50%;
+  filter: blur(70px);
+  will-change: transform, opacity;
+}
+.expertises__blob--1 {
+  top: -22%;
+  left: -14%;
+  background: radial-gradient(circle at center, #2f7ad6 0%, rgba(47, 122, 214, 0) 68%);
+  animation: aurora-1 22s ease-in-out infinite alternate;
+}
+.expertises__blob--2 {
+  right: -16%;
+  bottom: -26%;
+  background: radial-gradient(circle at center, #1e58b4 0%, rgba(30, 88, 180, 0) 68%);
+  animation: aurora-2 28s ease-in-out infinite alternate;
+}
+.expertises__blob--3 {
+  top: 16%;
+  left: 38%;
+  width: 54vw;
+  height: 54vw;
+  background: radial-gradient(circle at center, #3aa0e0 0%, rgba(58, 160, 224, 0) 70%);
+  animation: aurora-3 19s ease-in-out infinite alternate;
+}
+@keyframes aurora-1 {
+  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.5; }
+  50%  { opacity: 0.7; }
+  100% { transform: translate3d(20%, 14%, 0) scale(1.24); opacity: 0.5; }
+}
+@keyframes aurora-2 {
+  0%   { transform: translate3d(0, 0, 0) scale(1.1); opacity: 0.45; }
+  50%  { opacity: 0.65; }
+  100% { transform: translate3d(-22%, -12%, 0) scale(0.95); opacity: 0.45; }
+}
+@keyframes aurora-3 {
+  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.4; }
+  50%  { opacity: 0.58; }
+  100% { transform: translate3d(-16%, 18%, 0) scale(1.22); opacity: 0.4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .expertises__blob {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   Contact page – Assistant en ligne section
+   Fond identique à .expertises ; réutilise les blobs + keyframes.
+   ============================================================ */
+.contact-assistant {
+  position: relative;
+  overflow: hidden;
+  background-color: #0c2350;
+  background-image:
+    radial-gradient(120% 100% at 50% -10%, #1b4a8f 0%, #102f62 45%, #0a1d40 100%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.expertises__wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 56px;
+}
+.expertises__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  margin-bottom: 64px;
+}
+.expertises__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 22px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #FFB81C;
+}
+.expertises__eyebrow::before {
+  content: '';
+  width: 42px;
+  height: 1.5px;
+  background: #FFB81C;
+  display: block;
+}
+.expertises__title {
+  font-family: var(--font-serif), 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 50px;
+  line-height: 1.04;
+  margin: 0 0 22px;
+  color: #f3f1ea;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+}
+.expertises__lede {
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: #b9c2d4;
+  margin: 0;
+  max-width: 46ch;
+}
+.expertises__cta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  color: #f3f1ea;
+  font-size: 14px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.015);
+  transition: 0.25s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.expertises__cta:hover {
+  border-color: rgba(194, 162, 92, 0.6);
+  background: rgba(194, 162, 92, 0.08);
+}
+.expertises__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.pillar {
+  position: relative;
+  padding: 44px 40px 38px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.012) 42%, rgba(255, 255, 255, 0) 100%);
+  backdrop-filter: blur(2px);
+  transition: 0.3s;
+}
+.pillar:hover {
+  border-color: rgba(194, 162, 92, 0.42);
+  transform: translateY(-4px);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.085) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0) 100%);
+}
+/* Avec une vidéo de fond, le verre quasi transparent laisse trop voir la vidéo
+   et nuit à la lisibilité : on passe sur un fond navy bien opaque (effet verre
+   sombre) pour que les cartes restent solides et lisibles par-dessus la vidéo. */
+.expertises--video .pillar {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: linear-gradient(160deg, rgba(13, 31, 64, 0.88) 0%, rgba(10, 24, 52, 0.82) 100%);
+  backdrop-filter: blur(6px);
+}
+.expertises--video .pillar:hover {
+  border-color: rgba(194, 162, 92, 0.5);
+  background: linear-gradient(160deg, rgba(18, 41, 82, 0.9) 0%, rgba(12, 29, 62, 0.84) 100%);
+}
+.pillar__label {
+  font-family: var(--font-serif), 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1;
+  color: #FFB81C;
+  margin: 0 0 22px;
+  letter-spacing: 0.06em;
+  font-feature-settings: 'onum' 1;
+}
+.pillar__icon {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFB81C;
+  border: 1px solid rgba(194, 162, 92, 0.32);
+  background: rgba(194, 162, 92, 0.06);
+  transition: 0.3s;
+}
+.pillar__icon svg {
+  width: 17px;
+  height: 17px;
+  display: block;
+}
+.pillar:hover .pillar__icon {
+  border-color: rgba(194, 162, 92, 0.62);
+  background: rgba(194, 162, 92, 0.12);
+}
+.pillar__title {
+  font-family: var(--font-serif), 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 23px;
+  margin: 0 0 18px;
+  color: #f3f1ea;
+}
+.pillar__text {
+  font-size: 15px;
+  line-height: 1.62;
+  color: #b9c2d4;
+  margin: 0 0 30px;
+}
+.pillar__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #FFB81C;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+/* Lien étiré : toute la carte devient cliquable (un seul lien accessible). */
+.pillar__more::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.pillar__more svg {
+  transition: transform 0.25s;
+}
+.pillar:hover .pillar__more svg {
+  transform: translateX(5px);
+}
+
+@container (max-width: 720px) {
+  .expertises {
+    padding: 62px 0 70px;
+  }
+  .expertises__wrap {
+    padding: 0 24px;
+  }
+  .expertises__head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 26px;
+    margin-bottom: 42px;
+  }
+  .expertises__title {
+    font-size: 33px;
+  }
+  .expertises__lede {
+    font-size: 15px;
+  }
+  .expertises__cta {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 24px;
+  }
+  .expertises__grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .pillar {
+    padding: 32px 26px 30px;
+  }
+  .pillar__icon {
+    top: 28px;
+    right: 24px;
+    width: 46px;
+    height: 46px;
+  }
+  .pillar__icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  .pillar__title {
+    font-size: 21px;
+    margin-bottom: 14px;
+  }
+  .pillar__text {
+    margin-bottom: 24px;
+  }
+}
+
+/* ============================================================
+   Section « En quelques chiffres » — variation « Filets » (handoff)
+   Bandeau navy + texture pointillée diagonale ; cellules séparées par
+   des filets verticaux dorés ; compteurs Cormorant en chiffres
+   elzéviriens (onum) et soulignés or qui se tracent à l'apparition.
+   Styles ici ; polices = variables du projet (serif Cormorant, le
+   reste hérite d'Inter via le <body>). L'animation est pilotée par
+   ChiffresSection.tsx ; l'état au repos défini ici est déjà visible.
+   ============================================================ */
+.chiffres {
+  position: relative;
+  container-type: inline-size;
+  overflow: hidden;
+  padding: 104px 0 112px;
+  background:
+    radial-gradient(110% 120% at 88% -10%, #1c3868 0%, rgba(28, 56, 104, 0) 48%),
+    linear-gradient(120deg, #11254a 0%, #0d1d3b 100%);
+}
+.chiffres::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.4px);
+  background-size: 24px 24px;
+  -webkit-mask-image: linear-gradient(100deg, #000 0%, transparent 60%);
+  mask-image: linear-gradient(100deg, #000 0%, transparent 60%);
+}
+.chiffres__wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 56px;
+}
+.chiffres__head {
+  margin-bottom: 64px;
+  max-width: 60ch;
+}
+.chiffres__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 22px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #FFB81C;
+}
+.chiffres__eyebrow::before {
+  content: '';
+  width: 42px;
+  height: 1.5px;
+  background: #FFB81C;
+  display: block;
+  flex: none;
+}
+.chiffres__title {
+  font-family: var(--font-serif), 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.05;
+  margin: 0;
+  color: #f3f1ea;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+}
+.chiffres__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.chiffres__cell {
+  position: relative;
+  padding: 6px 42px;
+}
+.chiffres__cell:first-child {
+  padding-left: 0;
+}
+.chiffres__cell:last-child {
+  padding-right: 0;
+}
+.chiffres__cell + .chiffres__cell::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 1px;
+  background: linear-gradient(rgba(194, 162, 92, 0.3), rgba(194, 162, 92, 0.04));
+}
+.chiffres__idx {
+  display: block;
+  margin-bottom: 30px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: #FFB81C;
+  opacity: 0.7;
+}
+.chiffres__num {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+  font-family: var(--font-serif), 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 98px;
+  line-height: 0.82;
+  color: #FFB81C;
+  font-feature-settings: 'onum' 1, 'lnum' 0;
+  font-variant-numeric: tabular-nums;
+}
+.chiffres__u {
+  font-size: 0.44em;
+  color: #FFC94D;
+  margin-left: 0.12em;
+}
+.chiffres__rule {
+  height: 2px;
+  width: 56px;
+  margin: 24px 0 18px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #FFB81C, #FFC94D);
+}
+.chiffres__label {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: #b9c2d4;
+  margin: 2px 0 0;
+}
+
+/* Bandeau partenaires intégré à la même section que les chiffres : fond
+   partagé, séparé de la grille par un filet doré centré et estompé. */
+.chiffres__partners {
+  margin-top: 76px;
+  padding-top: 48px;
+  background-image: linear-gradient(90deg, transparent, rgba(217, 148, 0, 0.4), transparent);
+  background-size: 100% 1px;
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+
+@container (max-width: 720px) {
+  .chiffres {
+    padding: 58px 0 64px;
+  }
+  .chiffres__partners {
+    margin-top: 46px;
+    padding-top: 32px;
+  }
+  .chiffres__wrap {
+    padding: 0 24px;
+  }
+  .chiffres__head {
+    margin-bottom: 38px;
+  }
+  .chiffres__title {
+    font-size: 31px;
+  }
+  .chiffres__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 34px 24px;
+  }
+  .chiffres__cell {
+    padding: 0 !important;
+  }
+  .chiffres__cell + .chiffres__cell::before {
+    display: none;
+  }
+  .chiffres__num {
+    font-size: 60px;
+  }
+  .chiffres__idx {
+    margin-bottom: 14px;
+  }
+  .chiffres__rule {
+    margin: 16px 0 12px;
+  }
+  .chiffres__label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+}
+
+/* Fond « or crème » réutilisable (utilisé sur la page Le Cabinet,
+   ex. la bande derrière le bandeau CTA). */
+.bg-cream-gold {
+  background:
+    radial-gradient(120% 130% at 100% 0%, #ecdcb4 0%, rgba(236, 220, 180, 0) 55%),
+    linear-gradient(150deg, #f8f2e6 0%, #efe5d0 100%);
+}
+
+/* Variante animée du fond « or crème » : deux halos dorés dérivent
+   lentement sur le dégradé crème, donnant un fond vivant et continu
+   partagé par la FAQ, la signature et le CTA final (bas de page).
+   Respecte prefers-reduced-motion. */
+.bg-cream-gold-animated {
+  background:
+    radial-gradient(120% 130% at 100% 0%, #ecdcb4 0%, rgba(236, 220, 180, 0) 55%),
+    radial-gradient(110% 120% at 0% 100%, #f3e7c8 0%, rgba(243, 231, 200, 0) 52%),
+    linear-gradient(150deg, #f8f2e6 0%, #efe5d0 100%);
+  background-size: 200% 200%, 200% 200%, 100% 100%;
+  background-position: 100% 0%, 0% 100%, 0% 0%;
+  animation: cream-gold-drift 26s ease-in-out infinite alternate;
+}
+
+@keyframes cream-gold-drift {
+  0% {
+    background-position: 100% 0%, 0% 100%, 0% 0%;
+  }
+  100% {
+    background-position: 55% 35%, 45% 65%, 0% 0%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-cream-gold-animated {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------
+   Variante « or crème » de la section chiffres (page Le Cabinet) :
+   fond aligné sur la section Témoignages (« or crème » + texture de
+   points), texte sombre et accents or assombris pour le contraste.
+   N'affecte que les sections portant `.chiffres--cream`.
+   ------------------------------------------------------------ */
+.chiffres--cream {
+  /* Même fond que la section Témoignages : « or crème » + texture de points. */
+  background:
+    radial-gradient(120% 130% at 100% 0%, #ecdcb4 0%, rgba(236, 220, 180, 0) 55%),
+    linear-gradient(150deg, #f8f2e6 0%, #efe5d0 100%);
+}
+.chiffres--cream::before {
+  /* Texture de points identique aux Témoignages (points navy, estompés vers le bas). */
+  opacity: 0.5;
+  background-image: radial-gradient(rgba(15, 45, 82, 0.06) 1px, transparent 1.4px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 0%, #000 0%, transparent 72%);
+  mask-image: radial-gradient(120% 90% at 50% 0%, #000 0%, transparent 72%);
+}
+.chiffres--cream .chiffres__title {
+  color: #0f2d52;
+}
+.chiffres--cream .chiffres__eyebrow,
+.chiffres--cream .chiffres__idx,
+.chiffres--cream .chiffres__num {
+  color: #D99400;
+}
+.chiffres--cream .chiffres__eyebrow::before {
+  background: #D99400;
+}
+.chiffres--cream .chiffres__u {
+  color: #D99400;
+}
+.chiffres--cream .chiffres__rule {
+  background: linear-gradient(90deg, #D99400, #FFB81C);
+}
+.chiffres--cream .chiffres__cell + .chiffres__cell::before {
+  background: linear-gradient(rgba(217, 148, 0, 0.35), rgba(217, 148, 0, 0.06));
+}
+.chiffres--cream .chiffres__label {
+  color: rgba(15, 45, 82, 0.6);
+}
+
+/* Grille centrée de quatre statistiques : grand chiffre elzévirien,
+   soulignage doré centré, libellé en capitales sous le chiffre, et filets
+   dorés verticaux entre les cellules (hérités de la base, recolorés plus
+   haut). Plus équilibré et lisible que l'ancienne liste « grand-livre » :
+   chaque chiffre est directement associé à son libellé. */
+.chiffres--cream .chiffres__cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 4px 28px;
+}
+.chiffres--cream .chiffres__idx {
+  margin-bottom: 16px;
+}
+.chiffres--cream .chiffres__num {
+  font-size: 74px;
+  line-height: 0.85;
+  justify-content: center;
+}
+.chiffres--cream .chiffres__rule {
+  margin: 22px auto 16px;
+}
+.chiffres--cream .chiffres__label {
+  margin: 0;
+  max-width: 18ch;
+  text-align: center;
+}
+
+@container (max-width: 720px) {
+  .chiffres--cream .chiffres__num {
+    font-size: 50px;
+  }
+  .chiffres--cream .chiffres__rule {
+    margin: 14px auto 12px;
+  }
+}
+
+/* ============================================================
+   Section « Notre approche » — narratif + grand-livre (handoff)
+   Bandeau navy + texture pointillée diagonale ; deux colonnes
+   asymétriques : colonne narrative à gauche, grand-livre numéroté
+   à droite (filets, numéros elzéviriens en contour qui se remplit
+   au survol). Styles ici ; polices = variables du projet (serif
+   Cormorant, le reste hérite d'Inter via le <body>). L'animation
+   est pilotée par ApprocheSection.tsx via la classe `play` ; l'état
+   au repos défini ici est déjà visible.
+   ============================================================ */
+.approche {
+  position: relative;
+  container-type: inline-size;
+  overflow: hidden;
+  padding: 104px 0 112px;
+  color: #f3f1ea;
+  background:
+    radial-gradient(120% 120% at 100% 0%, #1c3868 0%, rgba(28, 56, 104, 0) 46%),
+    linear-gradient(150deg, #11254a 0%, #0d1d3b 100%);
+}
+.approche::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.4px);
+  background-size: 24px 24px;
+  -webkit-mask-image: linear-gradient(120deg, #000 0%, transparent 62%);
+  mask-image: linear-gradient(120deg, #000 0%, transparent 62%);
+}
+/* Vidéo de fond optionnelle (pilotée Sanity) : plein cadre, derrière le voile
+   bleu. Le fond dégradé de .approche sert de repli avant chargement. */
+.approche__video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Voile bleu conservé par-dessus la vidéo : reprend le dégradé navy de la
+   section en version semi-transparente, pour garder l'identité bleue et la
+   lisibilité du texte tout en laissant la vidéo transparaître. */
+.approche__tint {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: rgba(13, 29, 59, 0.55);
+  background-image:
+    radial-gradient(120% 120% at 100% 0%, rgba(28, 56, 104, 0.82) 0%, rgba(28, 56, 104, 0) 46%),
+    linear-gradient(150deg, rgba(17, 37, 74, 0.86) 0%, rgba(13, 29, 59, 0.9) 100%);
+  pointer-events: none;
+}
+.approche__wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 56px;
+  display: grid;
+  grid-template-columns: 0.82fr 1.18fr;
+  column-gap: 84px;
+  align-items: center;
+}
+
+/* ----- entrée (état au repos = visible ; `play` rejoue depuis masqué) ----- */
+@keyframes approche-appear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes approche-grow-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ----- colonne narrative (gauche) ----- */
+.approche__aside {
+  max-width: 42ch;
+}
+.approche__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 24px;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #FFB81C;
+}
+.approche__eyebrow::before {
+  content: '';
+  width: 42px;
+  height: 1.5px;
+  background: #FFB81C;
+  display: block;
+  flex: none;
+  transform-origin: left;
+}
+.approche__title {
+  font-family: var(--font-serif), 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 50px;
+  line-height: 1.06;
+  margin: 0;
+  color: #f3f1ea;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+}
+.approche__sub {
+  font-family: var(--font-serif), 'Cormorant Garamond', serif;
+  font-size: 21px;
+  line-height: 1.5;
+  color: #b9c2d4;
+  margin: 22px 0 40px;
+  text-wrap: pretty;
+}
+.approche__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f3f1ea;
+  text-decoration: none;
+  padding-bottom: 7px;
+  border-bottom: 1.5px solid #FFB81C;
+  transition: color 0.25s;
+  white-space: nowrap;
+}
+.approche__cta:hover {
+  color: #FFC94D;
+}
+.approche__arrow {
+  transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.approche__cta:hover .approche__arrow {
+  transform: translateX(5px);
+}
+
+/* ----- grand-livre (droite) ----- */
+.approche__rows {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.approche__row {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 34px;
+  align-items: baseline;
+  padding: 30px 14px 30px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  transition: padding-left 0.3s;
+}
+.approche__row:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.approche__n {
+  font-family: var(--font-serif), 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 60px;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(194, 162, 92, 0.55);
+  font-feature-settings: 'onum' 1;
+  transition: color 0.35s, -webkit-text-stroke-color 0.35s;
+}
+.approche__stitle {
+  font-family: var(--font-serif), 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 27px;
+  margin: 0 0 7px;
+  letter-spacing: 0.004em;
+  color: #f3f1ea;
+}
+.approche__stext {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #b9c2d4;
+  margin: 0;
+  max-width: 52ch;
+}
+.approche__row::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  height: calc(100% + 1px);
+  width: 2px;
+  background: linear-gradient(180deg, #FFB81C, #FFC94D);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.approche__row:hover {
+  padding-left: 22px;
+}
+.approche__row:hover::after {
+  transform: scaleY(1);
+}
+.approche__row:hover .approche__n {
+  color: #FFB81C;
+  -webkit-text-stroke-color: transparent;
+}
+
+/* ----- play : rejoue l'entrée échelonnée depuis l'état masqué ----- */
+.approche.play .approche__eyebrow {
+  animation: approche-appear 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+.approche.play .approche__eyebrow::before {
+  animation: approche-grow-line 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.15s both;
+}
+.approche.play .approche__title {
+  animation: approche-appear 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.08s both;
+}
+.approche.play .approche__sub {
+  animation: approche-appear 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.16s both;
+}
+.approche.play .approche__cta {
+  animation: approche-appear 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.24s both;
+}
+.approche.play .approche__row {
+  animation: approche-appear 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@container (max-width: 860px) {
+  .approche {
+    padding: 58px 0 64px;
+  }
+  .approche__wrap {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 40px;
+    padding: 0 26px;
+    align-items: start;
+  }
+  .approche__aside {
+    max-width: none;
+  }
+  .approche__eyebrow {
+    font-size: 10.5px;
+    letter-spacing: 0.24em;
+    margin-bottom: 18px;
+  }
+  .approche__eyebrow::before {
+    width: 30px;
+  }
+  .approche__title {
+    font-size: 32px;
+    line-height: 1.08;
+  }
+  .approche__sub {
+    font-size: 18px;
+    margin: 14px 0 26px;
+  }
+  .approche__cta {
+    font-size: 12px;
+  }
+  .approche__row {
+    column-gap: 22px;
+    padding: 24px 4px 24px 0;
+  }
+  .approche__n {
+    font-size: 46px;
+    color: #FFB81C;
+    -webkit-text-stroke-color: transparent;
+    opacity: 0.85;
+  }
+  .approche__stitle {
+    font-size: 23px;
+  }
+  .approche__stext {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .approche__row:hover {
+    padding-left: 0;
+  }
+  .approche__row::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .approche.play .approche__eyebrow,
+  .approche.play .approche__eyebrow::before,
+  .approche.play .approche__title,
+  .approche.play .approche__sub,
+  .approche.play .approche__cta,
+  .approche.play .approche__row {
+    animation: none !important;
+  }
+}
+
+/* ============================================================
+   Page « Notre approche » — La Méridienne (signature de la page)
+   Un seul fil d'or continu descend le long de la méthode et relie
+   les trois temps (Diagnostic → Stratégie → Mise en œuvre). Le fil
+   « se trace » à l'entrée dans le viewport (scaleY), puis chaque
+   station s'allume à son tour : le nœud (losange, écho aux studs de
+   la signature de marque) se remplit, le grand chiffre elzévirien
+   passe du contour au plein. La continuité du trait EST le propos :
+   un cap tenu dans le temps long. Au repos (sans JS) tout est déjà
+   visible ; `.play` ne fait que rejouer l'entrée. Polices = variables
+   du projet. Respecte prefers-reduced-motion.
+   ============================================================ */
+.meridienne {
+  position: relative;
+  container-type: inline-size;
+  overflow: hidden;
+  padding: 104px 0 116px;
+  color: #f3f1ea;
+  background:
+    radial-gradient(120% 120% at 100% 0%, #1c3868 0%, rgba(28, 56, 104, 0) 46%),
+    linear-gradient(150deg, #11254a 0%, #0d1d3b 100%);
+}
+.meridienne::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.4px);
+  background-size: 24px 24px;
+  -webkit-mask-image: linear-gradient(120deg, #000 0%, transparent 62%);
+  mask-image: linear-gradient(120deg, #000 0%, transparent 62%);
+}
+/* Largeur alignée sur `container-content` (max 1200, padding 40) pour que le
+   bord gauche de la méthode tombe sur celui des sections crème adjacentes. */
+.meridienne__wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+.meridienne__head {
+  max-width: 56ch;
+  margin: 0 0 72px;
+}
+.meridienne__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 22px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #FFB81C;
+}
+.meridienne__eyebrow::before {
+  content: '';
+  width: 42px;
+  height: 1.5px;
+  background: #FFB81C;
+  display: block;
+  flex: none;
+}
+.meridienne__title {
+  font-family: var(--font-serif), 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 50px;
+  line-height: 1.05;
+  margin: 0 0 20px;
+  color: #f3f1ea;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+}
+.meridienne__lede {
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: #b9c2d4;
+  margin: 0;
+  max-width: 52ch;
+}
+
+/* ----- le fil + les stations ----- */
+.meridienne__track {
+  position: relative;
+}
+/* Le fil d'or continu (la méridienne). Tracé du haut vers le bas. */
+.meridienne__track::before {
+  content: '';
+  position: absolute;
+  left: 27px;
+  top: 14px;
+  bottom: 96px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #FFB81C 0%, #FFC94D 60%, rgba(255, 200, 77, 0.15) 100%);
+  transform: scaleY(1);
+  transform-origin: top;
+}
+
+.station {
+  position: relative;
+  padding: 0 0 60px 88px;
+}
+.station:last-child {
+  padding-bottom: 0;
+}
+/* Nœud sur le fil : losange (rappel des studs de la signature de marque). */
+.station__node {
+  position: absolute;
+  left: 19px;
+  top: 12px;
+  width: 18px;
+  height: 18px;
+  transform: rotate(45deg) scale(1);
+  background: #FFB81C;
+  border: 2px solid #FFB81C;
+  box-shadow: 0 0 0 5px #11254a;
+}
+/* Grand chiffre elzévirien en filigrane, contour qui se remplit. */
+.station__num {
+  position: absolute;
+  right: 4px;
+  top: -14px;
+  font-family: var(--font-serif), 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 116px;
+  line-height: 1;
+  color: rgba(255, 184, 28, 0.16);
+  -webkit-text-stroke: 1px transparent;
+  font-feature-settings: 'onum' 1;
+  pointer-events: none;
+  user-select: none;
+}
+.station__kicker {
+  display: block;
+  margin: 0 0 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #FFB81C;
+  opacity: 0.85;
+}
+.station__title {
+  font-family: var(--font-serif), 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.1;
+  margin: 0 0 12px;
+  color: #f3f1ea;
+}
+.station__desc {
+  font-size: 16px;
+  line-height: 1.62;
+  color: #b9c2d4;
+  margin: 0 0 24px;
+  max-width: 56ch;
+}
+.station__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+  max-width: 60ch;
+}
+.station__list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: #c3cbda;
+}
+.station__list svg {
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  color: #FFB81C;
+  flex: none;
+}
+
+/* ----- entrée jouée (.play) ----- */
+@keyframes meridienne-draw {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes station-appear {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes node-light {
+  from {
+    transform: rotate(45deg) scale(0.4);
+    opacity: 0.4;
+    background: #11254a;
+  }
+  to {
+    transform: rotate(45deg) scale(1);
+    opacity: 1;
+    background: #FFB81C;
+  }
+}
+@keyframes num-fill {
+  from {
+    color: transparent;
+    -webkit-text-stroke-color: rgba(194, 162, 92, 0.3);
+  }
+  to {
+    color: rgba(255, 184, 28, 0.16);
+    -webkit-text-stroke-color: transparent;
+  }
+}
+.meridienne.play .meridienne__track::before {
+  animation: meridienne-draw 1.25s cubic-bezier(0.65, 0, 0.35, 1) 0.1s forwards;
+}
+.meridienne.play .station {
+  animation: station-appear 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) var(--d, 0s) both;
+}
+.meridienne.play .station__node {
+  animation: node-light 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) calc(var(--d, 0s) + 0.12s) both;
+}
+.meridienne.play .station__num {
+  animation: num-fill 0.8s ease var(--d, 0s) both;
+}
+
+@container (max-width: 720px) {
+  .meridienne {
+    padding: 60px 0 64px;
+  }
+  .meridienne__wrap {
+    padding: 0 24px;
+  }
+  .meridienne__head {
+    margin-bottom: 44px;
+  }
+  .meridienne__title {
+    font-size: 32px;
+  }
+  .meridienne__lede {
+    font-size: 15px;
+  }
+  .meridienne__track::before {
+    left: 19px;
+    bottom: 80px;
+  }
+  .station {
+    padding: 0 0 44px 56px;
+  }
+  .station__node {
+    left: 11px;
+    width: 16px;
+    height: 16px;
+  }
+  .station__num {
+    font-size: 72px;
+    top: -8px;
+    opacity: 0.7;
+  }
+  .station__title {
+    font-size: 25px;
+  }
+  .station__desc {
+    font-size: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Au repos déjà visible : on neutralise les états « masqués » de départ. */
+  .meridienne__track::before {
+    transform: scaleY(1);
+  }
+  .station__node {
+    transform: rotate(45deg) scale(1);
+    opacity: 1;
+    background: #FFB81C;
+  }
+  .station__num {
+    color: rgba(255, 184, 28, 0.16);
+    -webkit-text-stroke-color: transparent;
+  }
+  .meridienne.play .meridienne__track::before,
+  .meridienne.play .station,
+  .meridienne.play .station__node,
+  .meridienne.play .station__num {
+    animation: none !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   Quote stagger — ConvictionSection
+   Each .quote-line inside a blockquote.quote--visible slides up
+   and fades in with a staggered delay via nth-child.
+   ------------------------------------------------------------ */
+.quote-line {
+  display: inline;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+blockquote.quote--visible .quote-line:nth-child(1) {
+  opacity: 1;
+  transform: none;
+}
+blockquote.quote--visible .quote-line:nth-child(2) {
+  opacity: 1;
+  transform: none;
+  transition-delay: 160ms;
+}
+blockquote.quote--visible .quote-line:nth-child(3) {
+  opacity: 1;
+  transform: none;
+  transition-delay: 320ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quote-line {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------------
+   FAQ — révélation douce de la réponse à l'ouverture de
+   l'accordéon natif (<details>). L'état au repos reste accessible
+   sans JS ; l'animation ne joue que lorsque la carte s'ouvre.
+   ------------------------------------------------------------ */
+@keyframes faq-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+details[open].faq-item > .faq-answer {
+  animation: faq-reveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  details[open].faq-item > .faq-answer {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Simulateurs (pages expertise) — curseur de saisie aux couleurs
+   de la marque (piste crème, pouce forêt cerclé d'or).
+   ------------------------------------------------------------------ */
+.sim-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #13315C 0%, #FFB81C 100%);
+  outline: none;
+  cursor: pointer;
+}
+.sim-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  background: #13315C;
+  border: 3px solid #FFB81C;
+  box-shadow: 0 2px 6px rgba(12, 35, 80, 0.25);
+  transition: transform 0.15s ease;
+}
+.sim-range::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+.sim-range::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  background: #13315C;
+  border: 3px solid #FFB81C;
+  box-shadow: 0 2px 6px rgba(12, 35, 80, 0.25);
+}
+.sim-range:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid #FFB81C;
+  outline-offset: 2px;
+}
+
+/* Curseur animé (composant AnimatedCursor) : on masque le curseur système
+   uniquement sur pointeur fin et hors animations réduites, lorsque le curseur
+   personnalisé est actif. Les champs de saisie gardent leur curseur natif. */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body.cursor-active,
+  body.cursor-active a,
+  body.cursor-active button,
+  body.cursor-active [role="button"],
+  body.cursor-active label,
+  body.cursor-active [data-cursor="hover"] {
+    cursor: none;
+  }
+}

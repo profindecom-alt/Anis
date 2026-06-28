@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>En quelques chiffres — Filets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#11254a; --navy-deep:#0d1d3b; --navy-hi:#17305c;
+    --gold:#c2a25c; --gold-soft:#d8bd84;
+    --ink-100:#f3f1ea; --ink-300:#b9c2d4;
+    --line:rgba(255,255,255,0.10); --track:rgba(255,255,255,0.08);
+    --gold-line:rgba(194,162,92,0.30);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Archivo',system-ui,sans-serif;background:var(--navy-deep);color:var(--ink-100);-webkit-font-smoothing:antialiased;}
+
+  .section{position:relative;overflow:hidden;padding:104px 0 112px;
+    background:
+      radial-gradient(110% 120% at 88% -10%, #1c3868 0%, rgba(28,56,104,0) 48%),
+      linear-gradient(120deg,var(--navy) 0%,var(--navy-deep) 100%);}
+  .section::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px);
+    background-size:24px 24px;
+    -webkit-mask-image:linear-gradient(100deg,#000 0%,transparent 60%);
+            mask-image:linear-gradient(100deg,#000 0%,transparent 60%);}
+  .wrap{position:relative;z-index:1;max-width:1320px;margin:0 auto;padding:0 56px;}
+
+  .head{margin-bottom:64px;max-width:60ch;}
+  .eyebrow{display:flex;align-items:center;gap:16px;margin:0 0 22px;
+    font-size:12px;font-weight:600;letter-spacing:.30em;text-transform:uppercase;color:var(--gold);}
+  .eyebrow::before{content:"";width:42px;height:1.5px;background:var(--gold);display:block;flex:none;}
+  .title{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:48px;line-height:1.05;
+    margin:0;color:var(--ink-100);letter-spacing:.005em;text-wrap:balance;}
+
+  .num{font-family:'Cormorant Garamond',serif;color:var(--gold);
+    font-feature-settings:"onum" 1,"lnum" 0;line-height:.82;
+    display:inline-flex;align-items:baseline;white-space:nowrap;font-variant-numeric:tabular-nums;}
+  .num .u{font-size:.44em;color:var(--gold-soft);margin-left:.12em;}
+  .stat-label{font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--ink-300);margin:2px 0 0;}
+  .idx{font-family:'Archivo',sans-serif;font-size:11px;font-weight:600;letter-spacing:.22em;color:var(--gold);opacity:.7;}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);}
+  .cell{position:relative;padding:6px 42px;
+    transition:opacity .7s ease, transform .8s cubic-bezier(.22,.61,.36,1);}
+  .cell:first-child{padding-left:0;}
+  .cell:last-child{padding-right:0;}
+  .cell + .cell::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:1px;
+    background:linear-gradient(var(--gold-line),rgba(194,162,92,.04));}
+  .cell .idx{display:block;margin-bottom:30px;}
+  .cell .num{font-size:98px;display:block;}
+  .cell .rule{height:2px;width:56px;margin:24px 0 18px;border-radius:2px;
+    background:linear-gradient(90deg,var(--gold),var(--gold-soft));}
+
+  /* Hidden start-state + entrance are applied inline by JS, so the section
+     degrades gracefully (fully visible) when JavaScript is unavailable. */
+
+  @media (max-width:720px){
+    .section{padding:58px 0 64px;}
+    .wrap{padding:0 24px;}
+    .head{margin-bottom:38px;}
+    .title{font-size:31px;}
+    .stats{grid-template-columns:1fr 1fr;gap:34px 24px;}
+    .cell{padding:0!important;}
+    .cell + .cell::before{display:none;}
+    .cell .num{font-size:60px;}
+    .cell .idx{margin-bottom:14px;}
+    .cell .rule{margin:16px 0 12px;}
+    .stat-label{font-size:11px;letter-spacing:.1em;}
+  }
+</style>
+</head>
+<body>
+<section class="section" id="chiffres">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">En quelques chiffres</p>
+      <h2 class="title">La mesure de notre engagement</h2>
+    </div>
+    <div class="stats" id="stats">
+      <div class="cell">
+        <span class="idx">01</span>
+        <span class="num" data-count="8">8<span class="u">ans</span></span>
+        <div class="rule"></div>
+        <p class="stat-label">d'expérience</p>
+      </div>
+      <div class="cell">
+        <span class="idx">02</span>
+        <span class="num" data-count="100">100<span class="u">%</span></span>
+        <div class="rule"></div>
+        <p class="stat-label">indépendant</p>
+      </div>
+      <div class="cell">
+        <span class="idx">03</span>
+        <span class="num" data-count="4">4</span>
+        <div class="rule"></div>
+        <p class="stat-label">expertises</p>
+      </div>
+      <div class="cell">
+        <span class="idx">04</span>
+        <span class="num" data-count="1">1</span>
+        <div class="rule"></div>
+        <p class="stat-label">interlocuteur dédié</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+/* Reveal (Web Animations API) + count-up, triggered when the section enters view.
+   The resting CSS state is fully visible, so with JS disabled the section still
+   renders correctly — the animation only plays it in from a hidden start. */
+(function(){
+  var section = document.getElementById('chiffres');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var easeOut = function(t){ return 1 - Math.pow(1-t, 3); };
+  var EASE = 'cubic-bezier(.22,.61,.36,1)';
+
+  function countUp(numEl, target, duration, delay){
+    var start;
+    function frame(ts){
+      if(start === undefined) start = ts;
+      var p = Math.min(1, (ts - start) / duration);
+      numEl.childNodes[0].nodeValue = Math.round(easeOut(p) * target);
+      if(p < 1) requestAnimationFrame(frame);
+      else numEl.childNodes[0].nodeValue = target;
+    }
+    setTimeout(function(){ requestAnimationFrame(frame); }, delay);
+    // safety: guarantee the final value even if rAF is throttled (background tab)
+    setTimeout(function(){ numEl.childNodes[0].nodeValue = target; }, delay + duration + 250);
+  }
+
+  var done = false;
+  function play(){
+    if(done) return; done = true;
+    section.querySelectorAll('.cell').forEach(function(cell, i){
+      var d = reduce ? 0 : i*150;
+      var num = cell.querySelector('.num');
+      var rule = cell.querySelector('.rule');
+      if(!reduce && cell.animate){
+        cell.animate(
+          [{opacity:0, transform:'translateY(18px)'}, {opacity:1, transform:'none'}],
+          {duration:700, delay:d, easing:EASE, fill:'backwards'}
+        );
+        if(rule) rule.animate(
+          [{width:'0px'}, {width:'56px'}],
+          {duration:1000, delay:d+220, easing:EASE, fill:'backwards'}
+        );
+      }
+      if(reduce){ num.childNodes[0].nodeValue = num.getAttribute('data-count'); }
+      else { num.childNodes[0].nodeValue = 0; countUp(num, parseInt(num.getAttribute('data-count'),10), 1200, d); }
+    });
+  }
+
+  function inView(){
+    var r = section.getBoundingClientRect();
+    return r.top < (window.innerHeight || document.documentElement.clientHeight) * 0.85 && r.bottom > 0;
+  }
+
+  if(!('IntersectionObserver' in window)){ play(); return; }
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ play(); io.disconnect(); } });
+  }, { threshold: 0.25 });
+  io.observe(section);
+
+  // Fallbacks for the case where the observer's first callback fires before
+  // layout settles (and nothing scrolls afterwards to re-fire it).
+  window.addEventListener('load', function(){ if(inView()) play(); });
+  setTimeout(function(){ if(inView()) play(); }, 600);
+})();
+</script>
+</body>
+</html>

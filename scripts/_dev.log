@@ -1,0 +1,498 @@
+
+> elan-patrimoine@1.0.0 dev
+> next dev -p 3100
+
+   ▲ Next.js 15.5.19
+   - Local:        http://localhost:3100
+   - Network:      http://192.168.1.51:3100
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 7.5s
+ ○ Compiling / ...
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: RangeError: Failed to allocate memory
+ ✓ Compiled / in 80.9s (4377 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: RangeError: Failed to allocate memory
+ GET / 200 in 97109ms
+ GET / 200 in 546ms
+ GET / 200 in 1077ms
+ ✓ Compiled in 20.7s (4389 modules)
+ GET / 200 in 4486ms
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2470378625'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\components\layout-router.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2695879327'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\components\render-from-template-context.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2165823263'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\components\layout-router.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2723981765'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\components\render-from-template-context.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '338848453'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2488781125'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '4153026913'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '4153026913'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2488781125'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2488781125'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2470378625'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\components\layout-router.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2695879327'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\app\(site)\error.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2855210051'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '1533413391'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2470378625'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\lib\framework\boundary-components.js#OutletBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '355782273'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\components\metadata\async-metadata.js#AsyncMetadataOutlet" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2381961349'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\lib\framework\boundary-components.js#ViewportBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3136913317'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\lib\framework\boundary-components.js#MetadataBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '1114038981'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\app\global-error.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2685285569'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2470378625'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\ScrollProgress.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1195635798'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Header.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1842351574'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\components\layout-router.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1605159574'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\app\(site)\error.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '3997814522'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '4188126038'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\components\render-from-template-context.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1138527830'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '4188126038'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '942983762'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '942983762'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '4188126038'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '4188126038'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\ConsentManager.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2065385302'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\HeroVideo.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '3785924950'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1612674774'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1612674774'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Parallax.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '3042999254'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\image-component.js#Image" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2375076886'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1612674774'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1612674774'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1612674774'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1612674774'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1612674774'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\image-component.js#Image" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2375076886'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1612674774'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\ChiffresSection.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2617891606'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '160335602'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1612674774'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Parallax.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '3042999254'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\image-component.js#Image" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2375076886'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1612674774'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1612674774'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1612674774'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\ApprocheSection.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '3701098134'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '160335602'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '160335602'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '160335602'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\image-component.js#Image" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '1191231922'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '942983762'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '942983762'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\components\Reveal.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1612674774'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '942983762'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\image-component.js#Image" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '1191231922'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\client\app-dir\link.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '742993590'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\lib\metadata\generate\icon-mark.js#IconMark" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1931375670'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\lib\framework\boundary-components.js#ViewportBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3136913317'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\lib\framework\boundary-components.js#MetadataBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '1114038981'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\app\global-error.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2685285569'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2470378625'
+}
+[0m[7m Server [0m Error: Could not find the module "C:\Anis1\app\global-error.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>:1:18) {
+  environmentName: 'Server',
+  digest: '2685285569'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\app\global-error.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>:1:18) {
+  environmentName: 'Server',
+  digest: '2685285569'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\app\global-error.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>:1:18) {
+  environmentName: 'Server',
+  digest: '2685285569',
+  page: '/'
+}
+ ⨯ Error: Could not find the module "C:\Anis1\node_modules\next\dist\lib\metadata\generate\icon-mark.js#IconMark" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '1931375670'
+}
+ GET / 500 in 134142ms
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 20.1s (4735 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: incorrect header check
+ ✓ Compiled in 10.3s (4639 modules)
+ ✓ Compiled in 16.5s (4639 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Anis1\.next\cache\webpack\client-development\0.pack.gz_' -> 'C:\Anis1\.next\cache\webpack\client-development\0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Anis1\.next\cache\webpack\server-development\1.pack.gz_' -> 'C:\Anis1\.next\cache\webpack\server-development\1.pack.gz'
+ ✓ Compiled in 14.6s (4639 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: EPERM: operation not permitted, rename 'C:\Anis1\.next\cache\webpack\client-development\0.pack.gz_' -> 'C:\Anis1\.next\cache\webpack\client-development\0.pack.gz'
+ ✓ Compiled in 13.6s (4639 modules)
+ ✓ Compiled in 9.3s (1922 modules)
+ ✓ Compiled in 8.2s (4639 modules)
+ ✓ Compiled in 4.6s (4639 modules)
+ ✓ Compiled in 1313ms (1922 modules)
+ ✓ Compiled in 2.3s (1922 modules)
+ ✓ Compiled in 52.8s (4639 modules)
+ ✓ Compiled in 22.2s (4639 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack failed from C:\Anis1\.next\cache\webpack\server-development.pack.gz: Error: incorrect header check
+ ✓ Compiled in 35s (4639 modules)
+ ✓ Compiled in 14.9s (4625 modules)
+ ✓ Compiled in 8.9s (1922 modules)
+ ✓ Compiled in 1035ms (1922 modules)
+ ✓ Compiled in 2.2s (1922 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+ ✓ Compiled in 25s (4639 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+ ✓ Compiled in 78.4s (4625 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+ ✓ Compiled in 18.1s (4639 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+ ✓ Compiled in 17.6s (4639 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: EPERM: operation not permitted, rename 'C:\Anis1\.next\cache\webpack\server-development\1.pack.gz_' -> 'C:\Anis1\.next\cache\webpack\server-development\1.pack.gz'
+ ✓ Compiled in 26.5s (4639 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+ ✓ Compiled in 13.4s (4639 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+ ✓ Compiled in 34.3s (4639 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+ ✓ Compiled in 17.3s (4639 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+ ✓ Compiled in 12s (1922 modules)
+ ✓ Compiled in 1523ms (1922 modules)
+ ✓ Compiled in 1213ms (1922 modules)
+ ✓ Compiled in 1702ms (1922 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+ ✓ Compiled in 26.6s (1922 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+ ✓ Compiled in 15s (1922 modules)
+ ✓ Compiled in 1947ms (1922 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+ ✓ Compiled in 11.8s (1922 modules)
+ ✓ Compiled in 1675ms (1922 modules)
+ ✓ Compiled in 6.3s (1922 modules)
+ ✓ Compiled in 4.6s (1922 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+ ✓ Compiled in 11.7s (4639 modules)
+ ✓ Compiled in 3.4s (4639 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: EPERM: operation not permitted, rename 'C:\Anis1\.next\cache\webpack\server-development\6.pack.gz_' -> 'C:\Anis1\.next\cache\webpack\server-development\6.pack.gz'
+ ✓ Compiled in 16.1s (4639 modules)
+ ✓ Compiled in 15.6s (4639 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+ ✓ Compiled in 9.4s (4639 modules)
+ ✓ Compiled in 6.3s (4639 modules)
+ ✓ Compiled in 4.7s (1922 modules)
+ ✓ Compiled in 1408ms (1922 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: EPERM: operation not permitted, rename 'C:\Anis1\.next\cache\webpack\server-development\6.pack.gz_' -> 'C:\Anis1\.next\cache\webpack\server-development\6.pack.gz'
+ ✓ Compiled in 21.9s (1922 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: invalid block type
