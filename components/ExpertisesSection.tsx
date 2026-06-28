@@ -91,7 +91,12 @@ export default function ExpertisesSection({
                 </span>
                 <p className="pillar__label">Pilier {e.pillar}</p>
                 <h3 className="pillar__title">{e.title}</h3>
-                <p className="pillar__text">{e.excerpt}</p>
+                <p className="pillar__text">
+                  <span className="pillar__text-full">{e.excerpt}</span>
+                  <span className="pillar__text-mobile">
+                    {e.excerptMobile ?? e.excerpt}
+                  </span>
+                </p>
                 <Link className="pillar__more" href={`/nos-expertises/${e.slug}`}>
                   En savoir plus
                   <svg width="18" height="10" viewBox="0 0 18 10" fill="none" aria-hidden="true">

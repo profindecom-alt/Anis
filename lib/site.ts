@@ -73,6 +73,8 @@ export const expertises: {
   title: string;
   shortTitle: string;
   excerpt: string;
+  /** Variante condensée affichée sur mobile (repli sur excerpt si absente). */
+  excerptMobile?: string;
 }[] = [
   {
     slug: 'gestion-de-patrimoine',
@@ -81,6 +83,8 @@ export const expertises: {
     shortTitle: 'Gestion de Patrimoine',
     excerpt:
       "Allocation d'actifs, arbitrages et architecture ouverte pour faire fructifier et structurer votre patrimoine.",
+    excerptMobile:
+      "Allocation, arbitrages et architecture ouverte pour structurer votre patrimoine.",
   },
   {
     slug: 'defiscalisation',
@@ -97,6 +101,8 @@ export const expertises: {
     shortTitle: 'Assurance & Protection',
     excerpt:
       'Prévoyance, couverture des risques et transmission pour protéger vos proches et vos actifs.',
+    excerptMobile:
+      'Prévoyance et transmission pour protéger vos proches et vos actifs.',
   },
   {
     slug: 'reseau-expert',

@@ -2,12 +2,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { imageUrl, img } from '@/lib/images';
 import { site } from '@/lib/site';
-import { getFeaturedArticle, getAllArticles } from '@/lib/articles';
 import { buildMetadata } from '@/lib/seo';
-import SectionHeading from '@/components/SectionHeading';
 import CTASection from '@/components/CTASection';
 import Reveal from '@/components/Reveal';
-import ArticleCard from '@/components/ArticleCard';
 import HeroSlideshow, { type HeroImage } from '@/components/HeroSlideshow';
 import HeroVideo from '@/components/HeroVideo';
 import { getHeroSettings } from '@/lib/hero';
@@ -52,25 +49,18 @@ const defaultHeroImages: HeroImage[] = [
 
 export default async function HomePage() {
   const [
-    featured,
-    allArticles,
     hero,
     homeVideo,
     expertisesVideo,
     approcheVideo,
     clientLogos,
   ] = await Promise.all([
-    getFeaturedArticle(),
-    getAllArticles(),
     getHeroSettings(),
     getHomeVideo(),
     getHomeExpertisesVideo(),
     getHomeApprocheVideo(),
     getClientLogos(),
   ]);
-  const secondary = allArticles
-    .filter((a) => a.slug !== featured?.slug)
-    .slice(0, 3);
 
   // Logos partenaires : ceux de Sanity s'ils sont activés et renseignés,
   // sinon repli sur les placeholders pour que le bandeau reste visible.
@@ -116,7 +106,7 @@ export default async function HomePage() {
                 <span className="h-px w-8 bg-gold" aria-hidden="true" />
                 Cabinet de gestion de patrimoine
               </span>
-              <h1 className="text-balance font-serif text-[2.5rem] font-medium leading-[1.05] text-cream animate-fade-up sm:text-[3.25rem] md:text-[3.75rem] lg:text-[4.25rem]">
+              <h1 className="text-balance font-serif text-[2.5rem] font-bold leading-[1.05] text-cream animate-fade-up sm:text-[3.25rem] sm:font-medium md:text-[3.75rem] lg:text-[4.25rem]">
                 Votre patrimoine mérite une{' '}
                 <span className="whitespace-nowrap">
                   <span className="relative inline-block">
@@ -214,22 +204,71 @@ export default async function HomePage() {
       </section>
 
       {/* 02 · INTRO CABINET ------------------------------------------ */}
-      <section className="bg-cream-gold py-24 md:py-32">
-        <div className="container-content grid items-center gap-16 lg:grid-cols-12">
+      <section className="relative overflow-hidden bg-cream-gold pb-20 pt-12 md:py-32">
+        {/* Filets décoratifs très discrets, ambiance « papier d'apparat ». */}
+        <div
+          className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-gold/10 blur-3xl md:h-96 md:w-96"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute -bottom-32 -left-24 h-72 w-72 rounded-full bg-forest/5 blur-3xl md:h-96 md:w-96"
+          aria-hidden="true"
+        />
+
+        <div className="container-content relative grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
           <Reveal className="lg:col-span-7">
             <span className="eyebrow mb-6">Le Cabinet</span>
-            <blockquote className="text-balance font-serif text-2xl font-medium leading-snug text-forest md:text-4xl">
-              « La vraie richesse n'est pas dans l'accumulation, mais dans la
-              cohérence des décisions. »
+
+            {/* Citation éditoriale avec guillemet ouvrant surdimensionné. */}
+            <blockquote className="relative">
+              <span
+                className="pointer-events-none absolute -left-1 -top-8 select-none font-serif text-7xl leading-none text-gold/25 md:-left-3 md:-top-10 md:text-8xl"
+                aria-hidden="true"
+              >
+                «
+              </span>
+              <p className="text-balance font-serif text-[1.65rem] font-medium leading-[1.25] text-forest sm:text-3xl md:text-[2.5rem] md:leading-[1.2]">
+                La vraie richesse n'est pas dans l'accumulation, mais dans la
+                cohérence des décisions.
+              </p>
             </blockquote>
-            <p className="mt-8 max-w-xl text-lg leading-relaxed text-ink/70">
+
+            <p className="mt-7 max-w-xl text-base leading-relaxed text-ink/70 md:mt-8 md:text-lg">
               Fondé sur une conviction simple (l'indépendance comme condition du
               bon conseil), Élan Patrimoine accompagne particuliers, dirigeants et
               familles dans la construction, la protection et la transmission de
               leur patrimoine. Nous ne vendons pas de produits : nous bâtissons
               des stratégies.
             </p>
-            <Link href="/le-cabinet" className="link-underline mt-8">
+
+            {/* Petits repères de réassurance, façon « signature » du cabinet. */}
+            <ul className="mt-8 flex flex-col gap-x-8 gap-y-3 text-sm font-medium text-forest sm:flex-row sm:flex-wrap">
+              {['Indépendance totale', 'Conseil sur mesure', 'Engagement durable'].map(
+                (item) => (
+                  <li key={item} className="flex items-center gap-2.5">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      aria-hidden="true"
+                      className="shrink-0 text-gold"
+                    >
+                      <path
+                        d="M20 6 9 17l-5-5"
+                        stroke="currentColor"
+                        strokeWidth="2.25"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    {item}
+                  </li>
+                )
+              )}
+            </ul>
+
+            <Link href="/le-cabinet" className="link-underline mt-9">
               Découvrir le cabinet
               <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true">
                 <path d="M1 6h13M9 1l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -238,23 +277,53 @@ export default async function HomePage() {
           </Reveal>
 
           <Reveal delay={150} className="lg:col-span-5">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-elevated">
-              <Parallax className="absolute inset-0" speed={0.1}>
-                <Image
-                  src={imageUrl(img.cabinet, 800, 78)}
-                  alt="Conseillers en gestion de patrimoine en rendez-vous client"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                  className="object-cover"
+            <div className="relative">
+              {/* Cadre or en léger décalage pour un effet « encadré d'art ». */}
+              <div
+                className="pointer-events-none absolute -inset-3 hidden rounded-[1.75rem] border border-gold/30 md:block"
+                aria-hidden="true"
+              />
+              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-elevated ring-1 ring-forest/5">
+                <Parallax className="absolute inset-0" speed={0.1}>
+                  <Image
+                    src={imageUrl(img.cabinet, 800, 78)}
+                    alt="Conseillers en gestion de patrimoine en rendez-vous client"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    className="object-cover"
+                  />
+                </Parallax>
+                {/* Voile bas pour asseoir la carte flottante. */}
+                <div
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-forest-dark/40 to-transparent"
+                  aria-hidden="true"
                 />
-              </Parallax>
-              <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-cream/95 p-5 backdrop-blur">
-                <p className="font-serif text-lg font-semibold text-forest">
-                  Un interlocuteur unique
-                </p>
-                <p className="mt-1 text-sm text-ink/60">
-                  Dédié, disponible et engagé sur la durée.
-                </p>
+                <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-cream/95 p-5 shadow-lg backdrop-blur md:bottom-5 md:left-5 md:right-5">
+                  <div className="flex items-start gap-3">
+                    <span
+                      className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold/15 text-gold"
+                      aria-hidden="true"
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
+                          stroke="currentColor"
+                          strokeWidth="1.75"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    <div>
+                      <p className="font-serif text-lg font-semibold leading-tight text-forest">
+                        Un interlocuteur unique
+                      </p>
+                      <p className="mt-1 text-sm leading-snug text-ink/60">
+                        Dédié, disponible et engagé sur la durée.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </Reveal>
@@ -310,43 +379,10 @@ export default async function HomePage() {
       />
 
       {/* 07-08 · Bloc crème final : un seul dégradé « or crème » animé et
-          continu, partagé sans couture par les sections actualités → FAQ →
+          continu, partagé sans couture par les sections FAQ →
           signature → CTA. */}
       <SeamLine />
       <div className="bg-cream-gold-animated">
-      {/* 07 · ACTUALITÉS --------------------------------------------- */}
-      {featured && (
-        <section className="py-24 md:py-32">
-          <div className="container-content">
-            <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
-              <SectionHeading
-                eyebrow="Actualités"
-                title="Analyses & éclairages patrimoniaux"
-                intro="Décryptages de l'actualité fiscale, économique et réglementaire."
-              />
-              <Reveal delay={100}>
-                <Link href="/actualites" className="btn-outline shrink-0">
-                  Toutes les actualités
-                </Link>
-              </Reveal>
-            </div>
-
-            <div className="mt-14 grid gap-10 lg:grid-cols-12">
-              <Reveal className="lg:col-span-7">
-                <ArticleCard article={featured} variant="featured" />
-              </Reveal>
-              <div className="flex flex-col gap-5 lg:col-span-5">
-                {secondary.map((a, i) => (
-                  <Reveal key={a.slug} delay={i * 100}>
-                    <ArticleCard article={a} variant="mini" />
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* 08 · FAQ (questions fréquentes + balisage FAQPage) --------- */}
       <FaqSection />
 

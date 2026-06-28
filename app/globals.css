@@ -399,12 +399,20 @@
   overflow: hidden;
   padding: 104px 0 120px;
   background-color: #0c2350;
+  /* La réduction de padding mobile vit dans un vrai media query : .expertises
+     est lui-même le conteneur (container-type), donc un @container ne peut pas
+     cibler son propre padding. */
   /* Dégradé bleu simple et profond. */
   background-image:
     radial-gradient(120% 100% at 50% -10%, #1b4a8f 0%, #102f62 45%, #0a1d40 100%);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+}
+@media (max-width: 720px) {
+  .expertises {
+    padding: 44px 0 50px;
+  }
 }
 /* Vidéo de fond optionnelle (pilotée Sanity) : plein cadre, derrière le voile
    bleu. Le fond dégradé de .expertises sert de repli avant chargement. */
@@ -670,6 +678,10 @@
   color: #b9c2d4;
   margin: 0 0 30px;
 }
+/* Par défaut (desktop) : version longue ; la variante mobile est masquée. */
+.pillar__text-mobile {
+  display: none;
+}
 .pillar__more {
   display: inline-flex;
   align-items: center;
@@ -694,52 +706,83 @@
 }
 
 @container (max-width: 720px) {
-  .expertises {
-    padding: 62px 0 70px;
-  }
   .expertises__wrap {
-    padding: 0 24px;
+    padding: 0 20px;
   }
   .expertises__head {
     flex-direction: column;
     align-items: flex-start;
-    gap: 26px;
-    margin-bottom: 42px;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .expertises__eyebrow {
+    margin-bottom: 14px;
   }
   .expertises__title {
-    font-size: 33px;
+    font-size: 29px;
+    margin-bottom: 14px;
   }
   .expertises__lede {
-    font-size: 15px;
+    font-size: 14.5px;
   }
   .expertises__cta {
     width: 100%;
     justify-content: center;
-    padding: 14px 24px;
+    padding: 13px 24px;
   }
   .expertises__grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 12px;
   }
+  /* Cartes compactes : icône dorée à gauche, contenu condensé à droite,
+     façon liste plutôt que grandes cartes empilées. */
   .pillar {
-    padding: 32px 26px 30px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 16px;
+    align-items: start;
+    padding: 20px 22px;
+    border-radius: 10px;
   }
   .pillar__icon {
-    top: 28px;
-    right: 24px;
-    width: 46px;
-    height: 46px;
+    position: static;
+    grid-row: 1 / span 2;
+    width: 42px;
+    height: 42px;
+    margin-top: 2px;
   }
   .pillar__icon svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
+  }
+  .pillar__label {
+    margin: 0 0 4px;
+    font-size: 13px;
   }
   .pillar__title {
-    font-size: 21px;
-    margin-bottom: 14px;
+    font-size: 19px;
+    margin: 0 0 7px;
   }
   .pillar__text {
-    margin-bottom: 24px;
+    grid-column: 2;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 14px;
+  }
+  /* Mobile : on bascule sur la version condensée. */
+  .pillar__text-full {
+    display: none;
+  }
+  .pillar__text-mobile {
+    display: inline;
+  }
+  .pillar__more {
+    grid-column: 2;
+    font-size: 13px;
+  }
+  /* Pas d'effet de survol « soulevé » sur mobile (tactile). */
+  .pillar:hover {
+    transform: none;
   }
 }
 
@@ -760,6 +803,13 @@
   background:
     radial-gradient(110% 120% at 88% -10%, #1c3868 0%, rgba(28, 56, 104, 0) 48%),
     linear-gradient(120deg, #11254a 0%, #0d1d3b 100%);
+}
+/* Padding mobile réduit via un vrai media query : .chiffres est lui-même le
+   conteneur (container-type), un @container ne peut pas cibler son padding. */
+@media (max-width: 720px) {
+  .chiffres {
+    padding: 44px 0 56px;
+  }
 }
 .chiffres::before {
   content: '';
@@ -1069,6 +1119,13 @@
     radial-gradient(120% 120% at 100% 0%, #1c3868 0%, rgba(28, 56, 104, 0) 46%),
     linear-gradient(150deg, #11254a 0%, #0d1d3b 100%);
 }
+/* Padding mobile réduit via un vrai media query : .approche est lui-même le
+   conteneur (container-type), un @container ne peut pas cibler son padding. */
+@media (max-width: 860px) {
+  .approche {
+    padding: 44px 0 48px;
+  }
+}
 .approche::before {
   content: '';
   position: absolute;
@@ -1292,9 +1349,8 @@
 }
 
 @container (max-width: 860px) {
-  .approche {
-    padding: 58px 0 64px;
-  }
+  /* NB : le padding de .approche est géré par un @media (cf. plus haut) car
+     .approche est son propre conteneur. */
   .approche__wrap {
     grid-template-columns: 1fr;
     column-gap: 0;

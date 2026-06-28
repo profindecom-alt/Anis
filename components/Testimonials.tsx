@@ -16,7 +16,7 @@ export default function Testimonials({
 }) {
   return (
     <section
-      className={`${bgClassName} relative overflow-hidden pt-24 pb-8 md:pt-32 md:pb-10`}
+      className={`${bgClassName} relative overflow-hidden pt-12 pb-8 md:pt-32 md:pb-10`}
     >
       {/* Texture de points, estompée vers le bas */}
       <span

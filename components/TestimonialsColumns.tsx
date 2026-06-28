@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+
 export type Testimonial = {
   quote: string;
   emphasis?: string;
@@ -92,10 +96,12 @@ function Card({ t }: { t: Testimonial }) {
 function Column({
   testimonials,
   duration,
+  paused,
   className = '',
 }: {
   testimonials: Testimonial[];
   duration: number;
+  paused: boolean;
   className?: string;
 }) {
   if (testimonials.length === 0) return null;
@@ -104,7 +110,10 @@ function Column({
     <div className={className}>
       <div
         className="flex animate-scroll-y flex-col will-change-transform hover:[animation-play-state:paused] motion-reduce:animate-none"
-        style={{ animationDuration: `${duration}s` }}
+        style={{
+          animationDuration: `${duration}s`,
+          animationPlayState: paused ? 'paused' : undefined,
+        }}
       >
         {/* Deux copies identiques pour boucler ; la seconde est masquée aux
             lecteurs d'écran pour ne pas relire les témoignages en double. */}
@@ -138,24 +147,33 @@ export default function TestimonialsColumns({
   const secondColumn = testimonials.slice(size, size * 2);
   const thirdColumn = testimonials.slice(size * 2);
 
+  // Le survol met le défilement en pause sur ordinateur ; sur mobile (pas de
+  // survol), un appui sur le mur l'interrompt et le relance, pour pouvoir lire
+  // un témoignage sans qu'il s'échappe.
+  const [paused, setPaused] = useState(false);
+
   return (
     <div
-      className="flex max-h-[740px] justify-center gap-7 overflow-hidden"
+      className="flex max-h-[740px] cursor-pointer justify-center gap-7 overflow-hidden"
       style={{ maskImage: FADE_MASK, WebkitMaskImage: FADE_MASK }}
+      onClick={() => setPaused((p) => !p)}
     >
       <Column
         testimonials={firstColumn}
         duration={15}
+        paused={paused}
         className="max-w-[360px] flex-1"
       />
       <Column
         testimonials={secondColumn}
         duration={19}
+        paused={paused}
         className="hidden max-w-[360px] flex-1 md:block"
       />
       <Column
         testimonials={thirdColumn}
         duration={17}
+        paused={paused}
         className="hidden max-w-[360px] flex-1 lg:block"
       />
     </div>

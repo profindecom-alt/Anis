@@ -87,7 +87,7 @@ export default function ValuesSection() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-cream-gold py-24 md:py-32">
+    <section className="relative overflow-hidden bg-cream-gold pb-24 pt-12 md:py-32">
       {/* Lueur dorée discrète (profondeur, derrière les cartes) */}
       <span
         aria-hidden="true"
