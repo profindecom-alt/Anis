@@ -5,6 +5,12 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  // Classes garanties dans le CSS de production, quelle que soit l'analyse du
+  // contenu côté hébergeur (cache de build agressif). Elles pilotent
+  // l'affichage des 2ᵉ/3ᵉ colonnes du mur de témoignages (voir
+  // {@link components/TestimonialsColumns}) : sans elles, le mur retombe à une
+  // seule colonne sur desktop.
+  safelist: ['md:block', 'lg:block'],
   theme: {
     extend: {
       colors: {
