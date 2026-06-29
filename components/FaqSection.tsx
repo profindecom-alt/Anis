@@ -65,7 +65,9 @@ export default function FaqSection({
                       0{i + 1}
                     </span>
                     <span className="font-serif text-lg font-semibold leading-snug text-forest transition-colors group-hover:text-gold-dark md:text-xl">
-                      {item.q}
+                      {/* Espace insécable avant ? ! : ; pour éviter qu'un
+                          signe de ponctuation ne passe seul à la ligne. */}
+                      {item.q.replace(/\s+([?!:;])/g, String.fromCharCode(160) + '$1')}
                     </span>
                   </span>
                   <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gold/30 text-gold-dark transition-all duration-300 group-hover:border-gold/60 group-open:rotate-45 group-open:border-gold group-open:bg-gold group-open:text-forest-dark">
