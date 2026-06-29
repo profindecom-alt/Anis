@@ -765,8 +765,8 @@
   }
   .pillar__text {
     grid-column: 2;
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 15px;
+    line-height: 1.55;
     margin: 0 0 14px;
   }
   /* Mobile : on bascule sur la version condensée. */

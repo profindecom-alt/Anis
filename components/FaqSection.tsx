@@ -7,16 +7,12 @@ export type FaqItem = { q: string; a: string };
 /** Questions fréquentes de la page d'accueil (orientées prise de contact). */
 const DEFAULT_FAQ: FaqItem[] = [
   {
-    q: 'Qu’est-ce qu’un conseiller en gestion de patrimoine indépendant ?',
+    q: 'Un conseiller indépendant, c’est quoi ?',
     a: 'C’est un professionnel qui vous accompagne sur l’ensemble de votre patrimoine sans appartenir à un groupe bancaire ou assureur. Cette indépendance lui permet de sélectionner les solutions dans votre seul intérêt, en toute objectivité.',
   },
   {
     q: 'Faut-il disposer d’un patrimoine important pour vous solliciter ?',
     a: 'Non. Notre accompagnement s’adapte à chaque situation, que vous souhaitiez structurer un premier projet, préparer votre retraite ou organiser une transmission. Ce qui compte, c’est votre objectif, pas un montant minimum.',
-  },
-  {
-    q: 'Comment êtes-vous rémunérés ?',
-    a: 'Nous privilégions une rémunération claire, expliquée dès le départ : honoraires de conseil et rémunération sur les solutions mises en place. Tout est détaillé avant la moindre décision, sans surprise.',
   },
   {
     q: 'Le premier rendez-vous est-il payant ?',
@@ -27,8 +23,8 @@ const DEFAULT_FAQ: FaqItem[] = [
     a: 'Nous commençons par un bilan complet de votre situation et de vos objectifs. Nous vous proposons ensuite une stratégie sur mesure, que nous mettons en œuvre puis suivons dans la durée, en l’ajustant au fil de votre vie.',
   },
   {
-    q: 'Mes informations restent-elles confidentielles ?',
-    a: 'Absolument. La confidentialité est au cœur de notre métier. Vos données sont traitées avec la plus grande discrétion et notre activité est encadrée par des agréments et garanties réglementaires.',
+    q: 'Comment êtes-vous rémunérés ?',
+    a: 'Nous privilégions une rémunération claire, expliquée dès le départ : honoraires de conseil et rémunération sur les solutions mises en place. Tout est détaillé avant la moindre décision, sans surprise.',
   },
 ];
 

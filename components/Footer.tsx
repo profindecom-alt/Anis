@@ -101,7 +101,14 @@ export default async function Footer() {
                       href={link.href}
                       className="-mx-2 inline-block rounded px-2 py-1.5 text-sm text-cream/65 transition-colors hover:text-cream"
                     >
-                      {link.label}
+                      {link.label === 'Assurance & Protection' ? (
+                        <>
+                          <span className="sm:hidden">Assurance/Protection</span>
+                          <span className="hidden sm:inline">{link.label}</span>
+                        </>
+                      ) : (
+                        link.label
+                      )}
                     </Link>
                   </li>
                 ))}
