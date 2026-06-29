@@ -7,20 +7,20 @@ export type FaqItem = { q: string; a: string };
 /** Questions fréquentes de la page d'accueil (orientées prise de contact). */
 const DEFAULT_FAQ: FaqItem[] = [
   {
-    q: 'Un conseiller indépendant, c’est quoi ?',
-    a: 'C’est un professionnel qui vous accompagne sur l’ensemble de votre patrimoine sans appartenir à un groupe bancaire ou assureur. Cette indépendance lui permet de sélectionner les solutions dans votre seul intérêt, en toute objectivité.',
-  },
-  {
     q: 'Faut-il disposer d’un patrimoine important pour vous solliciter ?',
     a: 'Non. Notre accompagnement s’adapte à chaque situation, que vous souhaitiez structurer un premier projet, préparer votre retraite ou organiser une transmission. Ce qui compte, c’est votre objectif, pas un montant minimum.',
   },
   {
-    q: 'Le premier rendez-vous est-il payant ?',
-    a: 'Le premier échange est gratuit et sans engagement. Il sert à faire connaissance, comprendre votre situation et vérifier ensemble que nous sommes les mieux placés pour vous aider.',
-  },
-  {
     q: 'Comment se déroule l’accompagnement ?',
     a: 'Nous commençons par un bilan complet de votre situation et de vos objectifs. Nous vous proposons ensuite une stratégie sur mesure, que nous mettons en œuvre puis suivons dans la durée, en l’ajustant au fil de votre vie.',
+  },
+  {
+    q: 'Un conseiller indépendant, c’est quoi ?',
+    a: 'C’est un professionnel qui vous accompagne sur l’ensemble de votre patrimoine sans appartenir à un groupe bancaire ou assureur. Cette indépendance lui permet de sélectionner les solutions dans votre seul intérêt, en toute objectivité.',
+  },
+  {
+    q: 'Le premier rendez-vous est-il payant ?',
+    a: 'Le premier échange est gratuit et sans engagement. Il sert à faire connaissance, comprendre votre situation et vérifier ensemble que nous sommes les mieux placés pour vous aider.',
   },
   {
     q: 'Comment êtes-vous rémunérés ?',
