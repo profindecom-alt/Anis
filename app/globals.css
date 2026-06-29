@@ -1771,16 +1771,27 @@ blockquote.quote--visible .quote-line:nth-child(3) {
    ------------------------------------------------------------ */
 @keyframes faq-reveal {
   from {
+    grid-template-rows: 0fr;
     opacity: 0;
-    transform: translateY(-6px);
   }
   to {
+    grid-template-rows: 1fr;
     opacity: 1;
-    transform: none;
   }
 }
+/* La réponse est une grille à une rangée : on anime sa hauteur (0fr → 1fr)
+   pour un déploiement fluide en plus du fondu. L'enfant doit pouvoir se
+   compresser (min-height: 0) et masquer son débordement pendant l'animation. */
+.faq-answer {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+.faq-answer > * {
+  min-height: 0;
+  overflow: hidden;
+}
 details[open].faq-item > .faq-answer {
-  animation: faq-reveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: faq-reveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
