@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { imageUrl, img } from '@/lib/images';
-import { values } from '@/lib/site';
 import { getSiteInfo } from '@/lib/siteInfo';
 import { buildMetadata } from '@/lib/seo';
 import PageHero from '@/components/PageHero';
@@ -13,6 +12,7 @@ import DrawIcon from '@/components/DrawIcon';
 import FrameDraw from '@/components/FrameDraw';
 import ChiffresSection from '@/components/ChiffresSection';
 import ConvictionSection from '@/components/ConvictionSection';
+import ValuesGrid from '@/components/ValuesGrid';
 
 export const metadata = buildMetadata({
   title: 'Le Cabinet',
@@ -53,9 +53,6 @@ const agrements = [
     ),
   },
 ];
-
-/* Chiffres élzéviriens (Cormorant) pour numéroter les valeurs. */
-const romans = ['I', 'II', 'III', 'IV'];
 
 export default async function LeCabinetPage() {
   const info = await getSiteInfo();
@@ -212,7 +209,7 @@ export default async function LeCabinetPage() {
 
       {/* Nos valeurs — grille « registre » navy, filets dorés + numéraux ---- */}
       <section
-        className="relative overflow-hidden py-24 md:py-32"
+        className="relative overflow-hidden py-12 sm:py-24 md:py-32"
         style={{
           background:
             'radial-gradient(120% 130% at 0% 0%, #1d4577 0%, rgba(29,69,119,0) 55%), linear-gradient(150deg, #11254a 0%, #091d38 100%)',
@@ -233,27 +230,7 @@ export default async function LeCabinetPage() {
           />
 
           {/* gap-px sur fond doré = filets dorés entre les cellules */}
-          <div className="grid gap-px overflow-hidden rounded-2xl border border-gold/20 bg-gold/20 sm:grid-cols-2">
-            {values.map((v, i) => (
-              <Reveal
-                key={v.title}
-                delay={i * 80}
-                className="group relative bg-[#0e2143] p-8 transition-colors duration-500 hover:bg-[#13315c] md:p-10"
-              >
-                <div className="flex items-baseline gap-5">
-                  <span className="font-serif text-[2.6rem] italic leading-none text-gold/60 transition-colors duration-300 group-hover:text-gold md:text-5xl">
-                    {romans[i]}
-                  </span>
-                  <h3 className="font-serif text-xl font-semibold text-cream md:text-[1.55rem]">
-                    {v.title}
-                  </h3>
-                </div>
-                <p className="mt-4 max-w-md text-sm leading-relaxed text-cream/55 md:pl-[3.9rem]">
-                  {v.description}
-                </p>
-              </Reveal>
-            ))}
-          </div>
+          <ValuesGrid />
         </div>
 
         <span
@@ -285,7 +262,7 @@ export default async function LeCabinetPage() {
 
       {/* Agréments & garanties + CTA : un seul fond continu ---------- */}
       <div className="bg-cream-gold">
-        <section className="relative overflow-hidden pt-24 pb-6 md:pt-28 md:pb-8">
+        <section className="relative overflow-hidden pt-12 pb-6 md:pt-28 md:pb-8">
           <div className="container-content">
             <SectionHeading
               eyebrow="Agréments & garanties"

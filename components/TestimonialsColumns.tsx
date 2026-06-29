@@ -1,7 +1,3 @@
-'use client';
-
-import { useState } from 'react';
-
 export type Testimonial = {
   quote: string;
   emphasis?: string;
@@ -90,18 +86,16 @@ function Card({ t }: { t: Testimonial }) {
  * Une colonne de témoignages en défilement vertical continu. Le contenu est
  * dupliqué et chaque carte porte son propre espacement bas : la translation de
  * -50 % boucle ainsi sans rupture ni saut. `duration` règle la vitesse (en s).
- * Le défilement s'interrompt au survol et pour les utilisateurs qui préfèrent
- * un mouvement réduit.
+ * Le défilement ne s'arrête jamais (ni au survol ni au clic) ; il est seulement
+ * désactivé pour les utilisateurs qui préfèrent un mouvement réduit.
  */
 function Column({
   testimonials,
   duration,
-  paused,
   className = '',
 }: {
   testimonials: Testimonial[];
   duration: number;
-  paused: boolean;
   className?: string;
 }) {
   if (testimonials.length === 0) return null;
@@ -109,10 +103,9 @@ function Column({
   return (
     <div className={className}>
       <div
-        className="flex animate-scroll-y flex-col will-change-transform hover:[animation-play-state:paused] motion-reduce:animate-none"
+        className="flex animate-scroll-y flex-col will-change-transform motion-reduce:animate-none"
         style={{
           animationDuration: `${duration}s`,
-          animationPlayState: paused ? 'paused' : undefined,
         }}
       >
         {/* Deux copies identiques pour boucler ; la seconde est masquée aux
@@ -147,33 +140,26 @@ export default function TestimonialsColumns({
   const secondColumn = testimonials.slice(size, size * 2);
   const thirdColumn = testimonials.slice(size * 2);
 
-  // Le survol met le défilement en pause sur ordinateur ; sur mobile (pas de
-  // survol), un appui sur le mur l'interrompt et le relance, pour pouvoir lire
-  // un témoignage sans qu'il s'échappe.
-  const [paused, setPaused] = useState(false);
-
+  // Le défilement ne s'arrête jamais : aucune interaction (survol ou clic) ne
+  // le met en pause, pour un mouvement continu façon « mur d'avis ».
   return (
     <div
-      className="flex max-h-[740px] cursor-pointer justify-center gap-7 overflow-hidden"
+      className="flex max-h-[740px] justify-center gap-7 overflow-hidden"
       style={{ maskImage: FADE_MASK, WebkitMaskImage: FADE_MASK }}
-      onClick={() => setPaused((p) => !p)}
     >
       <Column
         testimonials={firstColumn}
         duration={15}
-        paused={paused}
         className="max-w-[360px] flex-1"
       />
       <Column
         testimonials={secondColumn}
         duration={19}
-        paused={paused}
         className="hidden max-w-[360px] flex-1 md:block"
       />
       <Column
         testimonials={thirdColumn}
         duration={17}
-        paused={paused}
         className="hidden max-w-[360px] flex-1 lg:block"
       />
     </div>

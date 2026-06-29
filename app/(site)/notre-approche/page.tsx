@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { buildMetadata } from '@/lib/seo';
 import { img } from '@/lib/images';
 import PageHero from '@/components/PageHero';
+import SectionHeading from '@/components/SectionHeading';
 import MethodeMeridienne from '@/components/MethodeMeridienne';
 import SignatureSection from '@/components/SignatureSection';
 import CTASection from '@/components/CTASection';
@@ -47,7 +48,7 @@ export default function NotreApprochePage() {
       />
 
       {/* Engagements — registre clair, éditorial (change de rythme) ----- */}
-      <section className="bg-cream py-24 md:py-32">
+      <section className="bg-cream py-12 sm:py-24 md:py-32">
         <div className="container-content">
           <Reveal className="max-w-2xl">
             <span className="eyebrow mb-5">Nos engagements</span>
@@ -95,7 +96,7 @@ export default function NotreApprochePage() {
 
       {/* Comparatif — Minimal Premium */}
       <section
-        className="relative pt-24 md:pt-32"
+        className="relative pt-12 sm:pt-24 md:pt-32"
         style={{
           color: '#f3f1ea',
           background:
@@ -103,22 +104,18 @@ export default function NotreApprochePage() {
         }}
       >
         <div className="container-content relative z-10">
-          <Reveal className="mb-12 md:mb-24 border-t border-cream/10 pt-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-10">
-              <div className="max-w-2xl">
-                <span className="text-[0.6rem] uppercase tracking-widest text-cream/40 block mb-4">
-                  Le Modèle Indépendant
-                </span>
-                <h2 className="text-balance text-[1.75rem] leading-[1.15] font-serif text-cream sm:text-4xl sm:leading-[1.1] md:text-5xl">
-                  Une <span className="text-gold">différence</span> qui se lit dans la durée.
-                </h2>
-              </div>
-              <p className="text-[0.85rem] leading-relaxed text-cream/40 md:max-w-[280px] font-light md:pb-1">
-                Six critères concrets qui distinguent notre accompagnement d&apos;une
-                gestion bancaire classique.
-              </p>
-            </div>
-          </Reveal>
+          <SectionHeading
+            eyebrow="Le Modèle Indépendant"
+            light
+            title={
+              <>
+                Une <span className="text-gold">différence</span> qui se lit dans
+                la durée.
+              </>
+            }
+            intro="Six critères concrets qui distinguent notre accompagnement d'une gestion bancaire classique."
+            className="mb-12 md:mb-24"
+          />
 
           {/* Carrousel des critères de comparaison */}
           <Reveal>

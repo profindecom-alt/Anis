@@ -249,8 +249,8 @@ export default async function ContactPage() {
                 referrerPolicy="no-referrer-when-downgrade"
               />
 
-              {/* Carte adresse en surimpression */}
-              <div className="absolute inset-x-3 bottom-3 rounded-2xl bg-cream/95 p-4 shadow-elevated backdrop-blur sm:inset-x-auto sm:bottom-6 sm:left-6 sm:max-w-xs sm:p-5">
+              {/* Carte adresse : empilée sous la carte sur mobile, en surimpression dès sm */}
+              <div className="m-3 rounded-2xl bg-cream/95 p-4 shadow-elevated backdrop-blur sm:absolute sm:m-0 sm:bottom-6 sm:left-6 sm:max-w-xs sm:p-5">
                 <div className="flex items-start gap-3">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-forest text-gold">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">

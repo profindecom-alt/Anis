@@ -226,37 +226,53 @@ export default async function ExpertiseDetailPage({
             className="mb-16"
           />
           <div className="grid gap-px overflow-hidden rounded-2xl border border-ink/10 bg-ink/10 sm:grid-cols-2 lg:grid-cols-3">
-            {content.services.map((s, i) => (
-              <Reveal key={s.title} delay={(i % 3) * 90} className="h-full">
-                <div className="group relative flex h-full flex-col overflow-hidden bg-cream-50 p-9 transition-colors duration-500 hover:bg-white">
-                  {/* Numéro filigrane, grande capitale dorée très discrète */}
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute -right-1 -top-3 select-none font-serif text-[5.5rem] font-semibold leading-none text-gold/[0.07] transition-all duration-500 group-hover:-translate-y-0.5 group-hover:text-gold/[0.13]"
-                  >
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  {/* Eyebrow + filet doré */}
-                  <div className="flex items-center gap-3">
-                    <span className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-gold">
-                      Service {String(i + 1).padStart(2, '0')}
+            {content.services.map((s, i) => {
+              // Cascade en diagonale : chaque carte démarre selon sa ligne ET
+              // sa colonne (grille à 3 colonnes), pour une vague fluide plutôt
+              // qu'une apparition ligne par ligne.
+              const col = i % 3;
+              const row = Math.floor(i / 3);
+              const delay = (col + row) * 110;
+              return (
+                <Reveal key={s.title} delay={delay} className="h-full">
+                  <div className="group relative flex h-full flex-col overflow-hidden bg-cream-50 p-9 transition-all duration-500 ease-out hover:z-10 hover:-translate-y-1 hover:bg-white hover:shadow-elevated">
+                    {/* Voile doré qui se diffuse au survol, depuis le coin haut-droit */}
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gold/0 blur-2xl transition-all duration-700 ease-out group-hover:bg-gold/15"
+                    />
+                    {/* Numéro filigrane, grande capitale dorée très discrète */}
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute -right-1 -top-3 select-none font-serif text-[5.5rem] font-semibold leading-none text-gold/[0.07] transition-all duration-500 ease-out group-hover:-translate-y-1 group-hover:scale-105 group-hover:text-gold/[0.16]"
+                    >
+                      {String(i + 1).padStart(2, '0')}
                     </span>
-                    <span aria-hidden="true" className="h-px w-8 bg-gold/40" />
+                    {/* Eyebrow + filet doré qui s'étire au survol */}
+                    <div className="relative flex items-center gap-3">
+                      <span className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-gold">
+                        Service {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        className="h-px w-8 origin-left bg-gold/40 transition-all duration-500 ease-out group-hover:w-12 group-hover:bg-gold/70"
+                      />
+                    </div>
+                    <h3 className="relative mt-5 font-serif text-xl font-semibold leading-snug text-forest transition-transform duration-500 ease-out group-hover:translate-x-0.5">
+                      {s.title}
+                    </h3>
+                    <p className="relative mt-3 text-sm leading-relaxed text-ink/65">
+                      {s.description}
+                    </p>
+                    {/* Filet doré qui se déploie au survol */}
+                    <span
+                      aria-hidden="true"
+                      className="relative mt-6 block h-[2px] w-10 origin-left rounded-full bg-gradient-to-r from-gold to-gold-light transition-all duration-500 ease-out group-hover:w-full"
+                    />
                   </div>
-                  <h3 className="mt-5 font-serif text-xl font-semibold leading-snug text-forest">
-                    {s.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-ink/65">
-                    {s.description}
-                  </p>
-                  {/* Filet doré qui se déploie au survol */}
-                  <span
-                    aria-hidden="true"
-                    className="mt-6 block h-[2px] w-10 origin-left rounded-full bg-gradient-to-r from-gold to-gold-light transition-all duration-500 group-hover:w-full"
-                  />
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>

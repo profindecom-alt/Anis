@@ -70,21 +70,51 @@ export default function Preloader() {
   return (
     <div
       aria-hidden="true"
-      className={`fixed inset-0 z-[200] flex flex-col items-center justify-center bg-forest transition-opacity duration-[600ms] ease-out ${
-        leaving ? 'pointer-events-none opacity-0' : 'opacity-100'
+      className={`fixed inset-0 z-[200] flex flex-col items-center justify-center overflow-hidden bg-forest transition-all duration-[700ms] ease-[cubic-bezier(0.65,0,0.35,1)] ${
+        leaving
+          ? 'pointer-events-none scale-[1.04] opacity-0 blur-[6px]'
+          : 'scale-100 opacity-100 blur-0'
       }`}
     >
-      <div className="flex flex-col items-center gap-7">
-        <Image
-          src="/logos/icon-gold.svg"
-          alt=""
-          width={270}
-          height={270}
-          priority
-          className="h-36 w-36 motion-safe:animate-[preloader-mark_1.6s_ease-in-out_infinite] md:h-48 md:w-48"
-        />
-        <div className="h-px w-32 overflow-hidden rounded-full bg-cream/15">
-          <div className="h-full w-full origin-left bg-gradient-to-r from-gold-dark via-gold to-gold-light motion-safe:animate-[preloader-line_1.4s_cubic-bezier(0.16,1,0.3,1)_infinite]" />
+      {/* Fond : dégradé profond + halo doré qui respire, façon « écrin ». */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(120% 110% at 50% 38%, rgba(27,74,143,0.30) 0%, rgba(12,35,80,0) 55%)',
+        }}
+      />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-[38%] h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/[0.10] blur-[120px] motion-safe:animate-[preloader-glow_3.4s_ease-in-out_infinite]"
+      />
+
+      <div className="relative flex flex-col items-center gap-8">
+        {/* Écusson + anneau doré qui pulse autour de la marque. */}
+        <div className="relative flex items-center justify-center">
+          <span
+            aria-hidden="true"
+            className="absolute h-44 w-44 rounded-full border border-gold/20 motion-safe:animate-[preloader-ring_2.6s_ease-out_infinite] md:h-56 md:w-56"
+          />
+          <Image
+            src="/logos/icon-gold.svg"
+            alt=""
+            width={270}
+            height={270}
+            priority
+            className="h-36 w-36 motion-safe:animate-[preloader-mark_2.4s_ease-in-out_infinite] md:h-48 md:w-48"
+          />
+        </div>
+
+        {/* Wordmark : apparition douce avec resserrement de l'interlettrage. */}
+        <span className="font-serif text-sm uppercase tracking-[0.5em] text-cream/85 motion-safe:animate-[preloader-word_1.2s_ease-out_both] md:text-base">
+          Élan&nbsp;Patrimoine
+        </span>
+
+        {/* Barre de progression : balayage doux et indéterminé. */}
+        <div className="relative h-px w-40 overflow-hidden rounded-full bg-cream/12">
+          <div className="absolute inset-y-0 -left-1/3 w-1/3 rounded-full bg-gradient-to-r from-transparent via-gold to-transparent motion-safe:animate-[preloader-sweep_1.5s_cubic-bezier(0.45,0,0.55,1)_infinite]" />
         </div>
       </div>
 
@@ -93,23 +123,55 @@ export default function Preloader() {
           0%,
           100% {
             transform: translateY(0) scale(1);
-            opacity: 0.92;
+            opacity: 0.94;
           }
           50% {
-            transform: translateY(-6px) scale(1.04);
+            transform: translateY(-7px) scale(1.045);
             opacity: 1;
           }
         }
-        @keyframes preloader-line {
+        @keyframes preloader-ring {
           0% {
-            transform: scaleX(0);
+            transform: scale(0.82);
+            opacity: 0;
           }
-          50% {
-            transform: scaleX(1);
+          35% {
+            opacity: 0.7;
           }
           100% {
-            transform: scaleX(0);
-            transform-origin: right;
+            transform: scale(1.18);
+            opacity: 0;
+          }
+        }
+        @keyframes preloader-glow {
+          0%,
+          100% {
+            opacity: 0.55;
+            transform: translate(-50%, -50%) scale(0.92);
+          }
+          50% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.06);
+          }
+        }
+        @keyframes preloader-sweep {
+          0% {
+            left: -35%;
+          }
+          100% {
+            left: 100%;
+          }
+        }
+        @keyframes preloader-word {
+          0% {
+            opacity: 0;
+            letter-spacing: 0.85em;
+            transform: translateY(6px);
+          }
+          100% {
+            opacity: 1;
+            letter-spacing: 0.5em;
+            transform: translateY(0);
           }
         }
       `}</style>

@@ -1659,7 +1659,7 @@
 
 @container (max-width: 720px) {
   .meridienne {
-    padding: 60px 0 64px;
+    padding: 48px 0 48px;
   }
   .meridienne__wrap {
     padding: 0 24px;
