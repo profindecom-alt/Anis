@@ -6,6 +6,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
+      // Back-office Sanity : hors index.
+      disallow: ['/studio'],
     },
     sitemap: `${site.url}/sitemap.xml`,
     host: site.url,

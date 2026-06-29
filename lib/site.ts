@@ -102,7 +102,7 @@ export const expertises: {
     excerpt:
       'Prévoyance, couverture des risques et transmission pour protéger vos proches et vos actifs.',
     excerptMobile:
-      'Prévoyance et transmission pour protéger vos proches et vos actifs.',
+      'Prévoyance, couverture des risques et transmission pour protéger vos proches et vos actifs.',
   },
   {
     slug: 'reseau-expert',

@@ -41,10 +41,6 @@ const defaultHeroImages: HeroImage[] = [
     id: 'bibliotheque-nationale-de-france-richelieu-bnf-m041122-t1',
     alt: 'Salle de lecture de la Bibliothèque nationale de France, site Richelieu',
   },
-  {
-    id: 'eiffel-tower-and-river-seine-craig-fildes',
-    alt: 'La tour Eiffel et la Seine à Paris',
-  },
 ].map(({ id, alt }) => ({ src: imageUrl(id), alt }));
 
 export default async function HomePage() {
@@ -102,15 +98,15 @@ export default async function HomePage() {
         <div className="relative z-10 flex flex-1 items-end">
           <div className="container-content pb-16 pt-32 md:pb-20">
             <div className="max-w-3xl">
-              <span className="mb-5 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.25em] text-gold animate-fade-up sm:text-xs">
+              <span className="mb-5 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.25em] text-gold animate-fade-up text-shadow-hero sm:text-xs">
                 <span className="h-px w-8 bg-gold" aria-hidden="true" />
                 Cabinet de gestion de patrimoine
               </span>
-              <h1 className="text-balance font-serif text-[2.5rem] font-bold leading-[1.05] text-cream animate-fade-up sm:text-[3.25rem] sm:font-medium md:text-[3.75rem] lg:text-[4.25rem]">
+              <h1 className="text-balance font-serif text-[2.5rem] font-bold leading-[1.05] text-cream animate-fade-up text-shadow-hero sm:text-[3.25rem] sm:font-medium md:text-[3.75rem] lg:text-[4.25rem]">
                 Votre patrimoine mérite une{' '}
                 <span className="whitespace-nowrap">
                   <span className="relative inline-block">
-                    <span className="bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent [text-shadow:none]">
                       stratégie
                     </span>
                     <svg
@@ -134,7 +130,7 @@ export default async function HomePage() {
                 pas un produit.
               </h1>
               <p
-                className="mt-6 max-w-lg text-base leading-relaxed text-cream/75 animate-fade-up md:mt-7 md:text-lg"
+                className="mt-6 max-w-lg text-base leading-relaxed text-cream/75 animate-fade-up text-shadow-hero md:mt-7 md:text-lg"
                 style={{ animationDelay: '120ms' }}
               >
                 Cabinet indépendant, nous concevons et pilotons des stratégies

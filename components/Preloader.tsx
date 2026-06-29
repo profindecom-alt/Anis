@@ -5,8 +5,8 @@ import Image from 'next/image';
 
 /**
  * Écran d'accueil (preloader) affiché au premier chargement du site.
- * Voile crème centré sur l'écusson « élan », avec un fin trait doré qui se
- * remplit, puis disparition en fondu une fois la page prête.
+ * Écusson « élan » centré sur fond bleu nuit, wordmark, et une fine barre de
+ * progression dorée qui défile, puis disparition en fondu une fois la page prête.
  *
  * Le voile s'affiche une seule fois par session (sessionStorage) pour ne pas
  * gêner la navigation interne. Il respecte « prefers-reduced-motion » : pas
@@ -76,15 +76,15 @@ export default function Preloader() {
           : 'scale-100 opacity-100 blur-0'
       }`}
     >
-      <div className="relative flex flex-col items-center gap-6">
+      <div className="flex flex-col items-center gap-8">
         {/* Écusson : apparition douce, sans animation en boucle. */}
         <Image
           src="/logos/icon-gold.svg"
           alt=""
-          width={270}
-          height={270}
+          width={320}
+          height={320}
           priority
-          className="h-24 w-24 motion-safe:animate-[preloader-in_0.9s_ease-out_both] md:h-28 md:w-28"
+          className="h-36 w-36 motion-safe:animate-[preloader-in_0.9s_ease-out_both] md:h-44 md:w-44"
         />
 
         {/* Wordmark : fondu doux. */}
@@ -92,11 +92,10 @@ export default function Preloader() {
           Élan&nbsp;Patrimoine
         </span>
 
-        {/* Filet doré qui se trace une seule fois. */}
-        <span
-          aria-hidden="true"
-          className="h-px w-16 origin-left scale-x-0 bg-gradient-to-r from-transparent via-gold to-transparent motion-safe:animate-[preloader-line_1.1s_cubic-bezier(0.65,0,0.35,1)_0.2s_forwards] motion-reduce:scale-x-100"
-        />
+        {/* Barre de progression dorée qui défile une fois le wordmark posé. */}
+        <span className="relative h-[3px] w-44 overflow-hidden rounded-full bg-cream/10">
+          <span className="absolute inset-y-0 left-0 w-1/3 rounded-full bg-gold motion-safe:animate-[preloader-bar_1.3s_ease-in-out_infinite] motion-reduce:w-full" />
+        </span>
       </div>
 
       <style jsx>{`
@@ -110,14 +109,12 @@ export default function Preloader() {
             transform: translateY(0);
           }
         }
-        @keyframes preloader-line {
+        @keyframes preloader-bar {
           0% {
-            transform: scaleX(0);
-            opacity: 0;
+            left: -35%;
           }
           100% {
-            transform: scaleX(1);
-            opacity: 1;
+            left: 100%;
           }
         }
       `}</style>

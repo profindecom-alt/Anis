@@ -235,6 +235,13 @@
     background-image: radial-gradient(rgba(28, 27, 24, 0.035) 1px, transparent 1px);
     background-size: 4px 4px;
   }
+
+  /* Ombre portée discrète pour le texte clair posé sur des visuels
+     photographiques (hero) : garantit la lisibilité sur les diapositives
+     claires sans devoir assombrir davantage les images. */
+  .text-shadow-hero {
+    text-shadow: 0 1px 12px rgba(10, 23, 45, 0.45), 0 1px 2px rgba(10, 23, 45, 0.3);
+  }
 }
 
 /* ------------------------------------------------------------------ */

@@ -184,7 +184,7 @@ export default function Chatbot({
 
               {/* Clickable options */}
               {m.role === 'assistant' && m.options && isLast && !loading && (
-                <div className="ml-13 mt-2.5 flex flex-wrap gap-2">
+                <div className="ml-[3.25rem] mt-2.5 flex flex-wrap gap-2">
                   {m.options.map((opt) => (
                     <button
                       key={opt}
