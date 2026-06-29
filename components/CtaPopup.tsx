@@ -158,7 +158,7 @@ export default function CtaPopup({
           </div>
 
           {/* Réassurance */}
-          <p className="mt-6 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-cream/45">
+          <p className="mt-6 flex items-center gap-1.5 whitespace-nowrap text-[10px] font-medium uppercase tracking-wide text-cream/45 sm:gap-2 sm:text-xs sm:tracking-widest">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -167,7 +167,7 @@ export default function CtaPopup({
               strokeLinecap="round"
               strokeLinejoin="round"
               aria-hidden="true"
-              className="h-4 w-4 text-gold"
+              className="h-3.5 w-3.5 shrink-0 text-gold sm:h-4 sm:w-4"
             >
               <path d="M20 6L9 17l-5-5" />
             </svg>
