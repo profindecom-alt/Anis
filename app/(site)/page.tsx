@@ -130,7 +130,7 @@ export default async function HomePage() {
                 pas un produit.
               </h1>
               <p
-                className="mt-7 max-w-lg text-base leading-relaxed text-cream/75 animate-fade-up text-shadow-hero md:mt-8 md:text-xl"
+                className="mt-7 max-w-lg text-sm leading-relaxed text-cream/75 animate-fade-up text-shadow-hero md:mt-8 md:text-xl"
                 style={{ animationDelay: '120ms' }}
               >
                 Cabinet indépendant, nous concevons et pilotons des stratégies
