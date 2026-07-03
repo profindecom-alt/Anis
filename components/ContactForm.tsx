@@ -1,8 +1,17 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { expertises } from '@/lib/site';
 import { validateContact, type ContactErrors } from '@/lib/validation';
+import { trackEvent } from '@/lib/analytics';
+
+// Sujets proposés dans le menu « Votre demande concerne ».
+const sujets = [
+  'Assurance & protection',
+  'Défiscalisation',
+  "Trésorerie d'entreprise",
+  'Plan épargne retraite',
+  'Bilan patrimonial',
+];
 
 type Status = 'idle' | 'submitting' | 'error' | 'success';
 
@@ -60,6 +69,7 @@ export default function ContactForm() {
 
       if (res.ok) {
         setStatus('success');
+        trackEvent('contact_form_submit', { subject: fields.sujet });
         setFields(empty);
         return;
       }
@@ -212,9 +222,9 @@ export default function ContactForm() {
             disabled={busy}
           >
             <option value="">Sélectionnez un sujet…</option>
-            {expertises.map((e) => (
-              <option key={e.slug} value={e.title}>
-                {e.title}
+            {sujets.map((s) => (
+              <option key={s} value={s}>
+                {s}
               </option>
             ))}
             <option value="Prise de rendez-vous">Prise de rendez-vous</option>

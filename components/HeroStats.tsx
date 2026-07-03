@@ -10,43 +10,57 @@ const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 const useIsomorphicLayoutEffect =
   typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
-function countUp(el: HTMLElement, target: number, duration: number) {
-  let start: number | undefined;
-  const frame = (ts: number) => {
-    if (start === undefined) start = ts;
-    const p = Math.min(1, (ts - start) / duration);
-    el.textContent = String(Math.round(easeOutCubic(p) * target));
-    if (p < 1) requestAnimationFrame(frame);
-    else el.textContent = String(target);
-  };
-  requestAnimationFrame(frame);
-}
+const YEARS_TARGET = 8;
+const PCT_TARGET = 100;
 
 export default function HeroStats() {
   const yearsRef = useRef<HTMLSpanElement>(null);
   const pctRef = useRef<HTMLSpanElement>(null);
-  const played = useRef(false);
 
   useIsomorphicLayoutEffect(() => {
-    if (played.current) return;
-    played.current = true;
+    const years = yearsRef.current;
+    const pct = pctRef.current;
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) return;
 
+    // Toutes les frames d'animation en cours, pour pouvoir les annuler au
+    // démontage (React Strict Mode monte/démonte deux fois en développement).
+    const rafIds: number[] = [];
+
+    const countUp = (el: HTMLElement, target: number, duration: number) => {
+      let start: number | undefined;
+      const frame = (ts: number) => {
+        if (start === undefined) start = ts;
+        const p = Math.min(1, (ts - start) / duration);
+        el.textContent = String(Math.round(easeOutCubic(p) * target));
+        if (p < 1) rafIds.push(requestAnimationFrame(frame));
+        else el.textContent = String(target);
+      };
+      rafIds.push(requestAnimationFrame(frame));
+    };
+
     // Avant le premier rendu peint : on remet les compteurs à 0. Sans cela, la
     // valeur finale issue du SSR s'affiche d'abord, puis « recule » vers 0 au
     // démarrage de l'animation — un flash visible, surtout sur appareils lents.
-    if (yearsRef.current) yearsRef.current.textContent = '0';
-    if (pctRef.current) pctRef.current.textContent = '0';
+    if (years) years.textContent = '0';
+    if (pct) pct.textContent = '0';
 
     // Start after hero entrance animations settle (~800 ms)
     const t = setTimeout(() => {
-      if (yearsRef.current) countUp(yearsRef.current, 8, 1100);
-      if (pctRef.current) countUp(pctRef.current, 100, 1500);
+      if (years) countUp(years, YEARS_TARGET, 1100);
+      if (pct) countUp(pct, PCT_TARGET, 1500);
     }, 820);
 
-    return () => clearTimeout(t);
+    return () => {
+      clearTimeout(t);
+      rafIds.forEach(cancelAnimationFrame);
+      // Si le composant est démonté avant la fin de l'animation (double montage
+      // du Strict Mode, ou navigation), on restaure les valeurs finales pour ne
+      // jamais laisser les compteurs bloqués à 0.
+      if (years) years.textContent = String(YEARS_TARGET);
+      if (pct) pct.textContent = String(PCT_TARGET);
+    };
   }, []);
 
   return (

@@ -17,7 +17,7 @@ import ValuesGrid from '@/components/ValuesGrid';
 export const metadata = buildMetadata({
   title: 'Le Cabinet',
   description:
-    "Découvrez Élan Patrimoine : notre histoire, nos valeurs et nos agréments ORIAS et ACPR. Un cabinet de gestion de patrimoine indépendant au service de ses clients.",
+    "Découvrez Élan Patrimoine, cabinet de gestion de patrimoine indépendant à Paris : notre histoire, nos valeurs et nos agréments ORIAS et ACPR.",
   path: '/le-cabinet',
 });
 

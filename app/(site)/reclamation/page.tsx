@@ -57,7 +57,14 @@ export default async function ReclamationPage() {
       </p>
       <ul>
         <li>
-          Par e-mail : <a href={`mailto:${info.email}`}>{info.email}</a>
+          Par e-mail :{' '}
+          <a
+            href={`mailto:${info.email}`}
+            data-analytics-event="email_click"
+            data-analytics-location="reclamation"
+          >
+            {info.email}
+          </a>
         </li>
         <li>
           Par courrier : {info.legalName}, Service Réclamations,{' '}

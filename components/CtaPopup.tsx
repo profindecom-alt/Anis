@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { imageUrl, img } from '@/lib/images';
+import { trackEvent } from '@/lib/analytics';
 
 const STORAGE_KEY = 'elan-cta-popup';
 
@@ -43,7 +44,10 @@ export default function CtaPopup({
     }
     if (dismissed) return;
 
-    const timer = window.setTimeout(() => setOpen(true), delayMs);
+    const timer = window.setTimeout(() => {
+      setOpen(true);
+      trackEvent('cta_popup_view');
+    }, delayMs);
     return () => window.clearTimeout(timer);
   }, [delayMs]);
 
@@ -149,7 +153,12 @@ export default function CtaPopup({
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href={href} onClick={close} className="btn-gold">
+            <Link
+              href={href}
+              data-analytics-event="cta_popup_appointment"
+              onClick={close}
+              className="btn-gold"
+            >
               Prendre rendez-vous
             </Link>
             <button type="button" onClick={close} className="btn-outline-light">

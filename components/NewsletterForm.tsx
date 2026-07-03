@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { isValidEmail } from '@/lib/validation';
+import { trackEvent } from '@/lib/analytics';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -34,6 +35,7 @@ export default function NewsletterForm() {
       });
       if (res.ok) {
         setStatus('success');
+        trackEvent('newsletter_subscribe', { location: 'footer' });
         setMessage('Merci ! Votre inscription est bien enregistrée.');
         setEmail('');
         return;

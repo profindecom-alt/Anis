@@ -1840,16 +1840,3 @@ details[open].faq-item > .faq-answer {
   outline-offset: 2px;
 }
 
-/* Curseur animé (composant AnimatedCursor) : on masque le curseur système
-   uniquement sur pointeur fin et hors animations réduites, lorsque le curseur
-   personnalisé est actif. Les champs de saisie gardent leur curseur natif. */
-@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  body.cursor-active,
-  body.cursor-active a,
-  body.cursor-active button,
-  body.cursor-active [role="button"],
-  body.cursor-active label,
-  body.cursor-active [data-cursor="hover"] {
-    cursor: none;
-  }
-}

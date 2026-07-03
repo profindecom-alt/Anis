@@ -1,6 +1,6 @@
 import Reveal from './Reveal';
 import SectionHeading from './SectionHeading';
-import { faqJsonLd } from '@/lib/seo';
+import { faqJsonLd, jsonLdHtml } from '@/lib/seo';
 
 export type FaqItem = { q: string; a: string };
 
@@ -44,7 +44,7 @@ export default function FaqSection({
     <section className="bg-transparent pt-20 pb-6 md:pt-28 md:pb-8">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(items)) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(faqJsonLd(items)) }}
       />
       <div className="container-content">
         <SectionHeading

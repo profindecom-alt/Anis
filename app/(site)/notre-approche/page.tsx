@@ -13,7 +13,7 @@ import LineDraw from '@/components/LineDraw';
 export const metadata = buildMetadata({
   title: 'Notre Approche',
   description:
-    "Une ligne directrice tenue dans le temps : diagnostic, stratégie, mise en œuvre. Nos engagements et ce qui distingue un cabinet indépendant d'un réseau bancaire.",
+    "Une ligne directrice tenue dans le temps : diagnostic, stratégie, mise en œuvre. Ce qui distingue un cabinet indépendant d'un réseau bancaire.",
   path: '/notre-approche',
 });
 

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { imageUrl } from '@/lib/images';
-import { breadcrumbJsonLd } from '@/lib/seo';
+import { breadcrumbJsonLd, jsonLdHtml } from '@/lib/seo';
 
 interface Crumb {
   label: string;
@@ -31,7 +31,7 @@ export default function PageHero({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(breadcrumbJsonLd(breadcrumbs)),
+            __html: jsonLdHtml(breadcrumbJsonLd(breadcrumbs)),
           }}
         />
       )}

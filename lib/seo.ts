@@ -31,6 +31,13 @@ export function buildMetadata({
   noIndex = false,
 }: PageSeo): Metadata {
   const url = `${site.url}${path === '/' ? '' : path}`;
+
+  // Interrupteur global d'indexation. Tant que SITE_INDEXABLE n'est pas
+  // explicitement « true », TOUTES les pages passent en noindex (phase de
+  // pré-lancement : mentions ORIAS / adresse pas encore finalisées dans Sanity).
+  // Le crawl reste autorisé (robots.txt) pour que Google VOIE la balise noindex.
+  // Jour du lancement : définir SITE_INDEXABLE=true dans l'hébergeur, redéployer.
+  const indexable = process.env.SITE_INDEXABLE === 'true';
   const fullTitle =
     path === '/' ? `${site.name} · ${site.baseline}` : `${title} | ${site.name}`;
 
@@ -51,7 +58,7 @@ export function buildMetadata({
     alternates: {
       canonical: url,
     },
-    robots: noIndex
+    robots: noIndex || !indexable
       ? { index: false, follow: false }
       : { index: true, follow: true },
     openGraph: {
@@ -71,6 +78,28 @@ export function buildMetadata({
       ...(ogUrl ? { images: [ogUrl] } : {}),
     },
   };
+}
+
+/**
+ * Sérialise un objet en chaîne JSON sûre pour un `<script type="application/ld+json">`.
+ * `JSON.stringify` n'échappe pas `<`, `>`, `&` ni les séparateurs de ligne U+2028/2029 :
+ * un champ issu du CMS contenant `</script>` pourrait sinon rompre la balise et injecter
+ * du HTML. On échappe donc ces caractères sous forme d'échappements Unicode (le JSON
+ * reste valide et équivalent). À utiliser avec `dangerouslySetInnerHTML`.
+ */
+export function jsonLdHtml(data: unknown): string {
+  // U+2028 (LINE SEPARATOR) et U+2029 (PARAGRAPH SEPARATOR) sont des sauts de
+  // ligne valides en JS mais problématiques dans un script inline : on les
+  // échappe au même titre que <, > et &. On les référence via fromCharCode
+  // pour garder une source strictement ASCII.
+  const LS = String.fromCharCode(0x2028);
+  const PS = String.fromCharCode(0x2029);
+  return JSON.stringify(data)
+    .split('<').join('\\u003c')
+    .split('>').join('\\u003e')
+    .split('&').join('\\u0026')
+    .split(LS).join('\\u2028')
+    .split(PS).join('\\u2029');
 }
 
 /**

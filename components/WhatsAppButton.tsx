@@ -18,6 +18,8 @@ export default async function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Discuter avec nous sur WhatsApp"
+      data-analytics-event="whatsapp_click"
+      data-analytics-location="floating"
       className="group fixed bottom-6 right-6 z-40 flex items-center gap-3"
     >
       {/* Pastille texte (apparaît au survol, masquée sur mobile) */}

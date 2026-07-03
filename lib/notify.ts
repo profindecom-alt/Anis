@@ -35,26 +35,43 @@ export async function notifyWebhook(
       headerName.toLowerCase() === 'authorization' ? `Bearer ${token}` : token;
   }
 
-  // Garde-fou : on n'attend pas indéfiniment la réponse du webhook.
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10_000);
+  const payloadBody = JSON.stringify(body);
 
-  try {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
-    if (!res.ok) {
-      console.error('[notify] Échec du webhook:', res.status, await res.text());
-      return false;
+  // n8n peut renvoyer des 502/504 transitoires (redémarrage, proxy). Comme la
+  // soumission d'un formulaire ne doit pas se perdre pour un aléa réseau, on
+  // tente une seconde fois sur erreur réseau ou statut 5xx, après un court délai.
+  const MAX_ATTEMPTS = 2;
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    // Garde-fou : on n'attend pas indéfiniment la réponse du webhook.
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10_000);
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers,
+        body: payloadBody,
+        signal: controller.signal,
+      });
+      if (res.ok) return true;
+      // 5xx = souci côté serveur, potentiellement transitoire → on réessaie.
+      const retryable = res.status >= 500;
+      console.error(
+        `[notify] Échec du webhook (tentative ${attempt}/${MAX_ATTEMPTS}):`,
+        res.status,
+        await res.text().catch(() => '')
+      );
+      if (!retryable || attempt === MAX_ATTEMPTS) return false;
+    } catch (err) {
+      console.error(
+        `[notify] Erreur réseau vers le webhook (tentative ${attempt}/${MAX_ATTEMPTS}):`,
+        err
+      );
+      if (attempt === MAX_ATTEMPTS) return false;
+    } finally {
+      clearTimeout(timeout);
     }
-    return true;
-  } catch (err) {
-    console.error('[notify] Erreur réseau vers le webhook:', err);
-    return false;
-  } finally {
-    clearTimeout(timeout);
+    // Petit délai avant nouvelle tentative.
+    await new Promise((r) => setTimeout(r, 500));
   }
+  return false;
 }

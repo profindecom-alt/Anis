@@ -7,25 +7,25 @@ export const site = {
   name: 'Élan Patrimoine',
   shortName: 'Élan Patrimoine',
   legalName: 'Élan Patrimoine SAS',
-  baseline: 'Cabinet patrimonial indépendant',
+  baseline: 'Cabinet de gestion de patrimoine à Paris',
   description:
-    "Élan Patrimoine est un cabinet indépendant de gestion de patrimoine. Stratégie sur mesure, défiscalisation, assurance et protection, accompagnée d'un réseau d'experts.",
+    "Cabinet indépendant de gestion de patrimoine à Paris. Stratégie sur mesure, défiscalisation, assurance-vie et transmission, au service de votre patrimoine.",
   // URL canonique absolue utilisée pour le SEO
-  url: 'https://www.elan-patrimoines.fr',
+  url: 'https://elanpatrimoines.fr',
   locale: 'fr_FR',
-  email: 'contact@elan-patrimoines.fr',
+  email: 'contact@elanpatrimoines.fr',
   phone: '+33 6 68 12 32 66',
   phoneDisplay: '+33 6 68 12 32 66',
   // Numéro WhatsApp au format international, sans "+" ni espaces.
   whatsapp: '33668123266',
   address: {
-    street: '12 avenue des Champs-Élysées',
-    zip: '75008',
+    street: '231 rue Saint-Honoré',
+    zip: '75001',
     city: 'Paris',
     country: 'France',
   },
   // Coordonnées du siège (pour la carte de la page contact)
-  geo: { lat: 48.8698, lng: 2.3076 },
+  geo: { lat: 48.8657, lng: 2.3306 },
   // Mentions réglementaires
   orias: '21 004 567',
   oriasUrl: 'https://www.orias.fr',
@@ -65,7 +65,7 @@ export type ExpertiseSlug =
   | 'gestion-de-patrimoine'
   | 'defiscalisation'
   | 'assurance-protection'
-  | 'reseau-expert';
+  | 'plan-epargne-retraite';
 
 export const expertises: {
   slug: ExpertiseSlug;
@@ -105,12 +105,12 @@ export const expertises: {
       'Prévoyance, couverture des risques et transmission pour protéger vos proches.',
   },
   {
-    slug: 'reseau-expert',
+    slug: 'plan-epargne-retraite',
     pillar: '04',
-    title: "Réseau d'Experts",
-    shortTitle: "Réseau d'Experts",
+    title: 'Plan Épargne Retraite (PER)',
+    shortTitle: 'Plan Épargne Retraite (PER)',
     excerpt:
-      'Notaires, experts-comptables et juristes coordonnés autour de votre stratégie patrimoniale.',
+      'Préparer sa retraite en réduisant les impôts.',
   },
 ];
 

@@ -10,7 +10,7 @@ import {
   getRelatedArticles,
   formatDate,
 } from '@/lib/articles';
-import { buildMetadata, breadcrumbJsonLd } from '@/lib/seo';
+import { buildMetadata, breadcrumbJsonLd, jsonLdHtml } from '@/lib/seo';
 import CTASection from '@/components/CTASection';
 import ArticleCard from '@/components/ArticleCard';
 import PortableBody from '@/components/PortableBody';
@@ -74,12 +74,12 @@ export default async function ArticlePage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(jsonLd) }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
+          __html: jsonLdHtml(
             breadcrumbJsonLd([
               { label: 'Actualités', href: '/actualites' },
               { label: article.title },

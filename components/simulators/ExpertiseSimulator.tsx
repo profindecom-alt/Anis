@@ -14,8 +14,6 @@ interface SimConfig {
 
 /**
  * Simulateur propre à chaque expertise, terminé par une capture de lead.
- * `reseau-expert` est volontairement absent : ce service de coordination ne
- * se prête pas à une estimation chiffrée.
  */
 const simulators: Partial<Record<ExpertiseSlug, SimConfig>> = {
   'gestion-de-patrimoine': {
@@ -38,6 +36,13 @@ const simulators: Partial<Record<ExpertiseSlug, SimConfig>> = {
     intro:
       'Estimez le capital nécessaire pour préserver le niveau de vie de vos proches, puis faites auditer vos garanties actuelles.',
     render: (sujet) => <PrevoyanceSimulator sujet={sujet} />,
+  },
+  'plan-epargne-retraite': {
+    eyebrow: 'Simulateur',
+    title: 'Projetez votre épargne retraite',
+    intro:
+      "Estimez le capital que vous pourriez constituer sur votre PER selon votre effort d'épargne et votre horizon de retraite, puis recevez une stratégie sur mesure.",
+    render: (sujet) => <EpargneSimulator sujet={sujet} />,
   },
 };
 

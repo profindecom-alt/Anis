@@ -125,6 +125,8 @@ export default async function Footer() {
               <li>
                 <a
                   href={`mailto:${info.email}`}
+                  data-analytics-event="email_click"
+                  data-analytics-location="footer"
                   className="flex items-start gap-3 text-cream/70 transition-colors hover:text-cream"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="mt-0.5 shrink-0 text-gold">
@@ -136,6 +138,8 @@ export default async function Footer() {
               <li>
                 <a
                   href={`tel:${info.phone}`}
+                  data-analytics-event="phone_click"
+                  data-analytics-location="footer"
                   className="flex items-center gap-3 text-cream/70 transition-colors hover:text-cream"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="shrink-0 text-gold">

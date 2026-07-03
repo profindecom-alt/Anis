@@ -173,6 +173,35 @@ export const siteSettingsType = defineType({
       group: 'tracking',
       description: 'Identifiant de projet Clarity (ex. abcde12345).',
     }),
+    defineField({
+      name: 'metaPixelId',
+      title: 'Meta (Facebook) Pixel — Identifiant',
+      type: 'string',
+      group: 'tracking',
+      description: 'Identifiant numérique du pixel Meta (ex. 123456789012345).',
+      validation: (rule) =>
+        rule
+          .regex(/^\d+$/, { name: 'Pixel Meta' })
+          .warning('L’identifiant du pixel Meta est un nombre.'),
+    }),
+    defineField({
+      name: 'linkedinPartnerId',
+      title: 'LinkedIn Insight Tag — Partner ID',
+      type: 'string',
+      group: 'tracking',
+      description: 'Identifiant numérique de partenaire LinkedIn (ex. 1234567).',
+      validation: (rule) =>
+        rule
+          .regex(/^\d+$/, { name: 'Partner ID LinkedIn' })
+          .warning('Le Partner ID LinkedIn est un nombre.'),
+    }),
+    defineField({
+      name: 'tiktokPixelId',
+      title: 'TikTok Pixel — Identifiant',
+      type: 'string',
+      group: 'tracking',
+      description: 'Identifiant du pixel TikTok (ex. CABCDE12ABCDE34567890).',
+    }),
 
     /* --- Vérification de propriété (balises <meta>, toujours présentes) */
     defineField({
@@ -182,6 +211,38 @@ export const siteSettingsType = defineType({
       group: 'verification',
       description:
         'Le contenu de la balise meta « google-site-verification » (méthode « balise HTML »). Saisir uniquement le code, pas la balise entière.',
+    }),
+    defineField({
+      name: 'bingVerification',
+      title: 'Bing Webmaster Tools — Code de vérification',
+      type: 'string',
+      group: 'verification',
+      description:
+        'Contenu de la balise « msvalidate.01 ». Saisir uniquement le code, pas la balise entière.',
+    }),
+    defineField({
+      name: 'pinterestVerification',
+      title: 'Pinterest — Code de vérification',
+      type: 'string',
+      group: 'verification',
+      description:
+        'Contenu de la balise « p:domain_verify ». Saisir uniquement le code, pas la balise entière.',
+    }),
+    defineField({
+      name: 'facebookDomainVerification',
+      title: 'Meta (Facebook) — Vérification de domaine',
+      type: 'string',
+      group: 'verification',
+      description:
+        'Contenu de la balise « facebook-domain-verification ». Saisir uniquement le code, pas la balise entière.',
+    }),
+    defineField({
+      name: 'yandexVerification',
+      title: 'Yandex Webmaster — Code de vérification',
+      type: 'string',
+      group: 'verification',
+      description:
+        'Contenu de la balise « yandex-verification ». Saisir uniquement le code, pas la balise entière.',
     }),
     defineField({
       name: 'verificationTags',

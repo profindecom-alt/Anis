@@ -13,7 +13,7 @@ import ApprocheSection from '@/components/ApprocheSection';
 export const metadata = buildMetadata({
   title: 'Nos Expertises',
   description:
-    "Les quatre pôles d'expertise d'Élan Patrimoine : gestion de patrimoine, défiscalisation, assurance & protection et réseau d'experts. Une approche globale et coordonnée.",
+    "Les quatre expertises d'Élan Patrimoine à Paris : gestion de patrimoine, défiscalisation, assurance & protection et plan épargne retraite (PER).",
   path: '/nos-expertises',
 });
 

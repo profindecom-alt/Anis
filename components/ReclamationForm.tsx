@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { validateContact, type ContactErrors } from '@/lib/validation';
+import { trackEvent } from '@/lib/analytics';
 
 type Status = 'idle' | 'submitting' | 'error' | 'success';
 
@@ -59,6 +60,7 @@ export default function ReclamationForm() {
 
       if (res.ok) {
         setStatus('success');
+        trackEvent('reclamation_submit');
         setFields(empty);
         return;
       }

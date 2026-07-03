@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { rateLimit, sweepRateLimit } from '@/lib/rate-limit';
+import { clientIp } from '@/lib/client-ip';
+import { isSameOrigin } from '@/lib/same-origin';
 import { site } from '@/lib/site';
 
 export const runtime = 'nodejs';
@@ -7,12 +9,6 @@ export const runtime = 'nodejs';
 interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
-}
-
-function clientIp(req: Request): string {
-  const fwd = req.headers.get('x-forwarded-for');
-  if (fwd) return fwd.split(',')[0].trim();
-  return req.headers.get('x-real-ip') || 'unknown';
 }
 
 /**
@@ -189,6 +185,12 @@ function demoReply(
 
 export async function POST(req: Request) {
   sweepRateLimit();
+
+  // Garde même origine : empêche un autre site de consommer les crédits n8n /
+  // LLM du chatbot depuis le navigateur d'un visiteur.
+  if (!isSameOrigin(req)) {
+    return NextResponse.json({ reply: 'Origine non autorisée.' }, { status: 403 });
+  }
 
   const ip = clientIp(req);
   const rl = rateLimit(`chat:${ip}`, { limit: 20, windowMs: 60_000 });

@@ -1,7 +1,7 @@
 import Reveal from './Reveal';
 import SectionHeading from './SectionHeading';
 import ExpertisesVideoBg from './ExpertisesVideoBg';
-import { faqJsonLd } from '@/lib/seo';
+import { faqJsonLd, jsonLdHtml } from '@/lib/seo';
 import type { FaqItem } from './FaqSection';
 
 /**
@@ -37,7 +37,7 @@ export default function ExpertiseFaqSection({
     >
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(items)) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(faqJsonLd(items)) }}
       />
       {videoUrl ? (
         /* Vidéo de fond (pilotée Sanity) + voile bleu conservé par-dessus. */

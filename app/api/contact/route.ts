@@ -1,18 +1,19 @@
 import { NextResponse } from 'next/server';
 import { validateContact, type ContactPayload } from '@/lib/validation';
 import { rateLimit, sweepRateLimit } from '@/lib/rate-limit';
+import { clientIp } from '@/lib/client-ip';
+import { isSameOrigin } from '@/lib/same-origin';
 import { notifyWebhook } from '@/lib/notify';
 
 export const runtime = 'nodejs';
 
-function clientIp(req: Request): string {
-  const fwd = req.headers.get('x-forwarded-for');
-  if (fwd) return fwd.split(',')[0].trim();
-  return req.headers.get('x-real-ip') || 'unknown';
-}
-
 export async function POST(req: Request) {
   sweepRateLimit();
+
+  // 0) Garde même origine : bloque l'abus des formulaires depuis un autre site.
+  if (!isSameOrigin(req)) {
+    return NextResponse.json({ ok: false, error: 'Origine non autorisée.' }, { status: 403 });
+  }
 
   // 1) Limitation de débit (anti-abus)
   const ip = clientIp(req);

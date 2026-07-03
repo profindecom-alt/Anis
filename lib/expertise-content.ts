@@ -23,7 +23,7 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
     title: 'Gestion de Patrimoine',
     tagline: 'Faire fructifier et structurer votre patrimoine',
     metaDescription:
-      "Gestion de patrimoine sur mesure : allocation d'actifs, arbitrages et architecture ouverte. Élan Patrimoine construit et pilote votre stratégie d'investissement.",
+      "Gestion de patrimoine à Paris, sur mesure : allocation d'actifs, arbitrages et architecture ouverte. Élan Patrimoine pilote votre stratégie d'investissement.",
     imageId: img.patrimoine,
     intro: [
       "La gestion de patrimoine est le cœur de notre métier. Elle consiste à organiser l'ensemble de vos actifs (financiers, immobiliers et professionnels) au sein d'une stratégie cohérente, alignée sur vos objectifs de vie.",
@@ -101,7 +101,7 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
     title: 'Défiscalisation',
     tagline: 'Optimiser votre fiscalité dans le respect du cadre légal',
     metaDescription:
-      'Défiscalisation personnelle et professionnelle : réduction d\'impôt, optimisation des revenus et du patrimoine, dans le strict respect de la réglementation.',
+      "Défiscalisation personnelle et professionnelle : réduction d'impôt, défiscalisation immobilière et optimisation du patrimoine, dans le respect de la loi.",
     imageId: img.defiscalisation,
     intro: [
       "La défiscalisation ne se résume pas à réduire l'impôt : elle s'inscrit dans une stratégie patrimoniale globale. Un dispositif n'a de valeur que si l'investissement sous-jacent est solide et cohérent avec vos objectifs.",
@@ -179,7 +179,7 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
     title: 'Assurance & Protection',
     tagline: 'Protéger vos proches et sécuriser vos actifs',
     metaDescription:
-      'Assurance et protection : prévoyance, couverture des risques et transmission. Sécurisez vos revenus, votre famille et votre patrimoine avec Élan Patrimoine.',
+      "Assurance et protection : prévoyance, assurance-vie et transmission (succession). Sécurisez vos revenus, votre famille et votre patrimoine avec Élan Patrimoine.",
     imageId: img.assurance,
     intro: [
       "Construire un patrimoine n'a de sens que si l'on protège ce que l'on a bâti. La prévoyance et la protection couvrent les aléas de la vie : incapacité, invalidité, décès, dépendance.",
@@ -251,80 +251,80 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
     ],
   },
 
-  'reseau-expert': {
-    slug: 'reseau-expert',
+  'plan-epargne-retraite': {
+    slug: 'plan-epargne-retraite',
     pillar: '04',
-    title: "Réseau d'Experts",
-    tagline: 'Une expertise pluridisciplinaire coordonnée',
+    title: 'Plan Épargne Retraite (PER)',
+    tagline: 'Préparer sa retraite en réduisant les impôts',
     metaDescription:
-      "Réseau d'experts : notaires, experts-comptables et juristes coordonnés autour de votre stratégie patrimoniale. Un accompagnement global avec Élan Patrimoine.",
+      "Plan Épargne Retraite (PER) : constituez un capital pour votre retraite en déduisant vos versements de votre revenu imposable, avec Élan Patrimoine.",
     imageId: img.reseau,
     intro: [
-      "Une stratégie patrimoniale aboutie mobilise plusieurs disciplines : droit, fiscalité, comptabilité, notariat. Plutôt que de vous laisser coordonner ces interlocuteurs, nous le faisons pour vous.",
-      "Élan Patrimoine s'entoure d'un réseau d'experts sélectionnés et travaille en synergie avec vos conseils habituels, pour une mise en œuvre fluide et sécurisée.",
+      "Le Plan Épargne Retraite (PER) est l'outil de référence pour préparer votre retraite : vous vous constituez un capital ou une rente sur le long terme, tout en allégeant votre fiscalité chaque année.",
+      "Les versements volontaires sont déductibles de votre revenu imposable, dans la limite de vos plafonds. Nous construisons une allocation adaptée à votre horizon et pilotons votre PER jusqu'à la sortie, en capital ou en rente.",
     ],
     services: [
       {
-        title: 'Notaires',
+        title: 'Déduction fiscale',
         description:
-          'Pour sécuriser donations, démembrements, régimes matrimoniaux et transmission.',
+          "Vos versements viennent réduire votre revenu imposable : l'économie d'impôt est d'autant plus forte que votre tranche marginale est élevée.",
       },
       {
-        title: 'Experts-comptables',
+        title: 'Allocation pilotée',
         description:
-          "Pour l'optimisation de la rémunération et la fiscalité de l'entreprise.",
+          'Une gestion adaptée à votre horizon de retraite, sécurisée progressivement à mesure que l\'échéance approche.',
       },
       {
-        title: 'Avocats fiscalistes',
+        title: 'Architecture ouverte',
         description:
-          'Pour les montages complexes et la sécurisation juridique des opérations.',
+          "Une sélection objective des meilleurs supports du marché (fonds euros, unités de compte), sans produit imposé.",
       },
       {
-        title: 'Conseillers en investissement',
+        title: 'Sortie sur mesure',
         description:
-          'Pour la sélection et le suivi des supports financiers les plus pertinents.',
+          'À la retraite, récupérez votre épargne en capital, en rente, ou les deux, selon vos besoins de revenus.',
       },
       {
-        title: 'Spécialistes immobiliers',
+        title: 'Cas de déblocage anticipé',
         description:
-          "Pour l'acquisition, l'arbitrage et la valorisation de votre patrimoine immobilier.",
+          "Achat de la résidence principale, accident de la vie : votre épargne reste accessible dans les cas prévus par la loi.",
       },
       {
-        title: 'Coordination globale',
+        title: 'Optimisation des plafonds',
         description:
-          "Un chef d'orchestre unique qui fait dialoguer tous les intervenants autour de votre projet.",
+          "Calcul et report de vos plafonds de déduction non utilisés, pour maximiser l'avantage fiscal chaque année.",
       },
     ],
     forWhom: [
-      'Patrimoines complexes et pluriels',
-      'Dirigeants et chefs d\'entreprise',
-      'Familles aux enjeux de transmission',
+      'Actifs fortement imposés',
+      'Dirigeants et professions libérales',
+      'Toute personne préparant sa retraite',
     ],
     highlights: [
-      { value: 'Pluridisciplinaire', label: 'droit, fisc, compta' },
-      { value: 'Coordonné', label: 'par un interlocuteur unique' },
-      { value: 'Synergie', label: 'avec vos conseils' },
+      { value: 'Déductible', label: 'de votre revenu imposable' },
+      { value: 'Long terme', label: 'capital ou rente à la retraite' },
+      { value: 'Piloté', label: 'selon votre horizon' },
     ],
     faq: [
       {
-        q: 'Dois-je quitter mes conseils actuels ?',
-        a: "Non. Nous travaillons volontiers avec vos interlocuteurs habituels (notaire, expert-comptable, avocat) pour assurer la cohérence de l'ensemble.",
+        q: 'Quel est l\'avantage fiscal du PER ?',
+        a: "Les versements volontaires sont déductibles de votre revenu imposable, dans la limite de vos plafonds. L'économie d'impôt correspond à votre tranche marginale : plus elle est élevée, plus le gain est important.",
       },
       {
-        q: 'Comment se coordonne le réseau ?',
-        a: 'Vous gardez un interlocuteur unique chez Élan Patrimoine, qui pilote et fait dialoguer les différents experts au service de votre stratégie.',
+        q: 'Mon épargne est-elle bloquée jusqu\'à la retraite ?',
+        a: "En principe, l'épargne est disponible à la retraite. La loi prévoit toutefois des cas de déblocage anticipé, notamment l'achat de la résidence principale et les accidents de la vie.",
       },
       {
-        q: 'Le recours au réseau a-t-il un coût ?',
-        a: "Chaque expert facture ses prestations selon ses propres modalités, en toute transparence. Nous vous présentons les éléments avant tout engagement.",
+        q: 'Comment récupérer mon épargne à la retraite ?',
+        a: "Au moment de la retraite, vous choisissez une sortie en capital, en rente viagère, ou une combinaison des deux, selon vos besoins de revenus.",
       },
       {
-        q: 'Comment sont sélectionnés les experts ?',
-        a: "Sur la base de leur compétence, de leur déontologie et de la qualité de la relation. Nous ne recommandons que des partenaires dont nous connaissons et garantissons le sérieux.",
+        q: 'Combien puis-je verser sur mon PER ?',
+        a: "Le montant déductible dépend de vos revenus et de vos plafonds d'épargne retraite, avec la possibilité de reporter les plafonds non utilisés des années précédentes. Nous les calculons avec vous avant tout versement.",
       },
       {
-        q: 'Le réseau intervient-il partout en France ?',
-        a: "Oui. Notre réseau et nos outils nous permettent de vous accompagner où que vous soyez, en présentiel comme à distance, avec le même niveau d'exigence.",
+        q: 'Le PER est-il adapté à ma situation ?',
+        a: "Il l'est d'autant plus que vous êtes imposé et que votre horizon de retraite est éloigné. Nous validons ensemble sa pertinence au regard de votre fiscalité et de vos objectifs.",
       },
     ],
   },

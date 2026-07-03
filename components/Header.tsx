@@ -203,6 +203,8 @@ export default function Header() {
           )}
           <Link
             href="/contact"
+            data-analytics-event="cta_contact_click"
+            data-analytics-location="header"
             className={`ml-1 rounded-none text-sm ${light ? 'btn-cream' : 'btn-primary'}`}
           >
             Nous contacter
@@ -336,6 +338,8 @@ export default function Header() {
 
           <Link
             href="/contact"
+            data-analytics-event="cta_contact_click"
+            data-analytics-location="mobile-menu"
             className={`btn-primary mt-8 w-full transition-all duration-500 ease-out ${
               mobileOpen ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'
             }`}

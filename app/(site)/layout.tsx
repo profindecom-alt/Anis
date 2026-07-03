@@ -2,14 +2,15 @@ import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ConsentManager from '@/components/ConsentManager';
+import AnalyticsEvents from '@/components/AnalyticsEvents';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import FloatingChatbot from '@/components/FloatingChatbot';
 import CtaPopup from '@/components/CtaPopup';
 import ScrollProgress from '@/components/ScrollProgress';
 import EyebrowAnimator from '@/components/EyebrowAnimator';
 import Preloader from '@/components/Preloader';
-import AnimatedCursor from '@/components/AnimatedCursor';
 import { site } from '@/lib/site';
+import { jsonLdHtml } from '@/lib/seo';
 import { getSiteSettings } from '@/lib/settings';
 import { getSiteInfo } from '@/lib/siteInfo';
 
@@ -21,15 +22,26 @@ import { getSiteInfo } from '@/lib/siteInfo';
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
   if (!settings) return {};
-  const other = Object.fromEntries(
-    (settings.verificationTags ?? [])
+  // Balises de vérification nommées (fournisseurs courants) + balises libres
+  // saisies dans « Autres balises de vérification ».
+  const namedTags: Array<[string, string | undefined]> = [
+    ['msvalidate.01', settings.bingVerification],
+    ['p:domain_verify', settings.pinterestVerification],
+    ['facebook-domain-verification', settings.facebookDomainVerification],
+  ];
+  const other = Object.fromEntries([
+    ...namedTags.filter((t): t is [string, string] => Boolean(t[1])),
+    ...(settings.verificationTags ?? [])
       .filter((t) => t.name && t.content)
-      .map((t) => [t.name, t.content])
-  );
+      .map((t) => [t.name, t.content] as [string, string]),
+  ]);
   return {
     verification: {
       ...(settings.googleSiteVerification
         ? { google: settings.googleSiteVerification }
+        : {}),
+      ...(settings.yandexVerification
+        ? { yandex: settings.yandexVerification }
         : {}),
       ...(Object.keys(other).length > 0 ? { other } : {}),
     },
@@ -51,6 +63,7 @@ export default async function SiteLayout({
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FinancialService',
+    '@id': `${site.url}/#organization`,
     name: info.legalName,
     description: site.description,
     url: site.url,
@@ -63,6 +76,12 @@ export default async function SiteLayout({
       addressLocality: info.address.city,
       addressCountry: 'FR',
     },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: site.geo.lat,
+      longitude: site.geo.lng,
+    },
+    sameAs: Object.values(site.social),
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
@@ -77,7 +96,7 @@ export default async function SiteLayout({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(jsonLd) }}
       />
       <a
         href="#contenu"
@@ -86,7 +105,6 @@ export default async function SiteLayout({
         Aller au contenu
       </a>
       <Preloader />
-      <AnimatedCursor />
       <EyebrowAnimator />
       <ScrollProgress />
       <Header />
@@ -97,6 +115,7 @@ export default async function SiteLayout({
       <WhatsAppButton />
       <FloatingChatbot />
       <CtaPopup />
+      <AnalyticsEvents />
       <ConsentManager
         tracking={
           settings
@@ -105,6 +124,9 @@ export default async function SiteLayout({
                 ga4Id: settings.ga4Id,
                 hotjarId: settings.hotjarId,
                 clarityId: settings.clarityId,
+                metaPixelId: settings.metaPixelId,
+                linkedinPartnerId: settings.linkedinPartnerId,
+                tiktokPixelId: settings.tiktokPixelId,
               }
             : undefined
         }

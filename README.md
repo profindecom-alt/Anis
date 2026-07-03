@@ -1,7 +1,6 @@
 # Élan Patrimoine — Site web
 
-Site vitrine du cabinet de gestion de patrimoine **Élan Patrimoine**, construit
-d'après le cahier des charges `STRUCTURE_SITEWEB_ANIS.md`.
+Site vitrine du cabinet de gestion de patrimoine **Élan Patrimoine**.
 
 ## Stack technique
 
@@ -30,7 +29,7 @@ npm run start    # sert le build de production
 | `/nos-expertises/gestion-de-patrimoine` | Gestion de patrimoine |
 | `/nos-expertises/defiscalisation` | Défiscalisation |
 | `/nos-expertises/assurance-protection` | Assurance & protection |
-| `/nos-expertises/reseau-expert` | Réseau d'experts |
+| `/nos-expertises/plan-epargne-retraite` | Plan Épargne Retraite (PER) |
 | `/notre-approche` | Méthode 3 étapes, engagements, comparatif |
 | `/actualites` | Blog paginé, filtres catégorie + année |
 | `/actualites/[slug]` | Article individuel |

@@ -5,7 +5,7 @@ import { imageUrl } from '@/lib/images';
 import { expertises, type ExpertiseSlug } from '@/lib/site';
 import { expertiseContent } from '@/lib/expertise-content';
 import { getExpertiseFaqVideo } from '@/lib/expertiseFaqVideo';
-import { buildMetadata, serviceJsonLd } from '@/lib/seo';
+import { buildMetadata, serviceJsonLd, jsonLdHtml } from '@/lib/seo';
 import PageHero from '@/components/PageHero';
 import CTASection from '@/components/CTASection';
 import SectionHeading from '@/components/SectionHeading';
@@ -48,14 +48,15 @@ const expertiseIcons: Record<ExpertiseSlug, React.ReactNode> = {
       <path d="M11.5 16 L15 19.5 L21 12.5" />
     </svg>
   ),
-  'reseau-expert': (
+  'plan-epargne-retraite': (
     <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="16" cy="7" r="3" />
-      <circle cx="7" cy="23" r="3" />
-      <circle cx="25" cy="23" r="3" />
-      <path d="M14 9.5 L9 20.5" />
-      <path d="M18 9.5 L23 20.5" />
-      <path d="M10 23 H22" />
+      <path d="M5 27 H27" />
+      <path d="M9 27 V17" />
+      <path d="M15 27 V13" />
+      <path d="M21 27 V16" />
+      <path d="M27 27 V9" />
+      <path d="M8 12 L14 8 L20 11 L27 5" />
+      <path d="M23 5 L27 5 L27 9" />
     </svg>
   ),
 };
@@ -100,7 +101,7 @@ export default async function ExpertiseDetailPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(serviceLd) }}
       />
       <PageHero
         eyebrow={`Pilier ${content.pillar} · Nos expertises`}

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Chatbot from '@/components/Chatbot';
+import { trackEvent } from '@/lib/analytics';
 
 /**
  * Lanceur de chatbot flottant (bas de page, à droite), positionné juste
@@ -27,7 +28,12 @@ export default function FloatingChatbot() {
       {/* Bouton lanceur, juste au-dessus du bouton WhatsApp */}
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() =>
+          setOpen((v) => {
+            if (!v) trackEvent('chatbot_open', { location: 'floating' });
+            return !v;
+          })
+        }
         aria-label={open ? "Fermer l'assistant" : "Discuter avec l'assistant"}
         aria-expanded={open}
         className="group fixed bottom-24 right-6 z-40 flex items-center gap-3"

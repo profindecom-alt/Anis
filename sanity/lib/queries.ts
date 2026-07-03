@@ -154,7 +154,14 @@ export const siteSettingsQuery = groq`
     ga4Id,
     hotjarId,
     clarityId,
+    metaPixelId,
+    linkedinPartnerId,
+    tiktokPixelId,
     googleSiteVerification,
+    bingVerification,
+    pinterestVerification,
+    facebookDomainVerification,
+    yandexVerification,
     verificationTags[]{ _key, name, content }
   }
 `;

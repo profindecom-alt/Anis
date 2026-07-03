@@ -33,14 +33,27 @@ export interface SiteSettings {
   ga4Id?: string;
   hotjarId?: string;
   clarityId?: string;
+  metaPixelId?: string;
+  linkedinPartnerId?: string;
+  tiktokPixelId?: string;
   googleSiteVerification?: string;
+  bingVerification?: string;
+  pinterestVerification?: string;
+  facebookDomainVerification?: string;
+  yandexVerification?: string;
   verificationTags?: Array<{ _key: string; name: string; content: string }>;
 }
 
 /** Identifiants de suivi exposés au composant client (consentement requis). */
 export type TrackingSettings = Pick<
   SiteSettings,
-  'gtmId' | 'ga4Id' | 'hotjarId' | 'clarityId'
+  | 'gtmId'
+  | 'ga4Id'
+  | 'hotjarId'
+  | 'clarityId'
+  | 'metaPixelId'
+  | 'linkedinPartnerId'
+  | 'tiktokPixelId'
 >;
 
 /** Paramètres du site depuis Sanity, ou `null` si non configuré. */

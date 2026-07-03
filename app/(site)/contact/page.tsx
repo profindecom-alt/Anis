@@ -9,7 +9,7 @@ import Reveal from '@/components/Reveal';
 export const metadata = buildMetadata({
   title: 'Contact',
   description:
-    "Contactez Élan Patrimoine pour un premier rendez-vous confidentiel et sans engagement. Échangeons sur vos objectifs patrimoniaux.",
+    "Contactez Élan Patrimoine, cabinet de gestion de patrimoine à Paris (1er), pour un premier rendez-vous confidentiel et sans engagement.",
   path: '/contact',
 });
 
