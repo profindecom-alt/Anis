@@ -26,8 +26,10 @@ export const site = {
   },
   // Coordonnées du siège (pour la carte de la page contact)
   geo: { lat: 48.8657, lng: 2.3306 },
-  // Mentions réglementaires
-  orias: '21 004 567',
+  // Mentions réglementaires. Numéro ORIAS en dur : il ne doit pas pouvoir être
+  // modifié depuis le CMS (mention légale obligatoire, vérifiable sur orias.fr).
+  // Immatriculation ELAN PATRIMOINE, statut COA, SIREN 106 362 254.
+  orias: '26010056',
   oriasUrl: 'https://www.orias.fr',
   acpr: '4 place de Budapest, 75009 Paris',
   rcs: 'RCS Paris 901 234 567',
@@ -43,7 +45,7 @@ export const site = {
  * Agréments & labels réglementaires affichés sur la page d'accueil (rangée
  * fixe, codée en dur — ce ne sont pas des logos partenaires gérés dans Sanity).
  *
- * À CONFIRMER avant mise en ligne : numéro ORIAS, statut AMF/CIF et nom de
+ * ORIAS confirmé. À CONFIRMER avant mise en ligne : statut AMF/CIF et nom de
  * l'association professionnelle dépendent de l'immatriculation réelle du
  * cabinet. Corriger ou retirer toute mention non vérifiée.
  */

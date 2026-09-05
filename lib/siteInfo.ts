@@ -30,7 +30,8 @@ export async function getSiteInfo() {
       city: s?.address?.city || site.address.city,
       country: s?.address?.country || site.address.country,
     },
-    orias: s?.orias || site.orias,
+    // Numéro ORIAS : toujours la valeur du code, non surchargeable depuis Sanity.
+    orias: site.orias,
     oriasUrl: s?.oriasUrl || site.oriasUrl,
     acpr: s?.acpr || site.acpr,
     rcs: s?.rcs || site.rcs,

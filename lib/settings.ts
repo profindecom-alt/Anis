@@ -24,7 +24,7 @@ export interface SiteSettings {
   linkedin?: string;
   instagram?: string;
   facebook?: string;
-  orias?: string;
+  // orias volontairement absent : le numéro est en dur dans lib/site.ts.
   oriasUrl?: string;
   acpr?: string;
   rcs?: string;

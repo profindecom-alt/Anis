@@ -145,7 +145,6 @@ export const siteSettingsQuery = groq`
     linkedin,
     instagram,
     facebook,
-    orias,
     oriasUrl,
     acpr,
     rcs,

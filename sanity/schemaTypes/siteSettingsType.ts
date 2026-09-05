@@ -98,12 +98,6 @@ export const siteSettingsType = defineType({
       group: 'coordonnees',
     }),
     defineField({
-      name: 'orias',
-      title: 'Numéro ORIAS',
-      type: 'string',
-      group: 'coordonnees',
-    }),
-    defineField({
       name: 'oriasUrl',
       title: 'Lien de vérification ORIAS',
       type: 'url',
