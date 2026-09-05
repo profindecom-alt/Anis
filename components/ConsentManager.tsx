@@ -4,37 +4,43 @@ import Link from 'next/link';
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
 import TrackingScripts from '@/components/TrackingScripts';
+import {
+  CONSENT_OPEN_EVENT,
+  clearGoogleCookies,
+  readStoredConsent,
+  storeConsent,
+  updateGoogleConsent,
+  type ConsentValue,
+} from '@/lib/consent';
 import type { TrackingSettings } from '@/lib/settings';
 
-type Consent = 'granted' | 'denied' | null;
-const STORAGE_KEY = 'elan-consent';
+type Consent = ConsentValue | null;
 
 const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 const PLAUSIBLE_SRC =
   process.env.NEXT_PUBLIC_PLAUSIBLE_SRC || 'https://plausible.io/js/script.js';
 
 /**
- * Bandeau de consentement (RGPD/CNIL) + chargement conditionnel de
- * l'analytics respectueuse de la vie privée (Plausible, sans cookie).
- * Le script n'est chargé qu'après consentement explicite ET si un domaine
- * Plausible est configuré (NEXT_PUBLIC_PLAUSIBLE_DOMAIN).
+ * Bandeau de consentement (RGPD/CNIL) + chargement conditionnel des outils de
+ * mesure : Plausible (sans cookie) et les balises Google/marketing pilotées
+ * depuis Sanity ou les variables d'environnement.
+ *
+ * Aucun script n'est chargé avant un « Accepter » explicite, et le refus est
+ * aussi accessible que l'acceptation (exigence CNIL). En cas de retrait du
+ * consentement, l'état Consent Mode repasse en « denied » et les cookies
+ * Google déjà déposés sont supprimés.
  */
 export default function ConsentManager({
   tracking,
 }: {
-  /** Identifiants de suivi (GTM/GA/Hotjar/Clarity) gérés depuis Sanity. */
+  /** Identifiants de suivi (GTM/GA4/Hotjar/Clarity…) résolus côté serveur. */
   tracking?: TrackingSettings;
 }) {
   const [consent, setConsent] = useState<Consent>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY) as Consent;
-      if (stored === 'granted' || stored === 'denied') setConsent(stored);
-    } catch {
-      /* localStorage indisponible */
-    }
+    setConsent(readStoredConsent());
     setReady(true);
   }, []);
 
@@ -42,16 +48,15 @@ export default function ConsentManager({
   // afin de modifier ou retirer un choix déjà exprimé.
   useEffect(() => {
     const reopen = () => setConsent(null);
-    window.addEventListener('elan:open-consent', reopen);
-    return () => window.removeEventListener('elan:open-consent', reopen);
+    window.addEventListener(CONSENT_OPEN_EVENT, reopen);
+    return () => window.removeEventListener(CONSENT_OPEN_EVENT, reopen);
   }, []);
 
-  const choose = (value: Exclude<Consent, null>) => {
-    try {
-      localStorage.setItem(STORAGE_KEY, value);
-    } catch {
-      /* ignore */
-    }
+  const choose = (value: ConsentValue) => {
+    storeConsent(value);
+    updateGoogleConsent(value);
+    // Retrait du consentement : les cookies déjà posés doivent disparaître.
+    if (value === 'denied') clearGoogleCookies();
     setConsent(value);
   };
 
@@ -59,6 +64,19 @@ export default function ConsentManager({
   const plausibleEnabled = consentGranted && Boolean(PLAUSIBLE_DOMAIN);
 
   const showBanner = ready && consent === null;
+
+  // Le texte doit décrire ce qui est réellement déposé : les outils Google et
+  // marketing utilisent des cookies, Plausible seul n'en utilise aucun.
+  const usesCookies = Boolean(
+    tracking &&
+      (tracking.gtmId ||
+        tracking.ga4Id ||
+        tracking.hotjarId ||
+        tracking.clarityId ||
+        tracking.metaPixelId ||
+        tracking.linkedinPartnerId ||
+        tracking.tiktokPixelId)
+  );
 
   return (
     <>
@@ -71,7 +89,7 @@ export default function ConsentManager({
         />
       )}
 
-      {/* Outils de mesure (Sanity) : chargés uniquement après consentement. */}
+      {/* Outils de mesure : chargés uniquement après consentement. */}
       {consentGranted && tracking && <TrackingScripts {...tracking} />}
 
       {showBanner && (
@@ -84,9 +102,9 @@ export default function ConsentManager({
           <div className="container-content">
             <div className="mx-auto flex max-w-3xl flex-col gap-5 rounded-2xl border border-ink/10 bg-white/95 p-6 shadow-elevated backdrop-blur md:flex-row md:items-center md:gap-8">
               <p className="flex-1 text-sm leading-relaxed text-ink/70">
-                Nous utilisons une mesure d'audience respectueuse de votre vie
-                privée (sans cookie publicitaire) pour améliorer notre site. Vous
-                pouvez l'accepter ou la refuser.{' '}
+                {usesCookies
+                  ? "Nous utilisons des cookies de mesure d'audience (Google Analytics) pour comprendre l'usage du site et l'améliorer. Ils ne sont déposés qu'avec votre accord, et vous pouvez le retirer à tout moment."
+                  : "Nous utilisons une mesure d'audience respectueuse de votre vie privée (sans cookie publicitaire) pour améliorer notre site. Vous pouvez l'accepter ou la refuser."}{' '}
                 <Link
                   href="/politique-de-confidentialite"
                   className="font-medium text-forest underline decoration-gold/50 underline-offset-2 hover:decoration-gold"

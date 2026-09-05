@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
-import { trackEvent, type EventParams } from '@/lib/analytics';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef } from 'react';
+import { trackEvent, trackPageView, type EventParams } from '@/lib/analytics';
 
 /**
- * Écouteur global des clics « conversion » déclarés directement en HTML.
+ * Écouteur global des clics « conversion » déclarés directement en HTML, et
+ * émetteur des vues de page pour les navigations internes.
  *
  * Tout élément portant `data-analytics-event="nom"` (y compris les liens rendus
  * côté serveur : WhatsApp, tel:, mailto:) émet l'événement correspondant vers
@@ -41,5 +43,32 @@ export default function AnalyticsEvents() {
       document.removeEventListener('click', onClick, { capture: true });
   }, []);
 
+  useRouteChangePageViews();
+
   return null;
+}
+
+/**
+ * Vues de page des navigations internes (App Router).
+ *
+ * La première page est comptée par GTM/GA4 au chargement ; ensuite Next.js
+ * navigue sans recharger, donc plus aucune vue ne partirait. On émet ici un
+ * `virtual_page_view` dans le dataLayer à chaque changement d'URL.
+ *
+ * `usePathname` suffit : la query string est relue depuis `window.location`,
+ * ce qui évite `useSearchParams` (qui imposerait une frontière <Suspense> et
+ * basculerait les pages en rendu dynamique).
+ */
+function useRouteChangePageViews() {
+  const pathname = usePathname();
+  // La vue initiale est déjà envoyée par la balise GA4 : ne pas la doubler.
+  const first = useRef(true);
+
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    trackPageView(`${pathname}${window.location.search}`);
+  }, [pathname]);
 }

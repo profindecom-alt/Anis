@@ -131,7 +131,9 @@ export const siteSettingsType = defineType({
       title: 'Google Tag Manager — Identifiant',
       type: 'string',
       group: 'tracking',
-      description: 'Format : GTM-XXXXXXX. Laisser vide pour ne pas charger GTM.',
+      description:
+        'Format : GTM-XXXXXXX. Méthode recommandée : la balise GA4 se configure ' +
+        "ensuite DANS le conteneur GTM. Laisser vide pour ne pas charger GTM.",
       validation: (rule) =>
         rule
           .regex(/^GTM-[A-Z0-9]+$/i, { name: 'identifiant GTM' })
@@ -143,7 +145,9 @@ export const siteSettingsType = defineType({
       type: 'string',
       group: 'tracking',
       description:
-        'Format : G-XXXXXXXXXX. Inutile si vous passez déjà par Google Tag Manager.',
+        "Format : G-XXXXXXXXXX. À renseigner UNIQUEMENT si vous n'utilisez PAS " +
+        "Google Tag Manager : si un identifiant GTM est présent, celui-ci est ignoré " +
+        'pour éviter de compter chaque page deux fois.',
       validation: (rule) =>
         rule
           .regex(/^G-[A-Z0-9]+$/i, { name: 'identifiant GA4' })

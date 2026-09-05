@@ -11,7 +11,7 @@ import EyebrowAnimator from '@/components/EyebrowAnimator';
 import Preloader from '@/components/Preloader';
 import { site } from '@/lib/site';
 import { jsonLdHtml } from '@/lib/seo';
-import { getSiteSettings } from '@/lib/settings';
+import { getSiteSettings, resolveTracking } from '@/lib/settings';
 import { getSiteInfo } from '@/lib/siteInfo';
 
 /**
@@ -116,21 +116,7 @@ export default async function SiteLayout({
       <FloatingChatbot />
       <CtaPopup />
       <AnalyticsEvents />
-      <ConsentManager
-        tracking={
-          settings
-            ? {
-                gtmId: settings.gtmId,
-                ga4Id: settings.ga4Id,
-                hotjarId: settings.hotjarId,
-                clarityId: settings.clarityId,
-                metaPixelId: settings.metaPixelId,
-                linkedinPartnerId: settings.linkedinPartnerId,
-                tiktokPixelId: settings.tiktokPixelId,
-              }
-            : undefined
-        }
-      />
+      <ConsentManager tracking={resolveTracking(settings)} />
     </>
   );
 }

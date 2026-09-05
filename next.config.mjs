@@ -14,6 +14,11 @@ const analytics = {
   script: [
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',
+    // Mode Aperçu de GTM (Tag Assistant) et conversions Google Ads.
+    'https://tagmanager.google.com',
+    'https://tagassistant.google.com',
+    'https://www.googleadservices.com',
+    'https://googleads.g.doubleclick.net',
     'https://static.hotjar.com',
     'https://script.hotjar.com',
     'https://www.clarity.ms',
@@ -27,6 +32,12 @@ const analytics = {
     'https://www.google-analytics.com',
     'https://*.google-analytics.com',
     'https://*.analytics.google.com',
+    // Débogage GTM, remontée des conversions Ads et « ping » de consentement.
+    'https://tagmanager.google.com',
+    'https://tagassistant.google.com',
+    'https://*.g.doubleclick.net',
+    'https://www.google.com',
+    'https://www.google.fr',
     'https://*.hotjar.com',
     'https://*.hotjar.io',
     'wss://*.hotjar.com',
@@ -39,13 +50,25 @@ const analytics = {
   img: [
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',
+    // Pixels de conversion Google Ads et ressources du mode Aperçu GTM.
+    'https://tagmanager.google.com',
+    'https://*.g.doubleclick.net',
+    'https://www.google.com',
+    'https://www.google.fr',
+    'https://ssl.gstatic.com',
+    'https://www.gstatic.com',
     'https://*.hotjar.com',
     'https://*.clarity.ms',
     'https://www.facebook.com',
     'https://px.ads.linkedin.com',
     'https://analytics.tiktok.com',
   ],
-  frame: ['https://*.hotjar.com'],
+  frame: [
+    'https://*.hotjar.com',
+    // Mode Aperçu de GTM : la fenêtre de débogage s'affiche en iframe.
+    'https://tagassistant.google.com',
+    'https://td.doubleclick.net',
+  ],
   font: ['https://*.hotjar.com'],
 };
 

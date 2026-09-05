@@ -23,7 +23,8 @@ export default function TrackingScripts({
 }: TrackingSettings) {
   return (
     <>
-      {/* Google Tag Manager */}
+      {/* Google Tag Manager : le conteneur charge ensuite GA4, Google Ads, etc.
+          `dataLayer` et l'état Consent Mode sont déjà initialisés (lib/consent). */}
       {gtmId && (
         <Script id="gtm" strategy="afterInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -34,8 +35,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </Script>
       )}
 
-      {/* Google Analytics 4 (gtag.js) */}
-      {ga4Id && (
+      {/* Google Analytics 4 en direct (gtag.js), pour un site SANS GTM.
+          Avec GTM, la balise GA4 se configure DANS le conteneur : charger
+          gtag.js en plus compterait chaque page deux fois.
+          `__elanGa4Direct` signale à lib/analytics.ts que gtag.js est bien
+          chargé (window.gtag existe toujours, installé par le Consent Mode). */}
+      {ga4Id && !gtmId && (
         <>
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}
@@ -43,7 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           />
           <Script id="ga4" strategy="afterInteractive">
             {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','${ga4Id}');`}
+window.__elanGa4Direct=true;gtag('js',new Date());
+gtag('config','${ga4Id}',{send_page_view:true});`}
           </Script>
         </>
       )}

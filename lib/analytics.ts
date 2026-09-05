@@ -13,6 +13,12 @@ declare global {
   interface Window {
     dataLayer?: Record<string, unknown>[];
     gtag?: (...args: unknown[]) => void;
+    /**
+     * Vrai uniquement si gtag.js a été chargé EN DIRECT (GA4 sans GTM).
+     * `window.gtag` existe toujours (installé par le Consent Mode), il ne peut
+     * donc pas servir à détecter la présence réelle de GA4.
+     */
+    __elanGa4Direct?: boolean;
   }
 }
 
@@ -33,7 +39,29 @@ export function trackEvent(event: string, params: EventParams = {}): void {
   );
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event, ...clean });
-  if (typeof window.gtag === 'function') {
+  if (window.__elanGa4Direct && typeof window.gtag === 'function') {
     window.gtag('event', event, clean);
+  }
+}
+
+/**
+ * Vue de page « virtuelle », émise à chaque navigation interne (App Router :
+ * pas de rechargement, donc pas de page_view automatique après la première).
+ *
+ * Côté GTM : créer une balise GA4 « page_view » déclenchée sur l'événement
+ * personnalisé `virtual_page_view` (et NON sur « Historique modifié », qui
+ * ferait doublon). Voir docs/ANALYTICS.md.
+ */
+export function trackPageView(path: string): void {
+  if (typeof window === 'undefined') return;
+  const params = {
+    page_path: path,
+    page_location: window.location.href,
+    page_title: document.title,
+  };
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: 'virtual_page_view', ...params });
+  if (window.__elanGa4Direct && typeof window.gtag === 'function') {
+    window.gtag('event', 'page_view', params);
   }
 }

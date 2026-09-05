@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Cormorant_Garamond, Inter, Dancing_Script } from 'next/font/google';
 import './globals.css';
+import { consentDefaultScript } from '@/lib/consent';
 import { site } from '@/lib/site';
 
 const serif = Cormorant_Garamond({
@@ -72,6 +73,11 @@ export default function RootLayout({
     // des attributs sur <html>/<body> avant l'hydratation (ex. data-atm-ext-installed).
     <html lang="fr" className={`${serif.variable} ${sans.variable} ${script.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="flex min-h-screen flex-col bg-cream" suppressHydrationWarning>
+        {/* Consent Mode v2 : état de consentement déclaré à Google AVANT
+            toute balise. Balise <script> brute (et non next/script) : elle doit
+            être présente dans le HTML initial et s'exécuter au parsing, avant
+            l'hydratation et donc avant le chargement de GTM/GA4. */}
+        <script dangerouslySetInnerHTML={{ __html: consentDefaultScript }} />
         {children}
       </body>
     </html>

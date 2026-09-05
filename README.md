@@ -96,6 +96,9 @@ tourne en mode développement (soumissions journalisées, analytics désactivée
 | `N8N_CHAT_WEBHOOK_URL` | Webhook n8n du chatbot (réponse synchrone requise) |
 | `N8N_CHAT_WEBHOOK_TOKEN` / `_HEADER` | Auth du chatbot (reprend celle ci-dessus si absente) |
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Active l'analytics (sinon désactivée) |
+| `NEXT_PUBLIC_GTM_ID` | Conteneur Google Tag Manager (repli si absent de Sanity) |
+| `NEXT_PUBLIC_GA4_ID` | Mesure GA4 en direct — pour un site SANS GTM |
+| `SITE_INDEXABLE` | `true` le jour du lancement : sinon tout le site est en `noindex` |
 
 ### Charge utile envoyée à n8n
 
@@ -136,3 +139,11 @@ Chaque page expose : `canonical`, `meta description`, Open Graph, Twitter Card
 `sitemap.xml`, `robots.txt`, un `manifest.webmanifest`, une carte de partage de
 marque générée (`opengraph-image` / `twitter-image`) et des données structurées
 JSON-LD (`FinancialService`, `Article`, `BreadcrumbList`).
+
+## Mesure d'audience (GTM / GA4)
+
+Google Tag Manager, Google Analytics 4, Consent Mode v2 et les événements de
+conversion sont déjà câblés : il ne reste qu'à saisir les identifiants et à
+configurer le conteneur. Marche à suivre complète : [`docs/ANALYTICS.md`](docs/ANALYTICS.md).
+
+Aucun script de mesure n'est chargé avant un consentement explicite.

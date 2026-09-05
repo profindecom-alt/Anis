@@ -1,5 +1,7 @@
 'use client';
 
+import { CONSENT_OPEN_EVENT } from '@/lib/consent';
+
 /**
  * Lien « Gérer les cookies ».
  * Rouvre le bandeau de consentement pour permettre de modifier ou de retirer
@@ -15,7 +17,7 @@ export default function CookiePreferencesButton({
   return (
     <button
       type="button"
-      onClick={() => window.dispatchEvent(new Event('elan:open-consent'))}
+      onClick={() => window.dispatchEvent(new Event(CONSENT_OPEN_EVENT))}
       className={className}
     >
       Gérer les cookies
