@@ -162,7 +162,7 @@ mesure, `ad_storage` pour la publicité).
   remontera rien d'utile avant.
 - **Search Console** : lier la propriété GA4 (_Administration ▸ Liens vers les
   produits ▸ Search Console_) pour croiser requêtes et audience. La vérification
-  de propriété est assurée par `public/googlecb85b3e27d0f55a2.html`.
+  de propriété est assurée par `public/googlebe87d22670b8c1ed.html`.
 - **Politique de confidentialité** : la page `/politique-de-confidentialite`
   doit mentionner Google Analytics, la finalité, la durée de conservation
   (14 mois) et le moyen de retirer son consentement (« Gérer les cookies », en
