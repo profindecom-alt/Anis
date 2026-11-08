@@ -2,14 +2,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { imageUrl, img } from '@/lib/images';
 import { site } from '@/lib/site';
-import { buildMetadata } from '@/lib/seo';
+import { buildMetadata, jsonLdHtml, websiteJsonLd } from '@/lib/seo';
 import CTASection from '@/components/CTASection';
 import Reveal from '@/components/Reveal';
 import HeroSlideshow, { type HeroImage } from '@/components/HeroSlideshow';
 import HeroVideo from '@/components/HeroVideo';
 import { getHeroSettings } from '@/lib/hero';
 import { urlForImage } from '@/sanity/lib/image';
-import Testimonials from '@/components/Testimonials';
 import Parallax from '@/components/Parallax';
 import ExpertisesSection from '@/components/ExpertisesSection';
 import ConvictionSection from '@/components/ConvictionSection';
@@ -22,8 +21,7 @@ import BrandSignatureSection from '@/components/BrandSignatureSection';
 import { getHomeVideo } from '@/lib/homeVideo';
 import { getHomeExpertisesVideo } from '@/lib/homeExpertisesVideo';
 import { getHomeApprocheVideo } from '@/lib/homeApprocheVideo';
-import { getClientLogos, defaultPartnerLogos } from '@/lib/clientLogos';
-import HeroStats from '@/components/HeroStats';
+import { getClientLogos, publishableLogos } from '@/lib/clientLogos';
 import SeamLine from '@/components/SeamLine';
 
 export const metadata = buildMetadata({
@@ -58,12 +56,12 @@ export default async function HomePage() {
     getClientLogos(),
   ]);
 
-  // Logos partenaires : ceux de Sanity s'ils sont activés et renseignés,
-  // sinon repli sur les placeholders pour que le bandeau reste visible.
-  const partnerLogos =
-    clientLogos?.enabled && clientLogos.logos?.length
-      ? clientLogos.logos
-      : defaultPartnerLogos;
+  // N'afficher que des partenaires explicitement validés dans Sanity (case
+  // « Relation vérifiée et usage du logo autorisé »). Les marques de
+  // démonstration ne doivent jamais constituer une preuve sociale.
+  const partnerLogos = clientLogos?.enabled
+    ? publishableLogos(clientLogos.logos)
+    : [];
 
   // Choix du média de fond du héro, piloté depuis Sanity.
   const sanityImages: HeroImage[] =
@@ -75,8 +73,8 @@ export default async function HomePage() {
       .filter((image) => image.src) ?? [];
 
   const heroBackground =
-    hero?.mediaType === 'video' && hero.videoUrl ? (
-      <HeroVideo src={hero.videoUrl} poster={hero.posterUrl ?? undefined} />
+    hero?.mediaType === 'video' && hero.videoUrl && hero.posterUrl ? (
+      <HeroVideo src={hero.videoUrl} poster={hero.posterUrl} />
     ) : (
       <HeroSlideshow
         images={sanityImages.length > 0 ? sanityImages : defaultHeroImages}
@@ -85,6 +83,12 @@ export default async function HomePage() {
 
   return (
     <>
+      {/* Nom du site préféré pour Google (WebSite, accueil uniquement). */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(websiteJsonLd()) }}
+      />
+
       {/* 01 · HERO ---------------------------------------------------- */}
       <section className="relative flex min-h-[100svh] flex-col overflow-hidden">
         {heroBackground}
@@ -98,11 +102,14 @@ export default async function HomePage() {
         <div className="relative z-10 flex flex-1 items-end">
           <div className="container-content pb-16 pt-32 md:pb-20">
             <div className="max-w-3xl">
-              <span className="mb-5 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.25em] text-gold animate-fade-up text-shadow-hero sm:text-xs">
-                <span className="h-px w-8 bg-gold" aria-hidden="true" />
-                Cabinet de gestion de patrimoine à Paris
-              </span>
+              {/* Le H1 porte à la fois le métier (surtitre) et la promesse :
+                  rendu visuel inchangé, mais le mot-clé est dans le titre. */}
               <h1 className="text-balance font-serif text-[2.5rem] font-bold leading-[1.05] text-cream animate-fade-up text-shadow-hero sm:text-[3.25rem] sm:font-medium md:text-[3.75rem] lg:text-[4.25rem]">
+                <span className="mb-5 flex items-center gap-3 font-sans text-[11px] font-medium uppercase leading-normal tracking-[0.25em] text-gold sm:text-xs">
+                  <span className="h-px w-8 bg-gold" aria-hidden="true" />
+                  Cabinet de gestion de patrimoine à Paris
+                  <span className="sr-only"> : </span>
+                </span>
                 Votre patrimoine mérite une{' '}
                 <span className="whitespace-nowrap">
                   <span className="relative inline-block">
@@ -135,7 +142,7 @@ export default async function HomePage() {
               >
                 Cabinet indépendant, nous concevons et pilotons des stratégies
                 patrimoniales sur mesure (gestion, fiscalité, protection et
-                transmission) au seul service de vos intérêts.
+                transmission), adaptées à vos objectifs et à votre situation.
               </p>
               <div
                 className="mt-8 flex flex-col gap-3 animate-fade-up sm:flex-row sm:items-center sm:gap-4 md:mt-10"
@@ -188,15 +195,6 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* Bandeau bas : stats animées */}
-        <div
-          className="relative z-20 animate-fade-in"
-          style={{ animationDelay: '480ms' }}
-        >
-          <div className="container-content">
-            <HeroStats />
-          </div>
-        </div>
       </section>
 
       {/* 02 · INTRO CABINET ------------------------------------------ */}
@@ -233,13 +231,13 @@ export default async function HomePage() {
               Fondé sur une conviction simple (l'indépendance comme condition du
               bon conseil), Élan Patrimoine accompagne particuliers, dirigeants et
               familles dans la construction, la protection et la transmission de
-              leur patrimoine. Nous ne vendons pas de produits : nous bâtissons
-              des stratégies.
+              leur patrimoine. Nous partons de vos objectifs pour bâtir une
+              stratégie, puis sélectionner les solutions adaptées.
             </p>
 
             {/* Petits repères de réassurance, façon « signature » du cabinet. */}
             <ul className="mt-8 flex flex-col gap-x-8 gap-y-3 text-sm font-medium text-forest sm:flex-row sm:flex-wrap">
-              {['Indépendance totale', 'Conseil sur mesure', 'Engagement durable'].map(
+              {['Structure indépendante', 'Conseil sur mesure', 'Suivi dans la durée'].map(
                 (item) => (
                   <li key={item} className="flex items-center gap-2.5">
                     <svg
@@ -283,7 +281,7 @@ export default async function HomePage() {
                 <Parallax className="absolute inset-0" speed={0.1}>
                   <Image
                     src={imageUrl(img.cabinet, 800, 78)}
-                    alt="Conseillers en gestion de patrimoine en rendez-vous client"
+                    alt="Échange autour d'une stratégie patrimoniale"
                     fill
                     sizes="(max-width: 1024px) 100vw, 40vw"
                     className="object-cover"
@@ -335,9 +333,6 @@ export default async function HomePage() {
         posterUrl={expertisesVideo?.posterUrl}
       />
 
-      {/* 03·bis · TÉMOIGNAGES (preuve sociale, juste après nos services) - */}
-      <Testimonials />
-
       {/* 03c · BANDEAU VIDÉO (ambiance, piloté Sanity) — masqué tant
           qu'aucune vidéo n'est activée dans le Studio. -------------- */}
       {homeVideo?.enabled && homeVideo.videoUrl && (
@@ -351,12 +346,11 @@ export default async function HomePage() {
         />
       )}
 
-      {/* CHIFFRES · bandeau « Filets », fond or crème, prolongé par le
-          bandeau partenaires « Ils nous font confiance » (même section,
-          fond partagé). Logos pilotés Sanity, avec repli placeholder. -- */}
+      {/* CHIFFRES · bandeau « Filets », prolongé uniquement par les
+          partenaires explicitement validés et activés dans Sanity. -- */}
       <ChiffresSection
         variant="cream"
-        partnersEyebrow={clientLogos?.eyebrow}
+        partnersEyebrow={partnerLogos.length > 0 ? clientLogos?.eyebrow : undefined}
         partnerLogos={partnerLogos}
       />
 

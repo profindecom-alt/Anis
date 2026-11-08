@@ -7,6 +7,29 @@ import {
 import type { PortableTextBlock } from '@portabletext/types';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { urlForImage } from '@/sanity/lib/image';
+import { site } from '@/lib/site';
+
+const SITE_HOSTS = new Set([
+  new URL(site.url).host,
+  `www.${new URL(site.url).host}`,
+]);
+
+/**
+ * Renvoie le chemin interne d'un lien s'il pointe vers le site (« /… » ou
+ * « https://elanpatrimoines.fr/… »), sinon null.
+ */
+function toInternalPath(href: string): string | null {
+  if (href.startsWith('/') && !href.startsWith('//')) return href;
+  try {
+    const url = new URL(href);
+    if ((url.protocol === 'https:' || url.protocol === 'http:') && SITE_HOSTS.has(url.host)) {
+      return `${url.pathname}${url.search}${url.hash}`;
+    }
+  } catch {
+    /* href non absolu ou invalide */
+  }
+  return null;
+}
 
 /**
  * Rendu du corps d'un article (Portable Text) avec la mise en forme
@@ -44,16 +67,19 @@ const components: PortableTextComponents = {
   },
   marks: {
     link: ({ value, children }) => {
-      const href = (value as { href?: string } | undefined)?.href ?? '#';
-      const external = /^https?:\/\//.test(href);
-      if (external) {
+      const raw = (value as { href?: string } | undefined)?.href ?? '#';
+      const href = toInternalPath(raw);
+      // Lien vers le site lui-même (chemin relatif ou URL absolue du domaine) :
+      // lien interne Next, même onglet. Autres URL http(s) : nouvel onglet.
+      if (href) return <Link href={href}>{children}</Link>;
+      if (/^https?:\/\//.test(raw)) {
         return (
-          <a href={href} target="_blank" rel="noopener noreferrer">
+          <a href={raw} target="_blank" rel="noopener noreferrer">
             {children}
           </a>
         );
       }
-      return <Link href={href}>{children}</Link>;
+      return <a href={raw}>{children}</a>;
     },
   },
 };

@@ -6,10 +6,9 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      // Back-office Sanity : hors index.
-      disallow: ['/studio'],
+      // Back-office Sanity et endpoints techniques : hors exploration.
+      disallow: ['/studio', '/api/'],
     },
     sitemap: `${site.url}/sitemap.xml`,
-    host: site.url,
   };
 }

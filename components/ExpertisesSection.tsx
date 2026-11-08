@@ -6,7 +6,7 @@ import ExpertisesVideoBg from './ExpertisesVideoBg';
 /**
  * Section « Nos expertises » (design handoff « Élan »).
  * Fond navy texturé (halo or + courbes ascendantes rappelant la flèche du
- * logo), trois cartes « Pilier » avec badge-icône doré. Les styles vivent
+ * logo), quatre cartes « Pilier » avec badge-icône doré. Les styles vivent
  * dans globals.css (.expertises / .pillar) ; le fond utilise
  * /elan-texture.svg. Polices mappées sur celles du projet (Cormorant + Inter).
  */
@@ -33,6 +33,16 @@ const pillarIcons = [
     <path d="M16 4 L26 7.5 V16 C26 22 21.5 25.5 16 28 C10.5 25.5 6 22 6 16 V7.5 Z" />
     <path d="M11.5 16 L15 19.5 L21 12.5" />
   </svg>,
+  // 04 épargne retraite (même tracé que sur la page expertise PER).
+  <svg key="retirement" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M5 27 H27" />
+    <path d="M9 27 V17" />
+    <path d="M15 27 V13" />
+    <path d="M21 27 V16" />
+    <path d="M27 27 V9" />
+    <path d="M8 12 L14 8 L20 11 L27 5" />
+    <path d="M23 5 L27 5 L27 9" />
+  </svg>,
 ];
 
 export default function ExpertisesSection({
@@ -42,7 +52,8 @@ export default function ExpertisesSection({
   videoUrl?: string | null;
   posterUrl?: string | null;
 } = {}) {
-  const items = expertises.slice(0, 3);
+  // Les quatre expertises, PER compris (le site en annonce quatre partout).
+  const items = expertises;
 
   return (
     <section className={`expertises${videoUrl ? ' expertises--video' : ''}`}>
@@ -68,7 +79,7 @@ export default function ExpertisesSection({
           <Reveal>
             <p className="expertises__eyebrow">Nos expertises</p>
             <h2 className="expertises__title">
-              Trois piliers, une vision d&apos;ensemble
+              Quatre expertises, une vision d&apos;ensemble
             </h2>
             <p className="expertises__lede">
               Chaque expertise se déploie au sein d&apos;une stratégie globale et
@@ -84,8 +95,8 @@ export default function ExpertisesSection({
 
         <div className="expertises__grid">
           {items.map((e, i) => (
-            <Reveal key={e.slug} delay={i * 110}>
-              <article className="pillar">
+            <Reveal key={e.slug} delay={i * 110} className="h-full">
+              <article className="pillar h-full">
                 <span className="pillar__icon" aria-hidden="true">
                   {pillarIcons[i]}
                 </span>
@@ -99,6 +110,7 @@ export default function ExpertisesSection({
                 </p>
                 <Link className="pillar__more" href={`/nos-expertises/${e.slug}`}>
                   En savoir plus
+                  <span className="sr-only"> : {e.title}</span>
                   <svg width="18" height="10" viewBox="0 0 18 10" fill="none" aria-hidden="true">
                     <path d="M1 5h15M12 1l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>

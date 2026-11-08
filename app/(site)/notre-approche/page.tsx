@@ -11,7 +11,7 @@ import Reveal from '@/components/Reveal';
 import LineDraw from '@/components/LineDraw';
 
 export const metadata = buildMetadata({
-  title: 'Notre Approche',
+  title: 'Notre méthode de conseil patrimonial',
   description:
     "Une ligne directrice tenue dans le temps : diagnostic, stratégie, mise en œuvre. Ce qui distingue un cabinet indépendant d'un réseau bancaire.",
   path: '/notre-approche',
@@ -19,8 +19,8 @@ export const metadata = buildMetadata({
 
 const engagements = [
   {
-    title: 'Indépendance totale',
-    text: "Aucun produit maison, aucune appartenance à un groupe bancaire. Nos recommandations ne servent que votre intérêt.",
+    title: 'Structure indépendante',
+    text: "Aucun produit maison ni appartenance à un groupe bancaire. Chaque recommandation explicite les solutions comparées, leurs risques et leurs frais.",
   },
   {
     title: 'Transparence des frais',
@@ -31,8 +31,8 @@ const engagements = [
     text: "Un point d'étape régulier pour adapter votre stratégie à votre vie et à la conjoncture.",
   },
   {
-    title: 'Confidentialité absolue',
-    text: 'Vos informations restent strictement protégées, dans le respect du secret professionnel.',
+    title: 'Protection des informations',
+    text: 'Vos informations sont traitées de manière confidentielle et protégées conformément à nos obligations et à notre politique de confidentialité.',
   },
 ];
 
@@ -41,7 +41,7 @@ export default function NotreApprochePage() {
     <>
       <PageHero
         eyebrow="Notre approche"
-        title="Une ligne directrice, tenue dans le temps"
+        title="Une méthode de conseil patrimonial, tenue dans le temps"
         intro="Du premier diagnostic à la mise en œuvre, votre patrimoine suit un fil conducteur unique : une méthode lisible, des arbitrages motivés, un cap qui ne dévie pas au gré des marchés."
         breadcrumbs={[{ label: 'Notre Approche' }]}
         imageId={img.approche}
@@ -105,7 +105,7 @@ export default function NotreApprochePage() {
       >
         <div className="container-content relative z-10">
           <SectionHeading
-            eyebrow="Le Modèle Indépendant"
+            eyebrow="Choisir son accompagnement"
             light
             title={
               <>
@@ -113,7 +113,7 @@ export default function NotreApprochePage() {
                 la durée.
               </>
             }
-            intro="Six critères concrets qui distinguent notre accompagnement d'une gestion bancaire classique."
+            intro="Cinq critères concrets pour comprendre notre accompagnement et comparer toute proposition patrimoniale."
             className="mb-12 md:mb-24"
           />
 

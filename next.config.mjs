@@ -152,17 +152,52 @@ const securityHeaders = [
 
 const studioHeaders = [
   { key: 'Content-Security-Policy', value: StudioCSP },
+  { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
   ...baseSecurityHeaders,
 ];
 
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Métadonnées complètes dans le <head> pour TOUS les robots, Googlebot
+  // compris. Sans cela, Next.js (>= 15.2) diffuse les métadonnées des pages
+  // dynamiques dans le <body> : Google ignore alors le rel=canonical, qu'il
+  // n'accepte que dans le <head>.
+  htmlLimitedBots: /.*/,
   images: {
     // Sert les images locales en AVIF/WebP optimisés.
     formats: ['image/avif', 'image/webp'],
+    // Qualités autorisées (75 = défaut de next/image, 65 = poster du héro).
+    qualities: [65, 75],
+    // Les variantes optimisées sont immuables : 30 jours de cache au lieu de
+    // 60 secondes (revalidation permanente sinon, coûteuse sans CDN).
+    minimumCacheTTL: 2592000,
     // Autorise next/image à optimiser les images hébergées par Sanity.
     remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }],
+  },
+  async redirects() {
+    return [
+      // Une seule origine canonique. Le certificat et le rattachement du
+      // domaine `www` doivent aussi être configurés chez l'hébergeur pour que
+      // cette redirection soit atteignable avant l'expiration TLS.
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.elanpatrimoines.fr' }],
+        destination: 'https://elanpatrimoines.fr/:path*',
+        permanent: true,
+      },
+      // Défense applicative pour les proxys qui transmettent le protocole
+      // d'origine. La redirection d'infrastructure HTTP -> HTTPS reste requise.
+      {
+        source: '/:path*',
+        has: [
+          { type: 'host', value: 'elanpatrimoines.fr' },
+          { type: 'header', key: 'x-forwarded-proto', value: 'http' },
+        ],
+        destination: 'https://elanpatrimoines.fr/:path*',
+        permanent: true,
+      },
+    ];
   },
   async headers() {
     return [
@@ -171,6 +206,10 @@ const nextConfig = {
       // CSP permissive pour le Studio uniquement.
       { source: '/studio', headers: studioHeaders },
       { source: '/studio/:path*', headers: studioHeaders },
+      {
+        source: '/api/:path*',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
     ];
   },
 };

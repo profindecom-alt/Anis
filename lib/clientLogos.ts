@@ -13,6 +13,21 @@ export interface ClientLogo {
   name: string;
   src: string | null;
   url?: string | null;
+  /** Relation et droit d'usage du logo confirmés dans Sanity. */
+  verified?: boolean;
+}
+
+/**
+ * Seuls les logos explicitement vérifiés, avec un vrai nom de partenaire
+ * (le nom sert de texte alternatif), peuvent être publiés.
+ */
+export function publishableLogos(logos: ClientLogo[] | undefined): ClientLogo[] {
+  return (logos ?? []).filter(
+    (l) =>
+      l.verified === true &&
+      Boolean(l.src) &&
+      /\p{L}/u.test(l.name ?? '')
+  );
 }
 
 export interface ClientLogos {
@@ -22,22 +37,6 @@ export interface ClientLogos {
   subtitle?: string;
   logos: ClientLogo[];
 }
-
-/**
- * Logos partenaires par défaut, affichés tant qu'aucun logo n'est renseigné
- * dans Sanity (sans image : repli texte en serif). PLACEHOLDER à remplacer
- * par les vrais partenaires (et leurs logos) avant la mise en ligne.
- */
-export const defaultPartnerLogos: ClientLogo[] = [
-  { name: 'Generali' },
-  { name: 'Swiss Life' },
-  { name: 'AXA' },
-  { name: 'Spirica' },
-  { name: 'Nortia' },
-  { name: 'Apicil' },
-  { name: 'Cardif' },
-  { name: 'Abeille Assurances' },
-].map((l) => ({ ...l, src: null }));
 
 export async function getClientLogos(): Promise<ClientLogos | null> {
   if (!hasSanityConfig) return null;

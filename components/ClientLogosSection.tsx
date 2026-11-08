@@ -4,7 +4,8 @@ import type { ClientLogo } from '@/lib/clientLogos';
 
 /**
  * Bloc « confiance » : un simple bandeau de logos partenaires
- * (« Ils nous font confiance ») défilant en boucle. Pensé pour être intégré
+ * (« Nos partenaires ») défilant en boucle. Seuls les logos vérifiés dans
+ * Sanity (relation et droit d'usage confirmés) parviennent jusqu'ici. Pensé pour être intégré
  * en clôture de la section chiffres (cf. ChiffresSection), avec laquelle il
  * partage le fond. Piloté Sanity (lib/clientLogos) — masqué si aucun logo
  * n'est renseigné.
@@ -59,7 +60,7 @@ function PartnerBandeau({ logos }: { logos: ClientLogo[] }) {
 }
 
 export default function ClientLogosSection({
-  eyebrow = 'Ils nous font confiance',
+  eyebrow = 'Nos partenaires',
   logos,
 }: {
   eyebrow?: string;

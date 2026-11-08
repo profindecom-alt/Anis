@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
 /**
@@ -57,8 +58,15 @@ export default function HandwritingWord({
     >
       <span className="handwriting-ink">{children}</span>
       {/* Stylo décoratif, masqué des lecteurs d'écran. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={penSrc} alt="" aria-hidden="true" className="handwriting-pen" />
+      <Image
+        src={penSrc}
+        alt=""
+        aria-hidden="true"
+        width={128}
+        height={128}
+        sizes="128px"
+        className="handwriting-pen"
+      />
     </span>
   );
 }

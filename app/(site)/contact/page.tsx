@@ -3,11 +3,12 @@ import { img } from '@/lib/images';
 import { buildMetadata } from '@/lib/seo';
 import PageHero from '@/components/PageHero';
 import ContactForm from '@/components/ContactForm';
-import Chatbot from '@/components/Chatbot';
+import LazyChatbot from '@/components/LazyChatbot';
+import MapEmbed from '@/components/MapEmbed';
 import Reveal from '@/components/Reveal';
 
 export const metadata = buildMetadata({
-  title: 'Contact',
+  title: 'Contact et rendez-vous à Paris 1er',
   description:
     "Contactez Élan Patrimoine, cabinet de gestion de patrimoine à Paris (1er), pour un premier rendez-vous confidentiel et sans engagement.",
   path: '/contact',
@@ -59,7 +60,7 @@ export default async function ContactPage() {
     <>
       <PageHero
         eyebrow="Contact"
-        title="Parlons de vos projets"
+        title="Contacter votre conseiller en gestion de patrimoine"
         intro="Un premier rendez-vous confidentiel et sans engagement pour comprendre votre situation et vos objectifs."
         breadcrumbs={[{ label: 'Contact' }]}
         imageId={img.contact}
@@ -190,7 +191,7 @@ export default async function ContactPage() {
             </ul>
           </Reveal>
           <Reveal delay={120}>
-            <Chatbot
+            <LazyChatbot
               context="contact"
               intro="Bonjour, je suis l'assistant d'Élan Patrimoine. Posez votre question ou prenez rendez-vous directement, je m'occupe du reste."
             />
@@ -239,14 +240,12 @@ export default async function ContactPage() {
 
           <Reveal>
             <div className="relative overflow-hidden rounded-3xl border border-ink/10 shadow-card">
-              <iframe
+              <MapEmbed
                 title="Localisation d'Élan Patrimoine"
                 src={`https://www.google.com/maps?q=${encodeURIComponent(
                   addressLine
                 )}&z=15&output=embed`}
                 className="h-[340px] w-full grayscale-[0.15] md:h-[440px]"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
               />
 
               {/* Carte adresse : empilée sous la carte sur mobile, en surimpression dès sm */}

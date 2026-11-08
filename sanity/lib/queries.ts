@@ -4,25 +4,42 @@ import { groq } from 'next-sanity';
 const articleFields = groq`
   "slug": slug.current,
   title,
+  seoTitle,
   excerpt,
+  metaDescription,
   category,
   date,
+  "createdAt": _createdAt,
+  "updatedAt": _updatedAt,
   author,
-  readingTime,
+  authorRole,
+  authorUrl,
+  "wordCount": length(string::split(pt::text(content), " ")),
+  "noIndex": coalesce(noIndex, false),
   image,
+  "imageAlt": image.alt,
   "featured": coalesce(featured, false)
 `;
 
-/** Tous les articles, du plus récent au plus ancien. */
+/**
+ * Règle de publication commune à toutes les requêtes publiques : un article
+ * daté dans le futur reste invisible (liste, fiche, sitemap, pagination)
+ * jusqu'à sa date de publication.
+ */
+// `now()` renvoie une chaîne : il faut la convertir avec dateTime() pour
+// comparer, sinon la comparaison vaut null et masque TOUS les articles.
+const isPublished = groq`dateTime(date + "T00:00:00Z") <= dateTime(now())`;
+
+/** Tous les articles publiés, du plus récent au plus ancien. */
 export const allArticlesQuery = groq`
-  *[_type == "article" && defined(slug.current)] | order(date desc) {
+  *[_type == "article" && defined(slug.current) && ${isPublished}] | order(date desc) {
     ${articleFields}
   }
 `;
 
-/** Un article complet (avec le corps) par slug. */
+/** Un article publié complet (avec le corps) par slug. */
 export const articleBySlugQuery = groq`
-  *[_type == "article" && slug.current == $slug][0] {
+  *[_type == "article" && slug.current == $slug && ${isPublished}][0] {
     ${articleFields},
     content
   }
@@ -30,14 +47,14 @@ export const articleBySlugQuery = groq`
 
 /** Article mis en avant le plus récent (s'il en existe un). */
 export const featuredArticleQuery = groq`
-  *[_type == "article" && featured == true] | order(date desc)[0] {
+  *[_type == "article" && featured == true && ${isPublished}] | order(date desc)[0] {
     ${articleFields}
   }
 `;
 
 /** Slugs seuls, pour generateStaticParams et le sitemap. */
 export const articleSlugsQuery = groq`
-  *[_type == "article" && defined(slug.current)] {
+  *[_type == "article" && defined(slug.current) && ${isPublished}] {
     "slug": slug.current,
     date
   }
@@ -125,6 +142,7 @@ export const clientLogosQuery = groq`
     "logos": logos[]{
       name,
       url,
+      "verified": coalesce(verified, false),
       "src": logo.asset->url
     }
   }
@@ -136,7 +154,6 @@ export const clientLogosQuery = groq`
  */
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0] {
-    legalName,
     email,
     phone,
     phoneDisplay,
@@ -147,8 +164,6 @@ export const siteSettingsQuery = groq`
     facebook,
     oriasUrl,
     acpr,
-    rcs,
-    capital,
     gtmId,
     ga4Id,
     hotjarId,

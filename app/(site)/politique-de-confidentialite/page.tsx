@@ -17,7 +17,7 @@ export default async function ConfidentialitePage() {
       title="Politique de confidentialité"
       intro="Comment nous collectons, utilisons et protégeons vos données personnelles, dans le respect du RGPD."
       breadcrumbLabel="Politique de confidentialité"
-      updated="12 juin 2026"
+      updated="26 octobre 2026"
       ctaBgClassName="bg-cream"
     >
       <h2>Préambule</h2>
@@ -30,9 +30,11 @@ export default async function ConfidentialitePage() {
 
       <h2>Responsable du traitement</h2>
       <p>
-        Le responsable du traitement des données est {info.legalName}, {info.address.street},{' '}
+        Le responsable du traitement des données est {info.legalName},{' '}
+        {info.legalForm}, SIREN {info.siren}, {info.address.street},{' '}
         {info.address.zip} {info.address.city}. Pour toute question relative à vos
-        données, vous pouvez nous écrire à l'adresse {info.email}.
+        données, vous pouvez nous écrire à l'adresse{' '}
+        <a href={`mailto:${info.email}`}>{info.email}</a>.
       </p>
 
       <h2>Données collectées</h2>
@@ -55,6 +57,11 @@ export default async function ConfidentialitePage() {
         <li>Établir un conseil patrimonial personnalisé et l'exécuter</li>
         <li>Respecter nos obligations légales et réglementaires (lutte contre le blanchiment, devoir de conseil)</li>
         <li>Vous informer, avec votre accord, de nos actualités</li>
+        <li>
+          Mesurer l&apos;audience et, lorsque les outils correspondants sont
+          configurés, mesurer ou personnaliser nos communications publicitaires,
+          uniquement après votre consentement
+        </li>
       </ul>
 
       <h2>Bases légales</h2>
@@ -86,9 +93,11 @@ export default async function ConfidentialitePage() {
         Les messages envoyés via le formulaire de contact, l'inscription à la
         newsletter et l'assistant conversationnel (chatbot) sont acheminés par un
         outil d'automatisation des flux agissant en qualité de
-        sous-traitant, ainsi que par notre hébergeur. Ces prestataires traitent
-        vos données uniquement pour notre compte, sur instruction, et dans le
-        respect du RGPD. Aucune donnée n'est utilisée à des fins publicitaires.
+        sous-traitant, ainsi que par notre hébergeur. Après votre consentement,
+        des prestataires de mesure d&apos;audience ou des plateformes publicitaires
+        peuvent également recevoir des données techniques de navigation selon
+        l&apos;outil effectivement configuré. Leurs propres politiques de
+        confidentialité précisent leur rôle et leurs traitements.
       </p>
 
       <h2>Vos droits</h2>
@@ -97,7 +106,9 @@ export default async function ConfidentialitePage() {
         d'effacement, de limitation, d'opposition et de portabilité de vos
         données, ainsi que du droit de définir des directives relatives à leur
         sort après votre décès. Vous pouvez exercer ces droits en écrivant à{' '}
-        {info.email}, accompagné d'un justificatif d'identité.
+        <a href={`mailto:${info.email}`}>{info.email}</a>. Un justificatif
+        d'identité ne sera demandé qu'en cas de doute raisonnable sur l'identité
+        de la personne exerçant ses droits.
       </p>
       <p>
         Vous disposez également du droit d'introduire une réclamation auprès de la
@@ -110,9 +121,11 @@ export default async function ConfidentialitePage() {
 
       <h2>Cookies</h2>
       <p>
-        Ce site utilise uniquement des cookies strictement nécessaires à son bon
-        fonctionnement. Aucun cookie de suivi publicitaire n'est déposé sans votre
-        consentement préalable.
+        Le site utilise les stockages strictement nécessaires à son bon
+        fonctionnement et à la mémorisation de votre choix. Les outils optionnels
+        de mesure d&apos;audience, d&apos;analyse de parcours ou de suivi publicitaire
+        ne sont chargés qu&apos;après votre consentement préalable, lorsqu&apos;ils sont
+        configurés. Refuser ces outils n&apos;empêche pas l&apos;accès au site.
       </p>
       <p>
         Vous pouvez à tout moment modifier ou retirer votre consentement :{' '}

@@ -91,9 +91,11 @@ export default async function Footer() {
           {/* Colonnes de liens */}
           {columns.map((col) => (
             <nav key={col.title} aria-label={col.title} className="lg:col-span-2">
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-gold">
+              {/* Libellé de colonne, pas un titre de section : un <p> évite
+                  des H3 orphelins qui cassent la hiérarchie des titres. */}
+              <p className="text-xs font-semibold uppercase tracking-widest text-gold">
                 {col.title}
-              </h3>
+              </p>
               <ul className="mt-5 space-y-1">
                 {col.links.map((link) => (
                   <li key={link.href}>
@@ -118,9 +120,9 @@ export default async function Footer() {
 
           {/* Contact */}
           <div className="col-span-2 lg:col-span-4">
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-gold">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gold">
               Contact
-            </h3>
+            </p>
             <ul className="mt-5 space-y-3.5 text-sm">
               <li>
                 <a
@@ -172,9 +174,11 @@ export default async function Footer() {
         {/* Bandeau réglementaire */}
         <div className="mt-12 border-t border-cream/10 pt-8 md:mt-16">
           <p className="text-xs leading-relaxed text-cream/55">
-            {info.legalName}. {info.rcs}. Cabinet de
-            conseil en gestion de patrimoine immatriculé à l'ORIAS sous le numéro{' '}
-            <span className="text-cream/75">{info.orias}</span> (
+            {info.legalName}, {info.legalForm} au capital de {info.capital}. SIREN{' '}
+            <span className="text-cream/75">{info.siren}</span> · SIRET{' '}
+            <span className="text-cream/75">{info.siret}</span>. Inscription ORIAS n°{' '}
+            <span className="text-cream/75">{info.orias}</span> — catégories et
+            validité consultables sur{' '}
             <a
               href={info.oriasUrl}
               target="_blank"
@@ -183,7 +187,7 @@ export default async function Footer() {
             >
               www.orias.fr
             </a>
-            ). Activité soumise au contrôle de l'ACPR, {info.acpr}.
+            .
           </p>
           <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-cream/50">
@@ -195,6 +199,9 @@ export default async function Footer() {
               </Link>
               <Link href="/politique-de-confidentialite" className="py-1 transition-colors hover:text-cream">
                 Confidentialité
+              </Link>
+              <Link href="/politique-editoriale" className="py-1 transition-colors hover:text-cream">
+                Politique éditoriale
               </Link>
               <Link href="/reclamation" className="py-1 transition-colors hover:text-cream">
                 Réclamation

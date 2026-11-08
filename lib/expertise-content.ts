@@ -1,13 +1,30 @@
 import type { ExpertiseSlug } from './site';
+import type { Category } from './categories';
 import { img } from './images';
 
 export interface ExpertiseContent {
   slug: ExpertiseSlug;
   pillar: string;
+  /** Nom court (navigation, fil d'Ariane, cartes). */
   title: string;
+  /** Balise <title> (le suffixe « | Élan Patrimoine » est ajouté). */
+  seoTitle: string;
+  /** Titre H1 de la page : intention de recherche explicite. */
+  h1: string;
   tagline: string;
   metaDescription: string;
   imageId: string;
+  /** Description fidèle de la photo d'illustration. */
+  imageAlt: string;
+  /** Titres de section propres à l'expertise (évite les H2 génériques). */
+  servicesTitle: string;
+  forWhomTitle: string;
+  faqTitle: string;
+  /** Titre du bandeau d'appel à l'action final. */
+  ctaTitle: string;
+  /** Articles à proposer : mots-clés (titre/accroche) puis catégories. */
+  articleKeywords: RegExp;
+  articleCategories: Category[];
   intro: string[];
   services: { title: string; description: string }[];
   forWhom: string[];
@@ -21,13 +38,23 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
     slug: 'gestion-de-patrimoine',
     pillar: '01',
     title: 'Gestion de Patrimoine',
+    seoTitle: 'Conseiller en gestion de patrimoine à Paris',
+    h1: 'Conseiller en gestion de patrimoine à Paris',
     tagline: 'Faire fructifier et structurer votre patrimoine',
     metaDescription:
       "Gestion de patrimoine à Paris, sur mesure : allocation d'actifs, arbitrages et architecture ouverte. Élan Patrimoine pilote votre stratégie d'investissement.",
     imageId: img.patrimoine,
+    imageAlt: 'Documents fiscaux, calculatrice et stylo posés sur une table',
+    servicesTitle: 'Nos services de gestion de patrimoine',
+    forWhomTitle: 'À qui s’adresse notre accompagnement patrimonial',
+    faqTitle: 'Questions fréquentes sur la gestion de patrimoine',
+    ctaTitle: 'Un projet de gestion de patrimoine ?',
+    articleKeywords: /patrimoine|allocation|scpi|private equity|architecture|assurance-vie|crédit/i,
+    articleCategories: ['Investissement', 'Marchés', 'Réglementation'],
     intro: [
       "La gestion de patrimoine est le cœur de notre métier. Elle consiste à organiser l'ensemble de vos actifs (financiers, immobiliers et professionnels) au sein d'une stratégie cohérente, alignée sur vos objectifs de vie.",
-      "Grâce à notre architecture ouverte, nous sélectionnons les meilleures solutions du marché, sans aucun produit imposé, et pilotons votre allocation au fil des cycles.",
+      "Notre approche en architecture ouverte permet de comparer différentes solutions du marché, sans produit maison imposé, puis de piloter l'allocation selon votre situation et les risques identifiés.",
+      "Basé à Paris (1er arrondissement), le cabinet accompagne ses clients partout en France, y compris en visioconférence.",
     ],
     services: [
       {
@@ -43,7 +70,7 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
       {
         title: 'Architecture ouverte',
         description:
-          "L'accès à l'ensemble des sociétés de gestion, pour une sélection objective et indépendante.",
+          "La comparaison de solutions issues de plusieurs sociétés de gestion, selon des critères explicités.",
       },
       {
         title: 'Enveloppes optimisées',
@@ -74,7 +101,7 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
     faq: [
       {
         q: "Qu'est-ce que l'architecture ouverte ?",
-        a: "C'est la possibilité de sélectionner les supports d'investissement de l'ensemble du marché, sans être limité aux produits d'un seul promoteur. C'est la garantie d'un conseil objectif.",
+        a: "C'est la possibilité de comparer des supports provenant de plusieurs producteurs, sans être limité aux produits d'un seul promoteur. La recommandation tient ensuite compte de vos objectifs, des risques, des frais et de votre horizon.",
       },
       {
         q: 'À partir de quel montant intervenez-vous ?',
@@ -86,7 +113,7 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
       },
       {
         q: 'Êtes-vous indépendant des banques et assureurs ?',
-        a: "Oui. Notre indépendance est totale : nous ne sommes liés à aucun groupe et sélectionnons les solutions du marché dans votre seul intérêt, sans produit maison à placer.",
+        a: "Le cabinet n'appartient pas à un groupe bancaire ou assureur et ne dispose pas de produit maison. Les solutions envisagées, leurs frais et notre mode de rémunération sont présentés avant toute décision.",
       },
       {
         q: 'Puis-je conserver mes contrats actuels ?',
@@ -99,13 +126,23 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
     slug: 'defiscalisation',
     pillar: '02',
     title: 'Défiscalisation',
+    seoTitle: 'Défiscalisation : réduire ses impôts',
+    h1: 'Défiscalisation : réduire vos impôts dans le cadre légal',
     tagline: 'Optimiser votre fiscalité dans le respect du cadre légal',
     metaDescription:
       "Défiscalisation personnelle et professionnelle : réduction d'impôt, défiscalisation immobilière et optimisation du patrimoine, dans le respect de la loi.",
     imageId: img.defiscalisation,
+    imageAlt: 'Main tenant un stylo au-dessus d’un document',
+    servicesTitle: 'Nos solutions de défiscalisation',
+    forWhomTitle: 'À qui s’adresse notre conseil en défiscalisation',
+    faqTitle: 'Questions fréquentes sur la défiscalisation',
+    ctaTitle: 'Un projet de défiscalisation ?',
+    articleKeywords: /impôt|fiscal|ifi|loi de finances|démembrement|défiscalisation/i,
+    articleCategories: ['Fiscalité'],
     intro: [
       "La défiscalisation ne se résume pas à réduire l'impôt : elle s'inscrit dans une stratégie patrimoniale globale. Un dispositif n'a de valeur que si l'investissement sous-jacent est solide et cohérent avec vos objectifs.",
       'Nous identifions, parmi les dispositifs légaux, ceux qui servent réellement votre situation, et écartons les montages inutilement risqués.',
+      'Depuis Paris (1er arrondissement), nous accompagnons particuliers, dirigeants et professions libérales partout en France, y compris en visioconférence.',
     ],
     services: [
       {
@@ -160,7 +197,7 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
       },
       {
         q: 'Vos conseils sont-ils conformes à la loi ?',
-        a: "Absolument. Nous intervenons exclusivement dans le cadre des dispositifs légaux et tenons une veille réglementaire permanente.",
+        a: "Nous présentons les dispositifs dans le cadre applicable à la date de l'analyse et vérifions leur adéquation avec votre situation. Les règles pouvant évoluer, les sources officielles et les professionnels concernés sont consultés lorsque nécessaire.",
       },
       {
         q: 'Quand faut-il anticiper sa défiscalisation ?',
@@ -168,7 +205,7 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
       },
       {
         q: 'Existe-t-il un plafond aux avantages fiscaux ?',
-        a: "Oui, la plupart des réductions d'impôt sont encadrées par un plafonnement global des niches fiscales. Nous en tenons compte pour optimiser votre situation sans risque de remise en cause.",
+        a: "Oui, de nombreuses réductions d'impôt relèvent d'un plafonnement global, avec des règles et exceptions propres à chaque dispositif. Nous en tenons compte dans la simulation, sans préjuger de l'analyse de l'administration fiscale.",
       },
     ],
   },
@@ -177,13 +214,23 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
     slug: 'assurance-protection',
     pillar: '03',
     title: 'Assurance & Protection',
+    seoTitle: 'Prévoyance et assurance-vie',
+    h1: 'Prévoyance et assurance-vie : protéger vos proches',
     tagline: 'Protéger vos proches et sécuriser vos actifs',
     metaDescription:
       "Assurance et protection : prévoyance, assurance-vie et transmission (succession). Sécurisez vos revenus, votre famille et votre patrimoine avec Élan Patrimoine.",
     imageId: img.assurance,
+    imageAlt: 'Poignée de main entre deux personnes',
+    servicesTitle: 'Nos solutions de prévoyance et de protection',
+    forWhomTitle: 'À qui s’adresse notre conseil en prévoyance',
+    faqTitle: 'Questions fréquentes sur la prévoyance et l’assurance-vie',
+    ctaTitle: 'Un projet de prévoyance ou d’assurance-vie ?',
+    articleKeywords: /prévoyance|assurance|transmission|donation|succession|dirigeant/i,
+    articleCategories: ['Prévoyance', 'Transmission'],
     intro: [
       "Construire un patrimoine n'a de sens que si l'on protège ce que l'on a bâti. La prévoyance et la protection couvrent les aléas de la vie : incapacité, invalidité, décès, dépendance.",
       'Nous auditons vos couvertures existantes, identifions sans excès les zones de fragilité et calibrons les garanties au plus juste.',
+      'Basé à Paris (1er arrondissement), le cabinet accompagne familles, dirigeants et indépendants partout en France, y compris en visioconférence.',
     ],
     services: [
       {
@@ -234,19 +281,19 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
       },
       {
         q: "L'assurance-vie sert-elle à la transmission ?",
-        a: "Oui, c'est l'un de ses atouts majeurs. Elle permet de transmettre un capital dans un cadre fiscal privilégié, en désignant librement vos bénéficiaires.",
+        a: "Elle peut servir un objectif de transmission. La clause bénéficiaire se rédige dans les limites du droit applicable et le régime fiscal dépend notamment des dates, des versements et de la situation des parties.",
       },
       {
         q: 'Le dirigeant est-il bien protégé par défaut ?',
-        a: "Rarement. Les régimes obligatoires couvrent insuffisamment les indépendants et dirigeants. Une prévoyance complémentaire est souvent indispensable.",
+        a: "Le niveau de couverture dépend du statut, du revenu et des garanties déjà en place. Un audit permet d'identifier les éventuels écarts avant d'envisager une couverture complémentaire.",
       },
       {
         q: 'À partir de quel âge souscrire une prévoyance ?',
-        a: "Le plus tôt est le mieux : les garanties sont moins coûteuses et plus largement accordées quand on est jeune et en bonne santé. Mais il n'est jamais trop tard pour combler une lacune.",
+        a: "Il n'existe pas d'âge unique : le besoin dépend de votre situation familiale, professionnelle et financière. L'âge et l'état de santé peuvent toutefois influencer les conditions d'adhésion et le tarif.",
       },
       {
         q: 'Que couvre exactement la dépendance ?',
-        a: "Elle prévoit le versement d'une rente ou d'un capital en cas de perte d'autonomie, afin de financer l'aide nécessaire sans entamer votre patrimoine ni peser sur vos proches.",
+        a: "Selon le contrat, elle peut prévoir une rente ou un capital lorsque les critères contractuels de perte d'autonomie sont remplis. Cette prestation peut contribuer à financer une partie de l'aide nécessaire, sous réserve des exclusions et limites prévues.",
       },
     ],
   },
@@ -255,34 +302,44 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
     slug: 'plan-epargne-retraite',
     pillar: '04',
     title: 'Plan Épargne Retraite (PER)',
-    tagline: 'Préparer sa retraite en réduisant les impôts',
+    seoTitle: 'Plan Épargne Retraite (PER) : simulation',
+    h1: 'Plan Épargne Retraite (PER) : préparer votre retraite',
+    tagline: 'Préparer sa retraite et étudier l’option fiscale',
     metaDescription:
-      "Plan Épargne Retraite (PER) : constituez un capital pour votre retraite en déduisant vos versements de votre revenu imposable, avec Élan Patrimoine.",
+      "Plan Épargne Retraite (PER) : préparez votre retraite et étudiez la déduction éventuelle des versements volontaires selon votre plafond et votre situation.",
     imageId: img.reseau,
+    imageAlt: 'Réunion d’équipe dans un bureau',
+    servicesTitle: 'Notre accompagnement autour du PER',
+    forWhomTitle: 'À qui s’adresse le Plan Épargne Retraite',
+    faqTitle: 'Questions fréquentes sur le PER',
+    ctaTitle: 'Un projet autour du PER ?',
+    articleKeywords: /\bPER\b|retraite/i,
+    articleCategories: ['Fiscalité'],
     intro: [
-      "Le Plan Épargne Retraite (PER) est l'outil de référence pour préparer votre retraite : vous vous constituez un capital ou une rente sur le long terme, tout en allégeant votre fiscalité chaque année.",
-      "Les versements volontaires sont déductibles de votre revenu imposable, dans la limite de vos plafonds. Nous construisons une allocation adaptée à votre horizon et pilotons votre PER jusqu'à la sortie, en capital ou en rente.",
+      "Le Plan Épargne Retraite (PER) est une enveloppe de long terme destinée à préparer la retraite. Ses règles de disponibilité, de sortie et de fiscalité dépendent notamment de l'origine des sommes versées.",
+      "Les versements volontaires peuvent, sur option et dans la limite du plafond disponible, être déduits du revenu imposable. La pertinence de cette option et la fiscalité à la sortie doivent être appréciées selon votre situation.",
+      'Basé à Paris (1er arrondissement), le cabinet étudie votre PER avec vous, en rendez-vous ou en visioconférence partout en France.',
     ],
     services: [
       {
         title: 'Déduction fiscale',
         description:
-          "Vos versements viennent réduire votre revenu imposable : l'économie d'impôt est d'autant plus forte que votre tranche marginale est élevée.",
+          "Les versements volontaires peuvent être déduits sur option, dans la limite du plafond disponible. L'effet réel dépend du barème et de l'ensemble de votre foyer fiscal.",
       },
       {
         title: 'Allocation pilotée',
         description:
-          'Une gestion adaptée à votre horizon de retraite, sécurisée progressivement à mesure que l\'échéance approche.',
+          'Une allocation adaptée à votre horizon, pouvant évoluer progressivement à l’approche de la retraite selon le mode de gestion et les supports retenus.',
       },
       {
         title: 'Architecture ouverte',
         description:
-          "Une sélection objective des meilleurs supports du marché (fonds euros, unités de compte), sans produit imposé.",
+          "Une comparaison de supports disponibles (fonds euros, unités de compte), sans produit maison imposé.",
       },
       {
         title: 'Sortie sur mesure',
         description:
-          'À la retraite, récupérez votre épargne en capital, en rente, ou les deux, selon vos besoins de revenus.',
+          "Les possibilités de sortie en capital, en rente ou en combinaison dépendent du compartiment, de l'origine des versements et des règles applicables.",
       },
       {
         title: 'Cas de déblocage anticipé',
@@ -292,7 +349,7 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
       {
         title: 'Optimisation des plafonds',
         description:
-          "Calcul et report de vos plafonds de déduction non utilisés, pour maximiser l'avantage fiscal chaque année.",
+          "Lecture du plafond personnel et des reliquats éventuellement disponibles afin d'évaluer le montant déductible avant tout versement.",
       },
     ],
     forWhom: [
@@ -301,14 +358,14 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
       'Toute personne préparant sa retraite',
     ],
     highlights: [
-      { value: 'Déductible', label: 'de votre revenu imposable' },
+      { value: 'Sur option', label: 'déduction sous plafond' },
       { value: 'Long terme', label: 'capital ou rente à la retraite' },
       { value: 'Piloté', label: 'selon votre horizon' },
     ],
     faq: [
       {
         q: 'Quel est l\'avantage fiscal du PER ?',
-        a: "Les versements volontaires sont déductibles de votre revenu imposable, dans la limite de vos plafonds. L'économie d'impôt correspond à votre tranche marginale : plus elle est élevée, plus le gain est important.",
+        a: "Les versements volontaires peuvent être déduits sur option, dans la limite du plafond disponible. L'effet fiscal se calcule avec le barème progressif et dépend de l'ensemble de votre foyer ; il ne correspond pas toujours au versement multiplié par la tranche marginale.",
       },
       {
         q: 'Mon épargne est-elle bloquée jusqu\'à la retraite ?',
@@ -316,7 +373,7 @@ export const expertiseContent: Record<ExpertiseSlug, ExpertiseContent> = {
       },
       {
         q: 'Comment récupérer mon épargne à la retraite ?',
-        a: "Au moment de la retraite, vous choisissez une sortie en capital, en rente viagère, ou une combinaison des deux, selon vos besoins de revenus.",
+        a: "Les modalités dépendent de l'origine des sommes et du compartiment concerné. Une sortie en capital, en rente ou une combinaison peut être possible selon le cas, avec une fiscalité propre à chaque modalité.",
       },
       {
         q: 'Combien puis-je verser sur mon PER ?',

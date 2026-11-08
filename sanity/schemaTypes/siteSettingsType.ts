@@ -27,13 +27,6 @@ export const siteSettingsType = defineType({
   fields: [
     /* --- Coordonnées & mentions légales --------------------------- */
     defineField({
-      name: 'legalName',
-      title: 'Raison sociale',
-      type: 'string',
-      group: 'coordonnees',
-      description: 'Ex. « Élan Patrimoine SAS ». Laisser vide = valeur par défaut.',
-    }),
-    defineField({
       name: 'email',
       title: 'E-mail de contact',
       type: 'string',
@@ -110,21 +103,6 @@ export const siteSettingsType = defineType({
       type: 'string',
       group: 'coordonnees',
     }),
-    defineField({
-      name: 'rcs',
-      title: 'RCS',
-      type: 'string',
-      group: 'coordonnees',
-      description: 'Ex. « RCS Paris 901 234 567 ».',
-    }),
-    defineField({
-      name: 'capital',
-      title: 'Capital social',
-      type: 'string',
-      group: 'coordonnees',
-      description: 'Ex. « 50 000 € ».',
-    }),
-
     /* --- Suivi & analytics (chargés après consentement) ----------- */
     defineField({
       name: 'gtmId',

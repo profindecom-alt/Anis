@@ -184,9 +184,15 @@ async function uploadImage(imageId: string, alt: string) {
 async function importArticle(article: SeedArticle, index: number, total: number) {
   const label = `[${index + 1}/${total}] ${article.slug}`;
   try {
-    const image = await uploadImage(article.imageId, article.title);
+    const documentId = `article.${article.slug}`;
+    const existing = await client.getDocument<Record<string, unknown>>(documentId);
+    const existingImage = existing?.image;
+    const image =
+      existingImage && typeof existingImage === 'object'
+        ? { ...existingImage, alt: article.imageAlt }
+        : await uploadImage(article.imageId, article.imageAlt);
     const doc = {
-      _id: `article.${article.slug}`,
+      _id: documentId,
       _type: 'article',
       title: article.title,
       slug: { _type: 'slug', current: article.slug },
@@ -199,7 +205,14 @@ async function importArticle(article: SeedArticle, index: number, total: number)
       image,
       content: htmlToPortableText(article.content),
     };
-    await client.createOrReplace(doc);
+    if (existing) {
+      // Met à jour uniquement les champs gérés par le seed et conserve les
+      // éventuels champs éditoriaux ajoutés ensuite (seoTitle, authorRole…).
+      const { _id, _type, ...seedFields } = doc;
+      await client.patch(_id).set(seedFields).commit();
+    } else {
+      await client.create(doc);
+    }
     console.log(`✓ ${label}`);
   } catch (err) {
     console.error(`✗ ${label} —`, (err as Error).message);

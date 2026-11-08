@@ -5,7 +5,7 @@ import LegalLayout from '@/components/LegalLayout';
 export const metadata = buildMetadata({
   title: 'Mentions légales',
   description:
-    "Mentions légales du cabinet Élan Patrimoine : éditeur, hébergement, immatriculation ORIAS, autorité de contrôle ACPR et propriété intellectuelle.",
+    "Mentions légales d'Élan Patrimoine : identité de l'éditeur, SIREN, SIRET, inscription ORIAS, hébergement et propriété intellectuelle.",
   path: '/mentions-legales',
 });
 
@@ -16,54 +16,70 @@ export default async function MentionsLegalesPage() {
       title="Mentions légales"
       intro="Informations relatives à l'éditeur du site et au cabinet Élan Patrimoine."
       breadcrumbLabel="Mentions légales"
-      updated="12 juin 2026"
+      updated="26 octobre 2026"
       ctaBgClassName="bg-cream"
     >
       <h2>Éditeur du site</h2>
       <p>
-        Le présent site est édité par <strong>{info.legalName}</strong>, société
-        par actions simplifiée au capital de {info.capital}, immatriculée au{' '}
-        {info.rcs}, dont le siège social est situé {info.address.street},{' '}
-        {info.address.zip} {info.address.city}, France.
+        Le présent site est édité par <strong>{info.legalName}</strong>,{' '}
+        {info.legalForm}, au capital social de {info.capital}, immatriculée au{' '}
+        {info.registration}, dont le siège social est situé {info.address.street},{' '}
+        {info.address.zip} {info.address.city}, {info.address.country}.
       </p>
       <ul>
+        <li>SIREN : {info.siren}</li>
+        <li>SIRET du siège : {info.siret}</li>
+        <li>Activité principale : {info.activity} (APE {info.ape})</li>
         <li>Adresse e-mail : {info.email}</li>
         <li>Téléphone : {info.phoneDisplay}</li>
         <li>Directeur de la publication : le représentant légal de {info.legalName}</li>
       </ul>
-
-      <h2>Immatriculation et activité réglementée</h2>
       <p>
-        {info.legalName} est immatriculée à l'ORIAS (Organisme pour le Registre
-        unique des Intermédiaires en Assurance, banque et finance) sous le numéro{' '}
+        L'identité de l'entreprise peut être vérifiée sur{' '}
+        <a
+          href="https://annuaire-entreprises.data.gouv.fr/entreprise/106362254"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          l'Annuaire des Entreprises
+        </a>
+        , service public de l'État.
+      </p>
+
+      <h2>Inscription ORIAS</h2>
+      <p>
+        {info.legalName} figure au registre unique des intermédiaires en
+        assurance, banque et finance (ORIAS) sous le numéro{' '}
         <strong>{info.orias}</strong>, vérifiable sur{' '}
         <a href={info.oriasUrl} target="_blank" rel="noopener noreferrer">
           www.orias.fr
         </a>
-        , en qualité de Conseiller en Investissements Financiers (CIF), Courtier
-        en assurance et Intermédiaire en opérations de banque.
-      </p>
-      <p>
-        L'activité de conseil en investissements financiers est soumise au
-        contrôle de l'Autorité de Contrôle Prudentiel et de Résolution (ACPR),{' '}
-        {info.acpr}, et de l'Autorité des Marchés Financiers (AMF). Le cabinet
-        adhère à une association professionnelle agréée par l'AMF.
+        . Les catégories d'inscription, leur portée et leur validité sont celles
+        indiquées sur la fiche ORIAS à la date de sa consultation ; cette fiche
+        officielle fait foi.
       </p>
 
-      <h2>Assurance de responsabilité civile professionnelle</h2>
+      <h2>Informations précontractuelles</h2>
       <p>
-        Conformément aux articles L.541-3 du Code monétaire et financier et
-        L.512-6 et L.512-7 du Code des assurances, le cabinet dispose d'une
-        assurance de responsabilité civile professionnelle et d'une garantie
-        financière couvrant son activité.
+        Avant toute mission, le client reçoit les informations réglementaires
+        applicables à la prestation envisagée, notamment l'identité de
+        l'intervenant, le périmètre de son accompagnement et ses modalités de
+        rémunération.
       </p>
 
       <h2>Hébergement</h2>
       <p>
-        Le site est hébergé par un prestataire technique assurant la disponibilité
-        et la sécurité des données conformément à la réglementation en vigueur.
-        Les coordonnées de l'hébergeur peuvent être obtenues sur simple demande à
-        l'adresse {info.email}.
+        Le site est hébergé par Hostinger International Limited, 61 Lordou
+        Vironos Street, 6023 Larnaca, Chypre. Les informations contractuelles de
+        l'hébergeur sont disponibles sur{' '}
+        <a
+          href="https://www.hostinger.com/fr/legal/termes-universels-de-contrat-de-service"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          hostinger.com
+        </a>
+        .
       </p>
 
       <h2>Propriété intellectuelle</h2>

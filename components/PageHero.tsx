@@ -43,6 +43,7 @@ export default function PageHero({
             fill
             sizes="100vw"
             priority
+            fetchPriority="high"
             className="object-cover opacity-45"
           />
           {/* Voile dégradé : sombre à gauche (lisibilité du titre), plus clair

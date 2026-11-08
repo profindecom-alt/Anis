@@ -37,10 +37,13 @@ export const blockContentType = defineType({
                 name: 'href',
                 type: 'url',
                 title: 'URL',
+                description:
+                  'Lien interne : saisir un chemin commençant par / (ex. /nos-expertises/plan-epargne-retraite). Lien externe : URL complète https://…',
                 validation: (rule) =>
-                  rule
-                    .required()
-                    .uri({ scheme: ['http', 'https', 'mailto', 'tel'] }),
+                  rule.required().uri({
+                    scheme: ['http', 'https', 'mailto', 'tel'],
+                    allowRelative: true,
+                  }),
               },
             ],
           },

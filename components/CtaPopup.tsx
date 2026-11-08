@@ -2,17 +2,49 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { imageUrl, img } from '@/lib/images';
 import { trackEvent } from '@/lib/analytics';
 
 const STORAGE_KEY = 'elan-cta-popup';
+/** Après affichage, la fenêtre ne réapparaît pas avant 30 jours. */
+const QUIET_PERIOD_MS = 30 * 24 * 60 * 60 * 1000;
+
+/**
+ * Pages où la fenêtre n'a pas lieu d'être : le visiteur est déjà en train de
+ * nous contacter, ou consulte une information réglementaire.
+ */
+const EXCLUDED_PATHS = [
+  '/contact',
+  '/reclamation',
+  '/mentions-legales',
+  '/politique-de-confidentialite',
+  '/politique-editoriale',
+];
+
+function recentlyShown(): boolean {
+  try {
+    const value = Number(localStorage.getItem(STORAGE_KEY));
+    return Number.isFinite(value) && value > 0 && Date.now() - value < QUIET_PERIOD_MS;
+  } catch {
+    return false;
+  }
+}
+
+function rememberShown() {
+  try {
+    localStorage.setItem(STORAGE_KEY, String(Date.now()));
+  } catch {
+    /* stockage indisponible */
+  }
+}
 
 /**
  * Fenêtre d'incitation au rendez-vous, affichée une seule fois après un délai
- * de présence sur le site (30 s par défaut). Discrète et fermable : le choix
- * de la fermer est mémorisé (sessionStorage) afin de ne pas réapparaître
- * pendant la visite. Reprend les codes du bandeau CTASection (panneau navy,
+ * de présence sur le site (30 s par défaut), jamais sur les pages Contact,
+ * Réclamation et légales. Une fois montrée, elle ne réapparaît pas avant
+ * 30 jours (localStorage). Reprend les codes du bandeau CTASection (panneau navy,
  * ville en filigrane, halo doré, filet doré, bouton or) et met en avant
  * l'écusson « élan » comme signature de marque.
  */
@@ -33,31 +65,33 @@ export default function CtaPopup({
   // volée (après un délai), son surtitre échappe à ce scan : on déclenche donc
   // le tracé localement, via un rAF pour laisser la transition CSS s'amorcer.
   const [revealed, setRevealed] = useState(false);
+  const pathname = usePathname();
+  const excluded = EXCLUDED_PATHS.some(
+    (p) => pathname === p || pathname?.startsWith(`${p}/`)
+  );
 
-  // Programme l'ouverture après le délai, sauf si la fenêtre a déjà été fermée.
+  // Programme l'ouverture après le délai, hors pages exclues et si la fenêtre
+  // n'a pas déjà été montrée ces 30 derniers jours.
   useEffect(() => {
-    let dismissed = false;
-    try {
-      dismissed = sessionStorage.getItem(STORAGE_KEY) === 'dismissed';
-    } catch {
-      /* sessionStorage indisponible */
-    }
-    if (dismissed) return;
+    if (excluded || recentlyShown()) return;
 
     const timer = window.setTimeout(() => {
+      if (recentlyShown()) return;
+      rememberShown();
       setOpen(true);
       trackEvent('cta_popup_view');
     }, delayMs);
     return () => window.clearTimeout(timer);
-  }, [delayMs]);
+  }, [delayMs, excluded]);
+
+  // Arrivée sur une page exclue alors que la fenêtre est ouverte : on la ferme.
+  useEffect(() => {
+    if (excluded) setOpen(false);
+  }, [excluded]);
 
   const close = () => {
     setOpen(false);
-    try {
-      sessionStorage.setItem(STORAGE_KEY, 'dismissed');
-    } catch {
-      /* ignore */
-    }
+    rememberShown();
   };
 
   // Fermeture au clavier (Échap) tant que la fenêtre est ouverte.

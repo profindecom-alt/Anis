@@ -34,14 +34,14 @@ export default function EpargneSimulator({ sujet }: { sujet: string }) {
   }, [capital, mensuel, duree, rendement]);
 
   const summary = [
-    'Simulation — Projection d\'épargne',
+    'Scénario théorique — Projection d\'épargne',
     `• Capital de départ : ${euros(capital)}`,
     `• Versement mensuel : ${euros(mensuel)}`,
     `• Horizon : ${duree} ans`,
-    `• Rendement annuel moyen estimé : ${rendement} %`,
-    `→ Capital projeté : ${euros(projete)}`,
+    `• Hypothèse de rendement annuel constant brut : ${rendement} %`,
+    `→ Capital théorique : ${euros(projete)}`,
     `→ Total versé : ${euros(verse)}`,
-    `→ Plus-value estimée : ${euros(plusValue)}`,
+    `→ Gain théorique : ${euros(plusValue)}`,
   ].join('\n');
 
   return (
@@ -77,23 +77,28 @@ export default function EpargneSimulator({ sujet }: { sujet: string }) {
             onChange={setDuree}
           />
           <RangeField
-            label="Rendement annuel moyen estimé"
+            label="Hypothèse de rendement annuel constant"
             value={rendement}
             display={`${rendement} %`}
             min={1}
             max={8}
             step={0.5}
             onChange={setRendement}
-            hint="Hypothèse moyenne long terme — les performances passées ne préjugent pas des performances futures."
+            hint="Hypothèse brute et non garantie, appliquée sans variation pendant toute la durée."
           />
         </div>
 
         <div className="mt-auto pt-8">
           <ResultStat
-            label={`Capital projeté à ${duree} ans`}
+            label={`Capital théorique à ${duree} ans`}
             value={euros(projete)}
-            sub={`Soit ${euros(plusValue)} de plus-value estimée pour ${euros(verse)} versés.`}
+            sub={`Soit un gain théorique de ${euros(plusValue)} pour ${euros(verse)} versés.`}
           />
+          <p className="mt-4 text-xs leading-relaxed text-ink/55">
+            Scénario non contractuel, hors frais, fiscalité et inflation. Il ne
+            modélise ni volatilité ni perte en capital. Les rendements ne sont pas
+            garantis et peuvent être négatifs.
+          </p>
         </div>
       </div>
 
@@ -101,8 +106,8 @@ export default function EpargneSimulator({ sujet }: { sujet: string }) {
       <SimulatorLeadForm
         sujet={sujet}
         summary={summary}
-        title="Donnez vie à cette projection"
-        text="Recevez une stratégie d'allocation sur mesure pour atteindre cet objectif, en architecture ouverte."
+        title="Faites analyser ce scénario"
+        text="Un conseiller peut confronter cette hypothèse à votre horizon, votre tolérance au risque, les frais et la fiscalité."
       />
     </div>
   );

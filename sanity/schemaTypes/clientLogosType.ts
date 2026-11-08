@@ -7,8 +7,8 @@ import { defineField, defineType } from 'sanity';
  * plateformes…). Singleton. Tant que la section n'est pas activée (ou sans
  * logo), elle ne s'affiche pas sur le site.
  *
- * Les agréments / labels réglementaires (ORIAS, AMF…) ne sont pas gérés ici :
- * ils sont codés en dur dans le composant (rangée fixe, en couleur).
+ * Les identifiants officiels (SIREN, SIRET, ORIAS) ne sont pas gérés ici :
+ * ils proviennent de l'identité légale vérifiée dans le code.
  */
 export const clientLogosType = defineType({
   name: 'clientLogos',
@@ -28,13 +28,13 @@ export const clientLogosType = defineType({
       name: 'eyebrow',
       title: 'Surtitre',
       type: 'string',
-      initialValue: 'Architecture ouverte',
+      initialValue: 'Partenaires référencés',
     }),
     defineField({
       name: 'title',
       title: 'Titre',
       type: 'string',
-      initialValue: 'Nos partenaires, choisis en toute indépendance',
+      initialValue: 'Des relations clairement identifiées',
     }),
     defineField({
       name: 'subtitle',
@@ -43,7 +43,7 @@ export const clientLogosType = defineType({
       rows: 2,
       description: 'Optionnel. Une phrase d’introduction sous le titre.',
       initialValue:
-        'Indépendants, nous sélectionnons librement les meilleures solutions du marché pour ne servir que vos intérêts.',
+        'Seuls les partenaires dont la relation avec le cabinet a été vérifiée doivent apparaître dans cette section.',
     }),
     defineField({
       name: 'logos',
@@ -75,8 +75,25 @@ export const clientLogosType = defineType({
               title: 'Lien (optionnel)',
               type: 'url',
             }),
+            defineField({
+              name: 'verified',
+              title: 'Relation vérifiée et usage du logo autorisé',
+              type: 'boolean',
+              description:
+                "À cocher uniquement si un accord écrit existe avec ce partenaire ET que l'utilisation de son logo est autorisée. Un logo non coché n'est jamais affiché sur le site.",
+              initialValue: false,
+            }),
           ],
-          preview: { select: { title: 'name', media: 'logo' } },
+          preview: {
+            select: { title: 'name', media: 'logo', verified: 'verified' },
+            prepare({ title, media, verified }) {
+              return {
+                title,
+                subtitle: verified ? 'Vérifié · affiché' : 'Non vérifié · masqué',
+                media,
+              };
+            },
+          },
         },
       ],
       validation: (rule) =>

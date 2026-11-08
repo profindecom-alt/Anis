@@ -51,10 +51,12 @@ export default function Reveal({
     <Component
       ref={ref}
       style={{ transitionDelay: `${delay}ms` }}
+      // L'état masqué ne s'applique que sous `html.js` (classe posée par un
+      // script en tête de page) : sans JavaScript, le contenu reste visible.
       className={`transition-all duration-700 ease-out ${
         visible
           ? 'translate-y-0 scale-100 opacity-100 blur-0'
-          : 'translate-y-8 scale-[0.985] opacity-0 blur-[2px]'
+          : '[.js_&]:translate-y-8 [.js_&]:scale-[0.985] [.js_&]:opacity-0 [.js_&]:blur-[2px]'
       } ${className}`}
     >
       {children}

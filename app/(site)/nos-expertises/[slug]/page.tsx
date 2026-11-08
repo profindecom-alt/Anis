@@ -5,7 +5,9 @@ import { imageUrl } from '@/lib/images';
 import { expertises, type ExpertiseSlug } from '@/lib/site';
 import { expertiseContent } from '@/lib/expertise-content';
 import { getExpertiseFaqVideo } from '@/lib/expertiseFaqVideo';
+import { getArticlesForExpertise } from '@/lib/articles';
 import { buildMetadata, serviceJsonLd, jsonLdHtml } from '@/lib/seo';
+import ArticleCard from '@/components/ArticleCard';
 import PageHero from '@/components/PageHero';
 import CTASection from '@/components/CTASection';
 import SectionHeading from '@/components/SectionHeading';
@@ -68,12 +70,15 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const content = expertiseContent[slug as ExpertiseSlug];
-  if (!content) return {};
+  if (!content) notFound();
+  // Pas d'imageId : la carte de partage est générée par
+  // ./opengraph-image.tsx (1200 × 630, aux couleurs de la marque).
   return buildMetadata({
-    title: content.title,
+    title: content.seoTitle,
+    socialTitle: content.title,
     description: content.metaDescription,
     path: `/nos-expertises/${content.slug}`,
-    imageId: content.imageId,
+    fileImage: true,
   });
 }
 
@@ -86,7 +91,13 @@ export default async function ExpertiseDetailPage({
   const content = expertiseContent[slug as ExpertiseSlug];
   if (!content) notFound();
 
-  const faqVideo = await getExpertiseFaqVideo();
+  const [faqVideo, relatedArticles] = await Promise.all([
+    getExpertiseFaqVideo(),
+    getArticlesForExpertise({
+      categories: content.articleCategories,
+      keywords: content.articleKeywords,
+    }),
+  ]);
 
   const icon = expertiseIcons[content.slug];
   const others = expertises.filter((e) => e.slug !== content.slug);
@@ -105,7 +116,7 @@ export default async function ExpertiseDetailPage({
       />
       <PageHero
         eyebrow={`Pilier ${content.pillar} · Nos expertises`}
-        title={content.title}
+        title={content.h1}
         intro={content.tagline}
         breadcrumbs={[
           { label: 'Nos Expertises', href: '/nos-expertises' },
@@ -155,7 +166,7 @@ export default async function ExpertiseDetailPage({
               <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-elevated">
                 <Image
                   src={imageUrl(content.imageId, 800, 78)}
-                  alt={content.title}
+                  alt={content.imageAlt}
                   fill
                   sizes="(max-width: 1024px) 100vw, 45vw"
                   className="object-cover"
@@ -222,7 +233,7 @@ export default async function ExpertiseDetailPage({
         <div className="container-content">
           <SectionHeading
             eyebrow="Nos services"
-            title="Ce que nous mettons en œuvre pour vous"
+            title={content.servicesTitle}
             intro="Un accompagnement complet, décliné en prestations concrètes."
             className="mb-16"
           />
@@ -298,7 +309,7 @@ export default async function ExpertiseDetailPage({
             eyebrow="Pour qui ?"
             light
             align="center"
-            title="À qui s'adresse cette expertise"
+            title={content.forWhomTitle}
             intro="Cette expertise répond tout particulièrement aux situations suivantes."
             className="mb-10"
           />
@@ -340,10 +351,31 @@ export default async function ExpertiseDetailPage({
 
       {/* Questions fréquentes (fond bleu, vidéo optionnelle via Sanity) -- */}
       <ExpertiseFaqSection
+        title={content.faqTitle}
         items={content.faq}
         videoUrl={faqVideo?.enabled ? faqVideo.videoUrl : null}
         posterUrl={faqVideo?.posterUrl}
       />
+
+      {/* Articles liés à l'expertise (maillage interne) ---------------- */}
+      {relatedArticles.length > 0 && (
+        <section className="bg-cream pt-24 md:pt-28">
+          <div className="container-content">
+            <SectionHeading
+              eyebrow="Actualités"
+              title={`Nos analyses : ${content.title}`}
+              className="mb-12"
+            />
+            <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedArticles.map((a, i) => (
+                <Reveal key={a.slug} delay={i * 90}>
+                  <ArticleCard article={a} />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Autres expertises ------------------------------------------- */}
       <section className="bg-cream pt-24 pb-8 md:pt-28 md:pb-10">
@@ -374,7 +406,7 @@ export default async function ExpertiseDetailPage({
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-ink/60">
                     {e.excerpt}
                   </p>
-                  <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-forest">
+                  <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-forest" aria-hidden="true">
                     Découvrir
                     <svg width="15" height="11" viewBox="0 0 16 12" fill="none" aria-hidden="true" className="transition-transform group-hover:translate-x-1">
                       <path d="M1 6h13M9 1l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -387,10 +419,7 @@ export default async function ExpertiseDetailPage({
         </div>
       </section>
 
-      <CTASection
-        title={`Un projet lié à ${content.title.toLowerCase()} ?`}
-        bgClassName="bg-cream"
-      />
+      <CTASection title={content.ctaTitle} bgClassName="bg-cream" />
     </>
   );
 }

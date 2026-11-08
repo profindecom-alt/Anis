@@ -29,7 +29,7 @@ export default function ArticleCard({
           {src && (
             <Image
               src={src}
-              alt={article.title}
+              alt=""
               fill
               sizes="96px"
               className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -62,7 +62,7 @@ export default function ArticleCard({
           {src && (
             <Image
               src={src}
-              alt={article.title}
+              alt=""
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -106,7 +106,7 @@ export default function ArticleCard({
         {src && (
           <Image
             src={src}
-            alt={article.title}
+            alt=""
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"

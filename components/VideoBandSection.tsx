@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Reveal from './Reveal';
+import { useDeferredVideo } from './useDeferredVideo';
 
 /**
  * Bandeau vidéo « ambiance » de la page d'accueil (après « Nos expertises »).
@@ -30,35 +31,34 @@ export default function VideoBandSection({
   ctaHref?: string;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = ref.current;
-    if (!video) return;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) {
-      video.pause();
-      return;
-    }
-    // La lecture auto peut être refusée par le navigateur : on l'ignore
-    // (le poster reste affiché).
-    void video.play().catch(() => {});
-  }, []);
+  const shouldLoad = useDeferredVideo(ref);
 
   return (
     <section className="relative flex min-h-[32rem] items-center overflow-hidden bg-[#241a05] md:min-h-[40rem]">
       {videoUrl ? (
-        <video
-          ref={ref}
-          className="absolute inset-0 h-full w-full object-cover"
-          src={videoUrl}
-          poster={posterUrl ?? undefined}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-        />
+        <>
+          {posterUrl && (
+            <Image
+              src={posterUrl}
+              alt=""
+              aria-hidden="true"
+              fill
+              sizes="100vw"
+              className="object-cover"
+            />
+          )}
+          <video
+            ref={ref}
+            className="absolute inset-0 h-full w-full object-cover"
+            src={shouldLoad ? videoUrl : undefined}
+            autoPlay={shouldLoad}
+            muted
+            loop
+            playsInline
+            preload="none"
+            aria-hidden="true"
+          />
+        </>
       ) : posterUrl ? (
         <Image
           src={posterUrl}

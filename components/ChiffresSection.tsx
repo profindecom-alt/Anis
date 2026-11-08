@@ -151,6 +151,11 @@ export default function ChiffresSection({
     };
   }, []);
 
+  // Aucun chiffre de démonstration ni logo supposé ne doit produire une
+  // section de confiance vide. Le bloc réapparaît dès que des données
+  // vérifiées sont explicitement configurées.
+  if (stats.length === 0 && partnerLogos.length === 0) return null;
+
   return (
     <section
       ref={sectionRef}
@@ -179,31 +184,35 @@ export default function ChiffresSection({
         </>
       )}
       <div className="chiffres__wrap">
-        <div className="chiffres__head">
-          <p className="chiffres__eyebrow">En quelques chiffres</p>
-          <h2 className="chiffres__title">La mesure de notre engagement</h2>
-        </div>
-
-        <div className="chiffres__grid">
-          {stats.map((s, i) => (
-            <div className="chiffres__cell" key={s.label}>
-              <span className="chiffres__idx">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <span className="chiffres__num">
-                {s.prefix && (
-                  <span className="chiffres__num-pre">{s.prefix}</span>
-                )}
-                <span className="chiffres__num-val" data-count={s.value}>
-                  {s.value}
-                </span>
-                {s.unit && <span className="chiffres__u">{s.unit}</span>}
-              </span>
-              <div className="chiffres__rule" />
-              <p className="chiffres__label">{s.label}</p>
+        {stats.length > 0 && (
+          <>
+            <div className="chiffres__head">
+              <p className="chiffres__eyebrow">En quelques chiffres</p>
+              <h2 className="chiffres__title">La mesure de notre engagement</h2>
             </div>
-          ))}
-        </div>
+
+            <div className="chiffres__grid">
+              {stats.map((s, i) => (
+                <div className="chiffres__cell" key={s.label}>
+                  <span className="chiffres__idx">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="chiffres__num">
+                    {s.prefix && (
+                      <span className="chiffres__num-pre">{s.prefix}</span>
+                    )}
+                    <span className="chiffres__num-val" data-count={s.value}>
+                      {s.value}
+                    </span>
+                    {s.unit && <span className="chiffres__u">{s.unit}</span>}
+                  </span>
+                  <div className="chiffres__rule" />
+                  <p className="chiffres__label">{s.label}</p>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
 
         {/* Bandeau partenaires (« Ils nous font confiance »), intégré à la même
             section que les chiffres : fond partagé, séparé par un filet doré. */}

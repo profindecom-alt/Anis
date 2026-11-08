@@ -8,7 +8,6 @@ import FloatingChatbot from '@/components/FloatingChatbot';
 import CtaPopup from '@/components/CtaPopup';
 import ScrollProgress from '@/components/ScrollProgress';
 import EyebrowAnimator from '@/components/EyebrowAnimator';
-import Preloader from '@/components/Preloader';
 import { site } from '@/lib/site';
 import { jsonLdHtml } from '@/lib/seo';
 import { getSiteSettings, resolveTracking } from '@/lib/settings';
@@ -59,14 +58,23 @@ export default async function SiteLayout({
   children: React.ReactNode;
 }) {
   const [settings, info] = await Promise.all([getSiteSettings(), getSiteInfo()]);
+  const sameAs = [...new Set(Object.values(info.social).filter(Boolean))];
   // Données structurées Organization (JSON-LD) pour le SEO
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FinancialService',
     '@id': `${site.url}/#organization`,
-    name: info.legalName,
+    name: site.name,
+    legalName: info.legalName,
     description: site.description,
     url: site.url,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${site.url}/icon-512.png`,
+      width: 512,
+      height: 512,
+    },
+    image: `${site.url}/opengraph-image`,
     email: info.email,
     telephone: info.phone,
     address: {
@@ -81,15 +89,48 @@ export default async function SiteLayout({
       latitude: site.geo.lat,
       longitude: site.geo.lng,
     },
-    sameAs: Object.values(site.social),
+    hasMap: `https://www.google.com/maps?q=${encodeURIComponent(
+      `${info.address.street} ${info.address.zip} ${info.address.city}`
+    )}`,
+    // Mêmes horaires que ceux affichés sur la page Contact.
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
       opens: '09:00',
       closes: '18:00',
     },
-    areaServed: 'FR',
-    priceRange: '€€€',
+    ...(sameAs.length > 0 ? { sameAs } : {}),
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      telephone: info.phone,
+      email: info.email,
+      availableLanguage: ['fr'],
+      areaServed: 'FR',
+    },
+    foundingDate: info.foundedOn,
+    identifier: [
+      {
+        '@type': 'PropertyValue',
+        name: 'SIREN',
+        value: info.siren,
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'SIRET',
+        value: info.siret,
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'ORIAS',
+        value: info.orias,
+        url: info.oriasUrl,
+      },
+    ],
+    areaServed: {
+      '@type': 'Country',
+      name: 'France',
+    },
   };
 
   return (
@@ -104,7 +145,6 @@ export default async function SiteLayout({
       >
         Aller au contenu
       </a>
-      <Preloader />
       <EyebrowAnimator />
       <ScrollProgress />
       <Header />

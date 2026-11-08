@@ -10,21 +10,20 @@ import Reveal from '@/components/Reveal';
 import Parallax from '@/components/Parallax';
 import DrawIcon from '@/components/DrawIcon';
 import FrameDraw from '@/components/FrameDraw';
-import ChiffresSection from '@/components/ChiffresSection';
 import ConvictionSection from '@/components/ConvictionSection';
 import ValuesGrid from '@/components/ValuesGrid';
 
 export const metadata = buildMetadata({
-  title: 'Le Cabinet',
+  title: 'Qui sommes-nous : le cabinet à Paris 1er',
   description:
-    "Découvrez Élan Patrimoine, cabinet de gestion de patrimoine indépendant à Paris : notre histoire, nos valeurs et nos agréments ORIAS et ACPR.",
+    "Découvrez Élan Patrimoine, cabinet de conseil patrimonial à Paris 1er : notre histoire, nos valeurs, notre immatriculation et notre inscription ORIAS.",
   path: '/le-cabinet',
 });
 
-/* Agréments & garanties — label + icône de chaque entrée du registre. */
-const agrements = [
+/* Repères officiels — label + icône de chaque entrée vérifiable. */
+const officialMarkers = [
   {
-    label: 'Immatriculation ORIAS',
+    label: 'Identité de l’entreprise',
     icon: (
       <>
         <path d="M7 3h7l4 4v14H7z" />
@@ -34,7 +33,7 @@ const agrements = [
     ),
   },
   {
-    label: 'Contrôle ACPR',
+    label: 'Établissement principal',
     icon: (
       <>
         <path d="M4 9l8-5 8 5" />
@@ -44,7 +43,7 @@ const agrements = [
     ),
   },
   {
-    label: 'Responsabilité civile',
+    label: 'Inscription ORIAS',
     icon: (
       <>
         <path d="M12 3l7 3v5c0 4.6-3 7.7-7 9-4-1.3-7-4.4-7-9V6z" />
@@ -57,14 +56,25 @@ const agrements = [
 export default async function LeCabinetPage() {
   const info = await getSiteInfo();
 
-  // Entrées du registre d'agréments (valeurs réglementaires réelles).
+  // Identifiants publics : les catégories ORIAS sont volontairement laissées
+  // à la fiche officielle, qui fait foi au jour de sa consultation.
   const credentials = [
     {
-      ...agrements[0],
+      ...officialMarkers[0],
+      value: <>SIREN {info.siren}</>,
+      desc: `${info.legalForm} · ${info.registration}.`,
+    },
+    {
+      ...officialMarkers[1],
+      value: <>SIRET {info.siret}</>,
+      desc: `${info.address.street}, ${info.address.zip} ${info.address.city}.`,
+    },
+    {
+      ...officialMarkers[2],
       value: <>N° {info.orias}</>,
       desc: (
         <>
-          Registre unique des intermédiaires en assurance, banque et finance.{' '}
+          Consulter les catégories et la validité de l'inscription sur{' '}
           <a
             href={info.oriasUrl}
             target="_blank"
@@ -73,18 +83,9 @@ export default async function LeCabinetPage() {
           >
             orias.fr
           </a>
+          .
         </>
       ),
-    },
-    {
-      ...agrements[1],
-      value: 'Autorité de tutelle',
-      desc: info.acpr,
-    },
-    {
-      ...agrements[2],
-      value: <>RCP &amp; Garantie</>,
-      desc: 'Garantie financière et assurance RCP conformes aux exigences légales en vigueur.',
     },
   ];
 
@@ -92,8 +93,8 @@ export default async function LeCabinetPage() {
     <>
       <PageHero
         eyebrow="Le Cabinet"
-        title="Un cabinet indépendant, une exigence constante"
-        intro="Depuis 2018, nous mettons l'indépendance, l'expertise et la discrétion au service d'une clientèle privée et professionnelle."
+        title="Élan Patrimoine, cabinet de conseil patrimonial à Paris"
+        intro="Immatriculée en 2026 à Paris, Élan Patrimoine s'appuie sur une expérience du conseil développée depuis 2018."
         breadcrumbs={[{ label: 'Le Cabinet' }]}
         imageId={img.cabinetTeam}
       />
@@ -130,24 +131,20 @@ export default async function LeCabinetPage() {
 
             <div className="mt-8 space-y-5 leading-relaxed text-ink/70">
               <p className="first-letter:float-left first-letter:mr-3 first-letter:mt-1.5 first-letter:font-serif first-letter:text-[3.6rem] first-letter:font-semibold first-letter:leading-[0.66] first-letter:text-gold-dark">
-                Élan Patrimoine est né d&apos;une conviction simple : chaque
-                parcours patrimonial mérite un accompagnement sur-mesure, loin
-                des solutions standardisées.
+                Le projet Élan Patrimoine est né d&apos;une conviction simple :
+                chaque parcours patrimonial mérite un accompagnement sur mesure,
+                loin des solutions standardisées.
               </p>
               <p>
-                Tout commence en 2018, lorsque notre fondateur développe une
-                expertise concrète sur les enjeux qui concernent vraiment les
-                chefs d&apos;entreprise, professionnels libéraux et travailleurs
-                non-salariés : protection sociale, préparation de la retraite,
-                optimisation de l&apos;épargne, immobilier et transmission.
+                Le parcours professionnel à l&apos;origine du cabinet commence en
+                2018 autour des enjeux des chefs d&apos;entreprise, professionnels
+                libéraux et travailleurs non-salariés : protection sociale,
+                préparation de la retraite, épargne, immobilier et transmission.
               </p>
               <p>
-                C&apos;est cette conviction qui donne naissance à Élan
-                Patrimoine : un cabinet pensé pour offrir à chaque client un
-                accompagnement de proximité, des explications claires et des
-                solutions réellement adaptées, qu&apos;il s&apos;agisse de
-                préparer sa retraite, de sécuriser son activité ou de faire
-                fructifier son épargne.
+                Le 5 juin 2026, cette expérience prend la forme d&apos;ÉLAN
+                PATRIMOINE, société immatriculée au Registre national des
+                entreprises sous le SIREN {info.siren}.
               </p>
               <p>
                 Aujourd&apos;hui, le cabinet accompagne indépendants, salariés
@@ -174,7 +171,7 @@ export default async function LeCabinetPage() {
                   <Parallax className="absolute inset-0" speed={0.1}>
                     <Image
                       src={imageUrl(img.cabinet, 800, 78)}
-                      alt="Cabinet Élan Patrimoine, conseil personnalisé"
+                      alt="Trois personnes échangent sur un canapé, ordinateurs portables ouverts"
                       fill
                       sizes="(max-width: 1024px) 100vw, 45vw"
                       className="object-cover"
@@ -187,19 +184,19 @@ export default async function LeCabinetPage() {
                 </div>
               </div>
 
-              {/* Millésime de fondation, en chiffres elzéviriens */}
+              {/* Année d'immatriculation, en chiffres elzéviriens */}
               <div className="absolute -bottom-5 left-4 z-20 flex items-stretch gap-4 bg-forest px-6 py-4 shadow-elevated sm:-left-6">
                 <span
                   className="self-center font-serif text-[2.6rem] font-medium leading-none text-gold"
                   style={{ fontFeatureSettings: "'onum' 1" }}
                 >
-                  2018
+                  2026
                 </span>
                 <span aria-hidden="true" className="w-px self-stretch bg-cream/20" />
                 <span className="self-center text-[0.65rem] uppercase leading-tight tracking-[0.2em] text-cream/60">
-                  Année de
+                  Année d&apos;
                   <br />
-                  fondation
+                  immatriculation
                 </span>
               </div>
             </div>
@@ -239,9 +236,6 @@ export default async function LeCabinetPage() {
         />
       </section>
 
-      {/* Chiffres clés — fond or crème animé (voile crème) ---------- */}
-      <ChiffresSection variant="cream" />
-
       {/* Citation de marque — propre à la page (évite de répéter la
           citation utilisée en accueil / notre approche) ----------------- */}
       <ConvictionSection
@@ -250,24 +244,24 @@ export default async function LeCabinetPage() {
         quote={
           <>
             <span className="quote-line">
-              Indépendants par choix, nous ne devons de comptes qu&apos;à{' '}
+              Indépendants par structure, nous expliquons nos choix et nos{' '}
             </span>
             <em className="quote-line font-medium italic text-gold">
-              nos clients
+              modes de rémunération
             </em>
             <span className="quote-line">.</span>
           </>
         }
       />
 
-      {/* Agréments & garanties + CTA : un seul fond continu ---------- */}
+      {/* Repères officiels + CTA : un seul fond continu --------------- */}
       <div className="bg-cream-gold">
         <section className="relative overflow-hidden pt-12 pb-6 md:pt-28 md:pb-8">
           <div className="container-content">
             <SectionHeading
-              eyebrow="Agréments & garanties"
-              title="Un cadre réglementaire qui vous protège"
-              intro="Élan Patrimoine exerce dans le strict respect de la réglementation applicable au conseil en investissements financiers et à l'intermédiation en assurance."
+              eyebrow="Identité & inscriptions"
+              title="Des informations officielles, faciles à vérifier"
+              intro="Raison sociale, identifiants d'entreprise et inscription ORIAS : retrouvez les repères publics du cabinet et leurs sources de vérification."
               className="mb-14"
             />
 

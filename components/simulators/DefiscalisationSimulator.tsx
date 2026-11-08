@@ -6,48 +6,75 @@ import SimulatorLeadForm from './SimulatorLeadForm';
 import { euros } from './format';
 
 /**
- * Simulateur d'économie d'impôt via versement sur un PER — page « Défiscalisation ».
- * Estimation simplifiée : la TMI est déduite du revenu imposable par part
- * (barème 2024) et l'économie correspond au versement déductible × TMI, dans
- * la limite d'un plafond de déduction approché (10 % des revenus).
+ * Scénario pédagogique de déduction PER — page « Défiscalisation ».
+ * Il compare l'impôt brut calculé par tranches avant/après déduction selon le
+ * barème 2026 applicable aux revenus 2025. Il ne remplace pas le simulateur de
+ * l'administration et n'intègre notamment ni décote, ni plafonnement du
+ * quotient familial, ni réductions ou crédits d'impôt.
  */
 
-/** Tranche marginale d'imposition d'après le quotient familial (barème 2024). */
+const TAX_BRACKETS_2026 = [
+  { upper: 11_600, rate: 0 },
+  { upper: 29_579, rate: 0.11 },
+  { upper: 84_577, rate: 0.3 },
+  { upper: 181_917, rate: 0.41 },
+  { upper: Number.POSITIVE_INFINITY, rate: 0.45 },
+] as const;
+
+/** Tranche marginale d'imposition d'après le quotient familial (barème 2026). */
 function tmiFromQuotient(quotient: number): number {
-  if (quotient <= 11294) return 0;
-  if (quotient <= 28797) return 11;
-  if (quotient <= 82341) return 30;
-  if (quotient <= 177106) return 41;
+  if (quotient <= 11_600) return 0;
+  if (quotient <= 29_579) return 11;
+  if (quotient <= 84_577) return 30;
+  if (quotient <= 181_917) return 41;
   return 45;
 }
 
-const PLAFOND_MIN = 4637; // ≈ 10 % du PASS
-const PLAFOND_MAX = 37094; // ≈ 10 % de 8 × PASS
+function grossIncomeTax(income: number, parts: number) {
+  const quotient = Math.max(0, income) / parts;
+  let previousUpper = 0;
+  let taxPerPart = 0;
+
+  for (const bracket of TAX_BRACKETS_2026) {
+    const taxable = Math.max(
+      0,
+      Math.min(quotient, bracket.upper) - previousUpper
+    );
+    taxPerPart += taxable * bracket.rate;
+    if (quotient <= bracket.upper) break;
+    previousUpper = bracket.upper;
+  }
+
+  return taxPerPart * parts;
+}
 
 export default function DefiscalisationSimulator({ sujet }: { sujet: string }) {
   const [revenu, setRevenu] = useState(60000);
   const [parts, setParts] = useState(2);
   const [versement, setVersement] = useState(5000);
+  const [plafondDisponible, setPlafondDisponible] = useState(5000);
 
-  const { tmi, plafond, verseRetenu, economie } = useMemo(() => {
+  const { tmi, verseRetenu, economie } = useMemo(() => {
     const quotient = revenu / parts;
     const tmi = tmiFromQuotient(quotient);
-    const plafond = Math.min(Math.max(revenu * 0.1, PLAFOND_MIN), PLAFOND_MAX);
-    const verseRetenu = Math.min(versement, plafond);
-    const economie = (verseRetenu * tmi) / 100;
-    return { tmi, plafond, verseRetenu, economie };
-  }, [revenu, parts, versement]);
+    const verseRetenu = Math.min(versement, plafondDisponible, revenu);
+    const impotAvant = grossIncomeTax(revenu, parts);
+    const impotApres = grossIncomeTax(revenu - verseRetenu, parts);
+    const economie = Math.max(0, impotAvant - impotApres);
+    return { tmi, verseRetenu, economie };
+  }, [plafondDisponible, revenu, parts, versement]);
 
-  const depasse = versement > plafond;
+  const depasse = versement > plafondDisponible;
 
   const summary = [
-    'Simulation — Économie d\'impôt (PER)',
+    'Scénario indicatif — Déduction PER (barème 2026 sur revenus 2025)',
     `• Revenu net imposable du foyer : ${euros(revenu)}`,
     `• Nombre de parts fiscales : ${parts}`,
     `• Versement PER envisagé : ${euros(versement)}`,
+    `• Plafond de déduction disponible saisi : ${euros(plafondDisponible)}`,
     `→ Tranche marginale d'imposition estimée : ${tmi} %`,
-    `→ Versement déductible retenu : ${euros(verseRetenu)} (plafond approché : ${euros(plafond)})`,
-    `→ Économie d'impôt estimée : ${euros(economie)}`,
+    `→ Versement déductible retenu : ${euros(verseRetenu)}`,
+    `→ Écart d'impôt brut indicatif : ${euros(economie)}`,
   ].join('\n');
 
   const partsDisplay = Number.isInteger(parts) ? `${parts}` : parts.toFixed(1);
@@ -85,26 +112,59 @@ export default function DefiscalisationSimulator({ sujet }: { sujet: string }) {
             onChange={setVersement}
             hint={
               depasse
-                ? `Au-delà du plafond approché (${euros(plafond)}), le surplus n'est pas déductible cette année.`
+                ? `La part dépassant le plafond disponible saisi (${euros(plafondDisponible)}) n'est pas retenue dans ce scénario.`
                 : undefined
             }
+          />
+          <RangeField
+            label="Plafond de déduction disponible"
+            value={plafondDisponible}
+            display={euros(plafondDisponible)}
+            min={0}
+            max={40000}
+            step={500}
+            onChange={setPlafondDisponible}
+            hint="Reprenez le plafond personnel indiqué sur votre dernier avis d'impôt ; il peut inclure des reliquats et dépendre de votre situation."
           />
         </div>
 
         <div className="mt-auto pt-8">
           <ResultStat
-            label="Économie d'impôt estimée"
+            label="Écart d'impôt brut indicatif"
             value={euros(economie)}
-            sub={`Sur la base d'une tranche marginale à ${tmi} % et d'un versement déductible de ${euros(verseRetenu)}.`}
+            sub={`Calcul progressif simplifié, barème 2026 sur revenus 2025, TMI initiale ${tmi} % et déduction retenue de ${euros(verseRetenu)}.`}
           />
+          <p className="mt-4 text-xs leading-relaxed text-ink/55">
+            Scénario non contractuel hors décote, plafonnement du quotient
+            familial, contributions exceptionnelles, réductions et crédits
+            d&apos;impôt. Vérifiez votre situation avec le{' '}
+            <a
+              href="https://www.impots.gouv.fr/simulateur-de-limpot-sur-le-revenu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-forest underline decoration-gold/50 underline-offset-2"
+            >
+              simulateur officiel de l&apos;administration fiscale
+            </a>
+            . Barème vérifié le 26 octobre 2026 dans le{' '}
+            <a
+              href="https://bofip.impots.gouv.fr/bofip/2491-PGP.html/identifiant=BOI-IR-LIQ-20-10-20260407"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-forest underline decoration-gold/50 underline-offset-2"
+            >
+              BOFiP
+            </a>
+            .
+          </p>
         </div>
       </div>
 
       <SimulatorLeadForm
         sujet={sujet}
         summary={summary}
-        title="Sécurisez cette économie d'impôt"
-        text="Un conseiller vérifie vos plafonds réels et choisit le dispositif le plus adapté à votre situation."
+        title="Faites vérifier ce scénario"
+        text="Un conseiller peut confronter cette estimation à votre plafond personnel, à votre fiscalité et aux règles applicables."
       />
     </div>
   );

@@ -6,12 +6,12 @@ import { expertiseContent } from '@/lib/expertise-content';
 import { buildMetadata } from '@/lib/seo';
 import PageHero from '@/components/PageHero';
 import CTASection from '@/components/CTASection';
-import Chatbot from '@/components/Chatbot';
+import LazyChatbot from '@/components/LazyChatbot';
 import Reveal from '@/components/Reveal';
 import ApprocheSection from '@/components/ApprocheSection';
 
 export const metadata = buildMetadata({
-  title: 'Nos Expertises',
+  title: 'Expertises : patrimoine, fiscalité, retraite',
   description:
     "Les quatre expertises d'Élan Patrimoine à Paris : gestion de patrimoine, défiscalisation, assurance & protection et plan épargne retraite (PER).",
   path: '/nos-expertises',
@@ -22,7 +22,7 @@ export default function NosExpertisesPage() {
     <>
       <PageHero
         eyebrow="Nos expertises"
-        title="Quatre expertises au service d'une stratégie unique"
+        title="Quatre expertises en gestion de patrimoine, une stratégie unique"
         intro="Chaque pôle se déploie au sein d'une vision d'ensemble. C'est leur articulation qui fait la valeur de notre accompagnement."
         breadcrumbs={[{ label: 'Nos Expertises' }]}
         imageId={expertiseContent['gestion-de-patrimoine'].imageId}
@@ -44,7 +44,7 @@ export default function NosExpertisesPage() {
                   <div className={`relative aspect-[16/10] overflow-hidden md:aspect-auto md:min-h-[340px] ${reversed ? 'md:order-2' : ''}`}>
                     <Image
                       src={imageUrl(content.imageId, 1000, 75)}
-                      alt={e.title}
+                      alt={content.imageAlt}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -112,7 +112,7 @@ export default function NosExpertisesPage() {
             </p>
           </Reveal>
           <Reveal delay={120}>
-            <Chatbot
+            <LazyChatbot
               context="services"
               intro="Bonjour, décrivez votre objectif patrimonial : je vous oriente vers la bonne expertise et peux fixer un rendez-vous."
             />

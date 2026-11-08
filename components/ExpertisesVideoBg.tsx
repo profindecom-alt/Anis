@@ -1,6 +1,8 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import Image from 'next/image';
+import { useRef } from 'react';
+import { useDeferredVideo } from './useDeferredVideo';
 
 /**
  * Vidéo de fond de la section « Nos expertises » (plein cadre, muette, en
@@ -16,32 +18,31 @@ export default function ExpertisesVideoBg({
   posterUrl?: string | null;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = ref.current;
-    if (!video) return;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) {
-      video.pause();
-      return;
-    }
-    // La lecture auto peut être refusée par le navigateur : on l'ignore
-    // (le poster reste affiché).
-    void video.play().catch(() => {});
-  }, []);
+  const shouldLoad = useDeferredVideo(ref);
 
   return (
-    <video
-      ref={ref}
-      className="expertises__video"
-      src={videoUrl}
-      poster={posterUrl ?? undefined}
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="metadata"
-      aria-hidden="true"
-    />
+    <>
+      {posterUrl && (
+        <Image
+          src={posterUrl}
+          alt=""
+          aria-hidden="true"
+          fill
+          sizes="100vw"
+          className="expertises__video"
+        />
+      )}
+      <video
+        ref={ref}
+        className="expertises__video"
+        src={shouldLoad ? videoUrl : undefined}
+        autoPlay={shouldLoad}
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-hidden="true"
+      />
+    </>
   );
 }

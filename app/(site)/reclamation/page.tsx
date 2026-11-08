@@ -23,12 +23,6 @@ const mediateurs = [
     linkLabel: 'www.mediation-assurance.org',
     href: 'https://www.mediation-assurance.org',
   },
-  {
-    title: 'Plateforme européenne',
-    body: 'Plateforme de règlement en ligne des litiges de la Commission européenne, ouverte à tous les consommateurs.',
-    linkLabel: 'ec.europa.eu/consumers/odr',
-    href: 'https://ec.europa.eu/consumers/odr',
-  },
 ];
 
 export default async function ReclamationPage() {
@@ -38,7 +32,7 @@ export default async function ReclamationPage() {
       title="Procédure de réclamation"
       intro="Votre satisfaction est notre priorité. Découvrez comment nous adresser une réclamation et les délais dans lesquels nous nous engageons à y répondre."
       breadcrumbLabel="Réclamation"
-      updated="12 juin 2026"
+      updated="26 octobre 2026"
       ctaBgClassName="bg-cream"
       contentPbClassName="pb-6 md:pb-8"
     >
@@ -91,8 +85,7 @@ export default async function ReclamationPage() {
 
       <h2>Délais de traitement</h2>
       <p>
-        Conformément aux recommandations de l'ACPR et de l'AMF, nous nous
-        engageons à respecter les délais suivants :
+        Nous nous engageons à respecter les délais suivants :
       </p>
       <ul>
         <li>
@@ -110,7 +103,9 @@ export default async function ReclamationPage() {
       <p>
         Si la réponse apportée ne vous satisfait pas, ou en l'absence de réponse
         dans les délais indiqués, vous pouvez saisir gratuitement le médiateur
-        compétent selon la nature de votre réclamation :
+        compétent selon la nature de la prestation concernée. Les coordonnées
+        du médiateur effectivement applicable figurent également dans vos
+        documents contractuels :
       </p>
 
       <div className="not-prose mt-8 space-y-4">
@@ -143,8 +138,8 @@ export default async function ReclamationPage() {
       </div>
 
       <p className="mt-8">
-        La saisine du médiateur ne pourra intervenir qu'après avoir épuisé les
-        voies de recours internes décrites ci-dessus.
+        La saisine du médiateur intervient après une réclamation écrite préalable
+        auprès du cabinet et dans les conditions propres au médiateur compétent.
       </p>
     </LegalLayout>
   );

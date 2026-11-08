@@ -8,7 +8,8 @@ import NotFoundView from '@/components/NotFoundView';
  */
 export const metadata: Metadata = {
   title: 'Page introuvable',
-  robots: { index: false, follow: false },
+  // Pas de balise robots ici : Next.js ajoute lui-même « noindex » aux
+  // réponses 404. En déclarer une seconde produirait deux directives.
 };
 
 export default function NotFound() {

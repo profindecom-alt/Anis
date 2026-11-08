@@ -4,49 +4,49 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 const comparison = [
   {
-    feature: 'Architecture de produits',
-    us: 'Ouverte sur tout le marché',
+    feature: 'Sélection des solutions',
+    us: 'Un périmètre expliqué',
     usDetail:
-      'Nous sélectionnons les meilleurs supports disponibles, toutes maisons confondues, sans contrainte de référencement ni quota commercial.',
-    them: 'Limitée aux produits maison',
-    themDetail:
-      'Le conseiller bancaire ne peut proposer que les fonds et contrats de son groupe.',
+      'Les solutions étudiées dépendent de votre besoin, de leur disponibilité et du cadre de notre mission. Les critères de sélection vous sont présentés.',
+    check: 'Univers réellement comparé',
+    checkDetail:
+      'Demandez quelles solutions ont été examinées, auprès de quels fournisseurs et pourquoi la proposition retenue paraît adaptée.',
   },
   {
-    feature: 'Intérêt servi',
-    us: 'Le vôtre, avant tout',
+    feature: 'Rémunération',
+    us: 'Présentée avant l’engagement',
     usDetail:
-      'Notre rémunération est transparente et déconnectée des volumes placés. Votre rendement passe avant le nôtre.',
-    them: 'Les objectifs commerciaux',
-    themDetail:
-      'Les conseillers bancaires ont des objectifs de collecte trimestriels qui orientent leurs recommandations.',
+      'Les honoraires, commissions éventuelles et principaux conflits d’intérêts sont expliqués dans les documents applicables.',
+    check: 'Coût total et conflits',
+    checkDetail:
+      'Vérifiez la nature de chaque rémunération, son montant ou son mode de calcul, ainsi que son incidence sur la recommandation.',
   },
   {
     feature: 'Interlocuteur',
-    us: 'Unique, du début à la fin',
+    us: 'Un contact identifié',
     usDetail:
-      'Vous connaissez le nom de votre conseiller. Il connaît votre situation dans le détail et ne change pas.',
-    them: 'Variable, par rotation',
-    themDetail:
-      'Les mutations internes génèrent en moyenne un changement de conseiller tous les 2 à 3 ans.',
+      'Vous savez qui suit votre dossier et comment joindre le cabinet. Les éléments utiles sont documentés pour assurer la continuité du suivi.',
+    check: 'Organisation du suivi',
+    checkDetail:
+      'Demandez qui sera votre contact, à quelle fréquence votre situation sera revue et comment la continuité est organisée en cas d’absence.',
   },
   {
     feature: 'Transparence des frais',
-    us: 'Complète et expliquée',
+    us: 'Détaillée avant décision',
     usDetail:
-      'Chaque frais est détaillé, motivé et mis en regard de la valeur créée. Aucune ligne cachée.',
-    them: 'Partielle',
-    themDetail:
-      'Les rétrocessions et frais indirects sont rarement mis en avant lors des souscriptions.',
+      'Les frais connus du conseil, des enveloppes et des supports sont présentés afin d’éclairer le coût global de la solution.',
+    check: 'Ensemble des coûts',
+    checkDetail:
+      'Comparez les frais ponctuels et récurrents, directs et indirects, ainsi que leur effet cumulé sur la durée envisagée.',
   },
   {
     feature: 'Horizon du conseil',
-    us: 'Votre projet de vie',
+    us: 'Votre situation et vos objectifs',
     usDetail:
-      'Retraite, transmission, résidence principale : votre cap personnel structure chaque décision patrimoniale.',
-    them: 'Les campagnes du trimestre',
-    themDetail:
-      'Les priorités commerciales changent tous les trimestres et influencent les recommandations.',
+      'La recommandation tient compte des objectifs exprimés, de l’horizon, des risques, des contraintes et des informations recueillies.',
+    check: 'Actualisation dans le temps',
+    checkDetail:
+      'Précisez la fréquence des points de suivi et les événements qui doivent conduire à réexaminer la stratégie.',
   },
 ];
 
@@ -96,16 +96,16 @@ function BentoCard({ row }: { row: typeof comparison[0] }) {
         <span className="h-px flex-1 bg-cream/10" />
       </div>
 
-      {/* Banque classique — réponse en retrait */}
+      {/* Point de vigilance neutre — sans allégation sur un concurrent. */}
       <div className="mt-auto px-1 opacity-60 transition-opacity duration-500 group-hover:opacity-80">
         <div className="mb-2 flex items-center gap-2">
           <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/5">
             <XIcon className="h-2.5 w-2.5 text-cream/40" />
           </span>
-          <span className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-cream/40">Banque classique</span>
+          <span className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-cream/40">À vérifier dans toute offre</span>
         </div>
-        <p className="mb-1 text-sm leading-snug text-cream/55">{row.them}</p>
-        <p className="text-xs leading-relaxed text-cream/30">{row.themDetail}</p>
+        <p className="mb-1 text-sm leading-snug text-cream/55">{row.check}</p>
+        <p className="text-xs leading-relaxed text-cream/30">{row.checkDetail}</p>
       </div>
     </article>
   );
@@ -183,7 +183,7 @@ export default function ComparatifCarousel() {
 
       {/* Contrôles : flèches dorées + puces */}
       <div className="mt-8 flex items-center justify-between">
-        <div className="flex items-center gap-2.5" aria-hidden="true">
+        <div className="flex items-center gap-2.5">
           {comparison.map((row, i) => (
             <button
               key={row.feature}

@@ -25,14 +25,14 @@ export default function PrevoyanceSimulator({ sujet }: { sujet: string }) {
   }, [revenu, part, annees, credits, dispo]);
 
   const summary = [
-    'Simulation — Besoin de prévoyance (capital décès)',
+    'Scénario indicatif — Besoin brut de prévoyance (capital décès)',
     `• Revenu net annuel du foyer : ${euros(revenu)}`,
     `• Part du revenu à maintenir : ${part} %`,
     `• Durée de couverture souhaitée : ${annees} ans`,
     `• Crédits restant à solder : ${euros(credits)}`,
     `• Épargne / capitaux déjà disponibles : ${euros(dispo)}`,
     `→ Besoin de maintien du niveau de vie : ${euros(besoinRevenu)}`,
-    `→ Capital de prévoyance recommandé : ${euros(besoin)}`,
+    `→ Besoin brut indicatif : ${euros(besoin)}`,
   ].join('\n');
 
   return (
@@ -90,10 +90,15 @@ export default function PrevoyanceSimulator({ sujet }: { sujet: string }) {
 
         <div className="mt-auto pt-8">
           <ResultStat
-            label="Capital de prévoyance recommandé"
+            label="Besoin brut indicatif"
             value={euros(besoin)}
-            sub="Capital décès estimé pour protéger durablement le niveau de vie de vos proches."
+            sub="Simple écart arithmétique entre le besoin saisi, les crédits et les capitaux déclarés."
           />
+          <p className="mt-4 text-xs leading-relaxed text-ink/55">
+            Ce résultat n&apos;est pas une recommandation. Il n&apos;intègre pas les
+            prestations de réversion, les garanties existantes, la fiscalité,
+            l&apos;inflation, les exclusions ni les limites propres à chaque contrat.
+          </p>
         </div>
       </div>
 
@@ -101,7 +106,7 @@ export default function PrevoyanceSimulator({ sujet }: { sujet: string }) {
         sujet={sujet}
         summary={summary}
         title="Faites auditer votre protection"
-        text="Un conseiller compare ce besoin à vos garanties actuelles et calibre la couverture au plus juste."
+        text="Un conseiller peut mettre ce besoin indicatif en regard de vos garanties, prestations et contraintes réelles."
       />
     </div>
   );

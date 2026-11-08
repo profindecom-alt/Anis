@@ -194,8 +194,9 @@ export default function ConvictionSection({
       <Image
         src="/logos/logo-gold.png"
         alt=""
-        width={967}
-        height={1160}
+        width={300}
+        height={360}
+        sizes="(max-width: 640px) 140px, (max-width: 768px) 180px, 300px"
         aria-hidden="true"
         className={`pointer-events-none absolute bottom-6 right-5 w-[140px] sm:w-[180px] md:bottom-auto md:right-10 md:top-1/2 md:w-[300px] md:-translate-y-1/2 ${
           brand ? 'opacity-[0.11]' : navy ? 'opacity-[0.12]' : 'opacity-[0.08]'

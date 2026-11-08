@@ -97,11 +97,13 @@ export default function ConsentManager({
           role="dialog"
           aria-label="Gestion des cookies"
           aria-live="polite"
-          className="fixed inset-x-0 bottom-0 z-[60] p-4 sm:p-6"
+          className="fixed inset-x-0 bottom-0 z-[60] p-2 sm:p-6"
         >
+          {/* Version compacte sur mobile : le bandeau ne doit pas masquer le
+              bouton principal de la page tant que le visiteur n'a pas choisi. */}
           <div className="container-content">
-            <div className="mx-auto flex max-w-3xl flex-col gap-5 rounded-2xl border border-ink/10 bg-white/95 p-6 shadow-elevated backdrop-blur md:flex-row md:items-center md:gap-8">
-              <p className="flex-1 text-sm leading-relaxed text-ink/70">
+            <div className="mx-auto flex max-w-3xl flex-col gap-3 rounded-2xl border border-ink/10 bg-white/95 p-4 shadow-elevated backdrop-blur sm:gap-5 sm:p-6 md:flex-row md:items-center md:gap-8">
+              <p className="flex-1 text-[13px] leading-snug text-ink/70 sm:text-sm sm:leading-relaxed">
                 {usesCookies
                   ? "Nous utilisons des cookies de mesure d'audience (Google Analytics) pour comprendre l'usage du site et l'améliorer. Ils ne sont déposés qu'avec votre accord, et vous pouvez le retirer à tout moment."
                   : "Nous utilisons une mesure d'audience respectueuse de votre vie privée (sans cookie publicitaire) pour améliorer notre site. Vous pouvez l'accepter ou la refuser."}{' '}
@@ -116,14 +118,14 @@ export default function ConsentManager({
                 <button
                   type="button"
                   onClick={() => choose('denied')}
-                  className="btn-outline px-5 py-2.5 text-sm"
+                  className="btn-outline flex-1 px-5 py-2 text-sm sm:flex-none sm:py-2.5"
                 >
                   Refuser
                 </button>
                 <button
                   type="button"
                   onClick={() => choose('granted')}
-                  className="btn-primary px-5 py-2.5 text-sm"
+                  className="btn-primary flex-1 px-5 py-2 text-sm sm:flex-none sm:py-2.5"
                 >
                   Accepter
                 </button>

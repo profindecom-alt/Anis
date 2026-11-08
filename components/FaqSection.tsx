@@ -16,7 +16,7 @@ const DEFAULT_FAQ: FaqItem[] = [
   },
   {
     q: 'Un conseiller indépendant, c’est quoi ?',
-    a: 'C’est un professionnel qui vous accompagne sur l’ensemble de votre patrimoine sans appartenir à un groupe bancaire ou assureur. Cette indépendance lui permet de sélectionner les solutions dans votre seul intérêt, en toute objectivité.',
+    a: 'C’est un professionnel qui exerce sans appartenir à un groupe bancaire ou assureur. Il compare les solutions accessibles, explique leurs risques et leurs frais, ainsi que son mode de rémunération, avant toute décision.',
   },
   {
     q: 'Le premier rendez-vous est-il payant ?',
@@ -24,7 +24,7 @@ const DEFAULT_FAQ: FaqItem[] = [
   },
   {
     q: 'Comment êtes-vous rémunérés ?',
-    a: 'Nous privilégions une rémunération claire, expliquée dès le départ : honoraires de conseil et rémunération sur les solutions mises en place. Tout est détaillé avant la moindre décision, sans surprise.',
+    a: 'Notre mode de rémunération peut comprendre des honoraires et, selon la solution, une rémunération liée à sa mise en place. Sa nature, son montant ou son mode de calcul sont présentés avant toute décision.',
   },
 ];
 

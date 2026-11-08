@@ -1,8 +1,22 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
-import Chatbot from '@/components/Chatbot';
 import { trackEvent } from '@/lib/analytics';
+
+// Le dialogue complet n'est téléchargé qu'après une intention explicite.
+// Cela allège le JavaScript initial de toutes les pages, notamment les articles.
+const Chatbot = dynamic(() => import('@/components/Chatbot'), {
+  ssr: false,
+  loading: () => (
+    <div
+      className="rounded-2xl bg-white p-6 text-sm text-ink/60 shadow-elevated"
+      role="status"
+    >
+      Ouverture de l&apos;assistant…
+    </div>
+  ),
+});
 
 /**
  * Lanceur de chatbot flottant (bas de page, à droite), positionné juste

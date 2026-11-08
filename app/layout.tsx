@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter, Dancing_Script } from 'next/font/google';
 import './globals.css';
 import { consentDefaultScript } from '@/lib/consent';
 import { site } from '@/lib/site';
+import { defaultSocialImage } from '@/lib/seo';
 
 const serif = Cormorant_Garamond({
   subsets: ['latin'],
@@ -17,6 +18,7 @@ const script = Dancing_Script({
   weight: ['500', '600', '700'],
   variable: '--font-script',
   display: 'swap',
+  preload: false,
 });
 
 const sans = Inter({
@@ -36,8 +38,9 @@ export const metadata: Metadata = {
   applicationName: site.name,
   authors: [{ name: site.name }],
   creator: site.name,
-  alternates: { canonical: site.url },
-  robots: { index: true, follow: true },
+  // Pas de canonical ni de robots ici : chaque page les définit via
+  // buildMetadata. Les déclarer à la racine les ferait hériter par les pages
+  // 404 (canonical vers l'accueil, double balise robots).
   openGraph: {
     type: 'website',
     locale: site.locale,
@@ -45,9 +48,25 @@ export const metadata: Metadata = {
     url: site.url,
     title: `${site.name} · ${site.baseline}`,
     description: site.description,
+    images: [
+      {
+        url: defaultSocialImage,
+        width: 1200,
+        height: 630,
+        alt: `${site.name} · ${site.baseline}`,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
+    title: `${site.name} · ${site.baseline}`,
+    description: site.description,
+    images: [
+      {
+        url: defaultSocialImage,
+        alt: `${site.name} · ${site.baseline}`,
+      },
+    ],
   },
 };
 
@@ -78,6 +97,14 @@ export default function RootLayout({
             être présente dans le HTML initial et s'exécuter au parsing, avant
             l'hydratation et donc avant le chargement de GTM/GA4. */}
         <script dangerouslySetInnerHTML={{ __html: consentDefaultScript }} />
+        {/* Signale que JavaScript s'exécute : les animations d'apparition
+            (Reveal) ne masquent leur contenu qu'à cette condition. Sans JS,
+            tout le texte reste visible. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
         {children}
       </body>
     </html>

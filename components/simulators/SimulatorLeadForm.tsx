@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useId, useState, type FormEvent } from 'react';
 import { EMAIL_RE } from '@/lib/validation';
 
 interface Props {
@@ -49,6 +49,16 @@ export default function SimulatorLeadForm({
   title = 'Recevez votre étude personnalisée',
   text = 'Un conseiller analyse votre simulation et vous recontacte sous 48 h ouvrées, sans engagement.',
 }: Props) {
+  const consentId = useId();
+  // Identifiants uniques : chaque libellé est associé à son champ (htmlFor).
+  const fieldId = useId();
+  const ids = {
+    prenom: `${fieldId}-prenom`,
+    nom: `${fieldId}-nom`,
+    email: `${fieldId}-email`,
+    telephone: `${fieldId}-telephone`,
+    note: `${fieldId}-note`,
+  };
   const [fields, setFields] = useState<Fields>(empty);
   const [status, setStatus] = useState<Status>('idle');
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -132,9 +142,9 @@ export default function SimulatorLeadForm({
             <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </span>
-        <h4 className="mt-5 font-serif text-xl font-semibold text-forest">
+        <h3 className="mt-5 font-serif text-xl font-semibold text-forest">
           Votre demande a bien été envoyée
-        </h4>
+        </h3>
         <p className="mt-3 text-sm text-ink/65">
           Merci. Un conseiller vous recontacte sous 48 heures ouvrées avec une
           étude adaptée à votre situation.
@@ -162,7 +172,7 @@ export default function SimulatorLeadForm({
         </span>
         <span aria-hidden="true" className="h-px w-8 bg-gold/40" />
       </div>
-      <h4 className="mt-4 font-serif text-2xl font-semibold text-forest">{title}</h4>
+      <h3 className="mt-4 font-serif text-2xl font-semibold text-forest">{title}</h3>
       <p className="mt-2 text-sm leading-relaxed text-ink/65">{text}</p>
 
       {/* Pot de miel anti-spam : masqué aux humains */}
@@ -180,10 +190,11 @@ export default function SimulatorLeadForm({
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2 sm:gap-4">
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-forest">
+          <label htmlFor={ids.prenom} className="mb-1.5 block text-sm font-medium text-forest">
             Prénom <span className="text-gold-dark">*</span>
           </label>
           <input
+            id={ids.prenom}
             type="text"
             value={fields.prenom}
             onChange={(e) => set('prenom', e.target.value)}
@@ -195,10 +206,11 @@ export default function SimulatorLeadForm({
           {errors.prenom && <p className="mt-1 text-xs text-red-500">{errors.prenom}</p>}
         </div>
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-forest">
+          <label htmlFor={ids.nom} className="mb-1.5 block text-sm font-medium text-forest">
             Nom <span className="text-gold-dark">*</span>
           </label>
           <input
+            id={ids.nom}
             type="text"
             value={fields.nom}
             onChange={(e) => set('nom', e.target.value)}
@@ -210,10 +222,11 @@ export default function SimulatorLeadForm({
           {errors.nom && <p className="mt-1 text-xs text-red-500">{errors.nom}</p>}
         </div>
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-forest">
+          <label htmlFor={ids.email} className="mb-1.5 block text-sm font-medium text-forest">
             E-mail <span className="text-gold-dark">*</span>
           </label>
           <input
+            id={ids.email}
             type="email"
             value={fields.email}
             onChange={(e) => set('email', e.target.value)}
@@ -225,8 +238,9 @@ export default function SimulatorLeadForm({
           {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
         </div>
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-forest">Téléphone</label>
+          <label htmlFor={ids.telephone} className="mb-1.5 block text-sm font-medium text-forest">Téléphone</label>
           <input
+            id={ids.telephone}
             type="tel"
             value={fields.telephone}
             onChange={(e) => set('telephone', e.target.value)}
@@ -239,10 +253,11 @@ export default function SimulatorLeadForm({
       </div>
 
       <div className="mt-4">
-        <label className="mb-1.5 block text-sm font-medium text-forest">
+        <label htmlFor={ids.note} className="mb-1.5 block text-sm font-medium text-forest">
           Précisions (facultatif)
         </label>
         <textarea
+          id={ids.note}
           rows={3}
           value={fields.note}
           onChange={(e) => set('note', e.target.value)}
@@ -254,13 +269,14 @@ export default function SimulatorLeadForm({
 
       <div className="mt-4 flex items-start gap-3">
         <input
+          id={consentId}
           type="checkbox"
           checked={fields.consent}
           onChange={(e) => set('consent', e.target.checked)}
           className="mt-1 h-4 w-4 shrink-0 rounded border-ink/30 text-forest accent-forest"
           disabled={busy}
         />
-        <label className="text-sm leading-relaxed text-ink/60">
+        <label htmlFor={consentId} className="text-sm leading-relaxed text-ink/60">
           J'accepte que mes données soient utilisées pour traiter ma demande,
           conformément à la{' '}
           <a

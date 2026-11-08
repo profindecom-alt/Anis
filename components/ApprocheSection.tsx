@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { approachSteps } from '@/lib/site';
+import { useDeferredVideo } from './useDeferredVideo';
 
 /**
  * Section « Notre approche » (design handoff — narratif + grand-livre).
@@ -47,20 +49,13 @@ export default function ApprocheSection({
 } = {}) {
   const sectionRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const shouldLoadVideo = useDeferredVideo(videoRef);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Vidéo de fond optionnelle : mise en pause si mouvement réduit, sinon
-    // lecture auto (le poster reste affiché si le navigateur la refuse).
-    const video = videoRef.current;
-    if (video) {
-      if (reduce) video.pause();
-      else void video.play().catch(() => {});
-    }
 
     if (reduce) return; // état au repos déjà visible
 
@@ -104,16 +99,25 @@ export default function ApprocheSection({
           pour conserver l'identité de la section et la lisibilité du texte. */}
       {videoUrl && (
         <>
+          {posterUrl && (
+            <Image
+              src={posterUrl}
+              alt=""
+              aria-hidden="true"
+              fill
+              sizes="100vw"
+              className="approche__video"
+            />
+          )}
           <video
             ref={videoRef}
             className="approche__video"
-            src={videoUrl}
-            poster={posterUrl ?? undefined}
-            autoPlay
+            src={shouldLoadVideo ? videoUrl : undefined}
+            autoPlay={shouldLoadVideo}
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
             aria-hidden="true"
           />
           <div className="approche__tint" aria-hidden="true" />

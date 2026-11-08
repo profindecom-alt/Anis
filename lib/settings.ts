@@ -10,7 +10,6 @@ import { client } from '@/sanity/lib/client';
 import { siteSettingsQuery } from '@/sanity/lib/queries';
 
 export interface SiteSettings {
-  legalName?: string;
   email?: string;
   phone?: string;
   phoneDisplay?: string;
@@ -27,8 +26,6 @@ export interface SiteSettings {
   // orias volontairement absent : le numéro est en dur dans lib/site.ts.
   oriasUrl?: string;
   acpr?: string;
-  rcs?: string;
-  capital?: string;
   gtmId?: string;
   ga4Id?: string;
   hotjarId?: string;

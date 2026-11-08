@@ -12,7 +12,36 @@ interface PageSeo {
   image?: string;
   type?: 'website' | 'article';
   publishedTime?: string;
+  modifiedTime?: string;
+  /** Ignore le gabarit global du titre (utile pour les titres d'articles longs). */
+  absoluteTitle?: boolean;
+  /** Titre éditorial complet utilisé sur les cartes sociales. */
+  socialTitle?: string;
+  authors?: { name: string; url?: string }[];
   noIndex?: boolean;
+  /**
+   * La route fournit ses propres images de partage via les fichiers
+   * `opengraph-image.tsx` / `twitter-image.tsx` : on n'en déclare pas ici,
+   * sinon la valeur déclarée l'emporte sur l'image générée.
+   */
+  fileImage?: boolean;
+}
+
+/** Carte de marque utilisée quand une page ne fournit pas de visuel propre. */
+export const defaultSocialImage = `${site.url}/opengraph-image`;
+
+/** Vrai uniquement si l'indexation est explicitement activée. */
+export const siteIndexable = process.env.SITE_INDEXABLE === 'true';
+
+// Garde-fou de déploiement : sans SITE_INDEXABLE=true au moment du build,
+// TOUT le site sort en noindex sans la moindre erreur. On le signale haut et
+// fort dans les journaux de build et de serveur de production.
+if (process.env.NODE_ENV === 'production' && !siteIndexable) {
+  console.warn(
+    '\n[seo] ATTENTION : SITE_INDEXABLE n’est pas "true". Toutes les pages ' +
+      'seront servies en noindex,nofollow. Définissez la variable (disponible ' +
+      'au build) dans l’hébergeur si le site doit être indexé.\n'
+  );
 }
 
 /**
@@ -28,7 +57,12 @@ export function buildMetadata({
   image,
   type = 'website',
   publishedTime,
+  modifiedTime,
+  absoluteTitle = false,
+  socialTitle,
+  authors,
   noIndex = false,
+  fileImage = false,
 }: PageSeo): Metadata {
   const url = `${site.url}${path === '/' ? '' : path}`;
 
@@ -37,30 +71,38 @@ export function buildMetadata({
   // pré-lancement : mentions ORIAS / adresse pas encore finalisées dans Sanity).
   // Le crawl reste autorisé (robots.txt) pour que Google VOIE la balise noindex.
   // Jour du lancement : définir SITE_INDEXABLE=true dans l'hébergeur, redéployer.
-  const indexable = process.env.SITE_INDEXABLE === 'true';
   const fullTitle =
-    path === '/' ? `${site.name} · ${site.baseline}` : `${title} | ${site.name}`;
+    path === '/'
+      ? `${site.name} · ${site.baseline}`
+      : `${socialTitle ?? title} | ${site.name}`;
 
-  // Si une image est fournie (articles, fiches expertise), on l'utilise comme
-  // visuel de partage. Sinon, on laisse Next appliquer la carte de marque
-  // générée (app/opengraph-image.tsx). `image` (URL déjà résolue, ex. Sanity)
-  // est prioritaire sur `imageId` (image locale).
-  const ogUrl = image ?? (imageId ? imageUrl(imageId) : undefined);
-  const ogImages = ogUrl
-    ? [{ url: ogUrl, width: 1200, height: 630, alt: title }]
-    : undefined;
+  // Un objet `openGraph` défini au niveau de la page remplace celui du layout
+  // parent dans Next.js. Il faut donc toujours fournir une image ici : sans ce
+  // repli explicite, les pages institutionnelles perdaient `og:image` et
+  // `twitter:image` malgré la route app/opengraph-image.tsx.
+  const selectedImage = image ?? (imageId ? imageUrl(imageId) : defaultSocialImage);
+  const ogUrl = new URL(selectedImage, site.url).toString();
+  const ogImages = [{ url: ogUrl, width: 1200, height: 630, alt: title }];
 
   return {
     // Home : titre absolu (sinon le gabarit "%s | nom" ne s'applique pas et la
     // balise <title> serait absente). Autres pages : titre simple + gabarit.
-    title: path === '/' ? { absolute: fullTitle } : title,
+    title:
+      path === '/' || absoluteTitle
+        ? { absolute: path === '/' ? fullTitle : title }
+        : title,
     description,
+    ...(authors?.length ? { authors } : {}),
     alternates: {
       canonical: url,
     },
-    robots: noIndex || !indexable
+    // Page écartée individuellement (ex. article à réécrire) : noindex mais
+    // liens suivis. Interrupteur global coupé : noindex,nofollow partout.
+    robots: !siteIndexable
       ? { index: false, follow: false }
-      : { index: true, follow: true },
+      : noIndex
+        ? { index: false, follow: true }
+        : { index: true, follow: true },
     openGraph: {
       title: fullTitle,
       description,
@@ -68,14 +110,15 @@ export function buildMetadata({
       siteName: site.name,
       locale: site.locale,
       type,
-      ...(ogImages ? { images: ogImages } : {}),
+      ...(fileImage ? {} : { images: ogImages }),
       ...(publishedTime ? { publishedTime } : {}),
+      ...(modifiedTime ? { modifiedTime } : {}),
     },
     twitter: {
       card: 'summary_large_image',
       title: fullTitle,
       description,
-      ...(ogUrl ? { images: [ogUrl] } : {}),
+      ...(fileImage ? {} : { images: [{ url: ogUrl, alt: title }] }),
     },
   };
 }
@@ -122,6 +165,24 @@ export function breadcrumbJsonLd(items: { label: string; href?: string }[]) {
   };
 }
 
+/**
+ * Données structurées WebSite (JSON-LD), à placer sur la page d'accueil
+ * uniquement : Google s'en sert en priorité pour choisir le nom du site
+ * affiché dans les résultats.
+ */
+export function websiteJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${site.url}/#website`,
+    url: `${site.url}/`,
+    name: site.name,
+    alternateName: ['Elan Patrimoine'],
+    inLanguage: 'fr-FR',
+    publisher: { '@id': `${site.url}/#organization` },
+  };
+}
+
 /** Données structurées FAQPage (JSON-LD) pour les questions fréquentes. */
 export function faqJsonLd(items: { q: string; a: string }[]) {
   return {
@@ -155,7 +216,9 @@ export function serviceJsonLd({
     areaServed: 'FR',
     provider: {
       '@type': 'FinancialService',
-      name: site.legalName,
+      '@id': `${site.url}/#organization`,
+      name: site.name,
+      legalName: site.legalName,
       url: site.url,
     },
   };

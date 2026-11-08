@@ -28,6 +28,16 @@ export const articleType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'seoTitle',
+      title: 'Titre SEO',
+      type: 'string',
+      group: 'meta',
+      description:
+        'Titre facultatif pour Google (sans le nom de la marque). Laisser vide pour utiliser le titre de l\'article.',
+      validation: (rule) =>
+        rule.max(60).warning('Visez 60 caractères maximum pour limiter la troncature.'),
+    }),
+    defineField({
       name: 'excerpt',
       title: 'Accroche',
       type: 'text',
@@ -35,6 +45,17 @@ export const articleType = defineType({
       group: 'contenu',
       description: 'Résumé court affiché sur les cartes et en méta-description.',
       validation: (rule) => rule.required().max(300),
+    }),
+    defineField({
+      name: 'metaDescription',
+      title: 'Méta-description SEO',
+      type: 'text',
+      rows: 3,
+      group: 'meta',
+      description:
+        'Description facultative pour les moteurs de recherche. Laisser vide pour utiliser l\'accroche.',
+      validation: (rule) =>
+        rule.max(160).warning('Visez 150 à 160 caractères maximum.'),
     }),
     defineField({
       name: 'image',
@@ -48,6 +69,10 @@ export const articleType = defineType({
           title: 'Texte alternatif',
           type: 'string',
           description: "Description de l'image (accessibilité, SEO).",
+          validation: (rule) => [
+            rule.required(),
+            rule.max(180).warning('Décrivez brièvement le contenu utile de l’image.'),
+          ],
         }),
       ],
       validation: (rule) => rule.required(),
@@ -84,23 +109,68 @@ export const articleType = defineType({
       title: 'Date de publication',
       type: 'date',
       group: 'meta',
+      description:
+        'Date réelle de première publication. Un article daté dans le futur reste masqué sur le site jusqu’à cette date.',
       options: { dateFormat: 'DD/MM/YYYY' },
       initialValue: () => new Date().toISOString().slice(0, 10),
-      validation: (rule) => rule.required(),
+      validation: (rule) => [
+        rule.required(),
+        rule
+          .custom((value) =>
+            typeof value === 'string' && value > new Date().toISOString().slice(0, 10)
+              ? 'Date future : l’article restera invisible jusqu’à cette date.'
+              : true
+          )
+          .warning(),
+      ],
     }),
     defineField({
       name: 'author',
       title: 'Auteur',
       type: 'string',
       group: 'meta',
-      validation: (rule) => rule.required(),
+      initialValue: 'Équipe éditoriale Élan Patrimoine',
+      validation: (rule) =>
+        rule.required().custom((value) =>
+          value === 'Antoine Gérard' || value === 'Sophie Laurent'
+            ? 'Ces noms provenaient des données de démonstration. Indiquez un auteur vérifiable ou la signature éditoriale.'
+            : true
+        ),
     }),
+    defineField({
+      name: 'authorRole',
+      title: 'Fonction de l\'auteur',
+      type: 'string',
+      group: 'meta',
+      description: 'Ex. « Conseiller en gestion de patrimoine ».',
+    }),
+    defineField({
+      name: 'authorUrl',
+      title: 'Profil public de l\'auteur',
+      type: 'url',
+      group: 'meta',
+      description:
+        'Page auteur ou profil professionnel vérifiable. Ne pas renseigner un profil générique.',
+    }),
+    // Ancien champ saisi à la main : le temps de lecture est désormais calculé
+    // à partir du nombre de mots du contenu. Conservé (masqué) pour ne pas
+    // signaler de champ inconnu sur les documents existants.
     defineField({
       name: 'readingTime',
       title: 'Temps de lecture (minutes)',
       type: 'number',
       group: 'meta',
-      validation: (rule) => rule.required().integer().min(1).max(60),
+      hidden: true,
+      readOnly: true,
+    }),
+    defineField({
+      name: 'noIndex',
+      title: 'Masquer des moteurs de recherche',
+      type: 'boolean',
+      group: 'meta',
+      description:
+        "L'article reste lisible sur le site mais sort de l'index Google et du sitemap (noindex). Les articles de moins de 300 mots sont de toute façon masqués automatiquement jusqu'à leur réécriture.",
+      initialValue: false,
     }),
     defineField({
       name: 'featured',

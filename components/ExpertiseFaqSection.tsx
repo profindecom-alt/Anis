@@ -17,10 +17,13 @@ import type { FaqItem } from './FaqSection';
  */
 export default function ExpertiseFaqSection({
   items,
+  title = 'Vos questions, nos réponses',
   videoUrl = null,
   posterUrl = null,
 }: {
   items: FaqItem[];
+  /** Titre H2 propre à l'expertise (ex. « Questions fréquentes sur le PER »). */
+  title?: string;
   videoUrl?: string | null;
   posterUrl?: string | null;
 }) {
@@ -59,7 +62,7 @@ export default function ExpertiseFaqSection({
           eyebrow="Questions fréquentes"
           light
           align="center"
-          title="Vos questions, nos réponses"
+          title={title}
           intro="L’essentiel à savoir sur cette expertise."
           className="mb-8 md:mb-10"
         />

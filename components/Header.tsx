@@ -175,14 +175,15 @@ export default function Header() {
                         onClick={() => setDesktopExpertises(false)}
                         className="group/item flex items-start gap-3.5 rounded-xl px-4 py-3 transition-colors hover:bg-cream"
                       >
-                        <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-cream font-serif text-sm font-semibold text-gold-dark transition-colors group-hover/item:bg-gold/15">
+                        <span aria-hidden="true" className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-cream font-serif text-sm font-semibold text-gold-dark transition-colors group-hover/item:bg-gold/15">
                           {e.pillar}
                         </span>
                         <span className="flex flex-col">
                           <span className="text-sm font-medium text-forest">
                             {e.title}
                           </span>
-                          <span className="mt-0.5 line-clamp-1 text-xs text-ink/50">
+                          {/* Accroche visuelle : le texte du lien reste le titre. */}
+                          <span aria-hidden="true" className="mt-0.5 line-clamp-1 text-xs text-ink/50">
                             {e.excerpt}
                           </span>
                         </span>
@@ -315,7 +316,7 @@ export default function Header() {
                       href={`/nos-expertises/${e.slug}`}
                       className="flex items-center gap-3 py-3 text-base text-ink/75 transition-colors hover:text-forest"
                     >
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-cream-200/70 font-serif text-sm font-semibold text-gold-dark">
+                      <span aria-hidden="true" className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-cream-200/70 font-serif text-sm font-semibold text-gold-dark">
                         {e.pillar}
                       </span>
                       {e.title}

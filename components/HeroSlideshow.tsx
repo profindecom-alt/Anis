@@ -30,13 +30,22 @@ export default function HeroSlideshow({
   const [mounted, setMounted] = useState<Set<number>>(() => new Set([0]));
 
   useEffect(() => {
-    setMounted((prev) => {
-      const next = new Set(prev);
-      next.add(active);
-      next.add((active + 1) % images.length); // précharge le visuel suivant
-      return next;
-    });
-  }, [active, images.length]);
+    if (images.length <= 1) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+
+    // Laisser passer la fenêtre LCP avant de précharger la diapositive suivante,
+    // tout en lui donnant le temps d'arriver avant la première transition.
+    const timer = window.setTimeout(() => {
+      setMounted((prev) => {
+        const next = new Set(prev);
+        next.add((active + 1) % images.length);
+        return next;
+      });
+    }, Math.max(3000, interval - 1500));
+
+    return () => window.clearTimeout(timer);
+  }, [active, images.length, interval]);
 
   useEffect(() => {
     if (images.length <= 1 || paused) return;
@@ -45,11 +54,18 @@ export default function HeroSlideshow({
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) return;
 
-    const timer = setInterval(() => {
-      setActive((a) => (a + 1) % images.length);
+    const timer = window.setTimeout(() => {
+      const next = (active + 1) % images.length;
+      setMounted((prev) => new Set(prev).add(next));
+      setActive(next);
     }, interval);
-    return () => clearInterval(timer);
-  }, [images.length, interval, paused]);
+    return () => window.clearTimeout(timer);
+  }, [active, images.length, interval, paused]);
+
+  const showSlide = (index: number) => {
+    setMounted((prev) => new Set(prev).add(index));
+    setActive(index);
+  };
 
   return (
     <div
@@ -88,7 +104,7 @@ export default function HeroSlideshow({
             <button
               key={`${image.src}-${i}`}
               type="button"
-              onClick={() => setActive(i)}
+              onClick={() => showSlide(i)}
               aria-label={`Afficher l'image ${i + 1} sur ${images.length}`}
               aria-current={i === active ? 'true' : undefined}
               className={`h-2 rounded-full transition-all duration-500 ${

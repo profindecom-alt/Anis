@@ -76,14 +76,15 @@ export default function SignatureSection({
               <Image
                 src="/logos/logo-gold.png"
                 alt="Monogramme Élan Patrimoine"
-                width={967}
-                height={1160}
+                width={48}
+                height={58}
+                sizes="48px"
                 className="h-8 w-auto md:h-11"
               />
             </span>
 
             <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7a5e22] sm:tracking-[0.26em] md:text-xs md:tracking-[0.3em]">
-              L&apos;esprit Élan · Depuis 2018
+              L&apos;expérience du conseil · Depuis 2018
             </p>
 
             <div className="mb-6 mt-5 text-gold md:mb-9 md:mt-7">
@@ -157,7 +158,7 @@ export default function SignatureSection({
         <div className="relative aspect-[4/5] overflow-hidden">
           <Image
             src="/images/imagevlt1.jpg"
-            alt="Les bureaux du cabinet Élan Patrimoine"
+            alt="Espace de rendez-vous Élan Patrimoine"
             fill
             sizes="(max-width: 1024px) 92vw, 38vw"
             className="object-cover"
@@ -167,7 +168,7 @@ export default function SignatureSection({
       <figcaption className="mt-7 text-center">
         <span className="eyebrow justify-center">La maison Élan</span>
         <p className="mx-auto mt-4 max-w-xs text-balance font-serif text-xl leading-snug text-forest md:text-2xl">
-          Un cabinet indépendant, fondé en 2018.
+          Une expérience du conseil développée depuis 2018.
         </p>
       </figcaption>
     </figure>
@@ -188,8 +189,9 @@ export default function SignatureSection({
         <Image
           src="/logos/logo-gold.png"
           alt=""
-          width={967}
-          height={1160}
+          width={560}
+          height={672}
+          sizes="(max-width: 640px) 300px, (max-width: 768px) 340px, 560px"
           aria-hidden="true"
           className="pointer-events-none absolute left-1/2 top-1/2 w-[300px] -translate-x-1/2 -translate-y-1/2 opacity-[0.13] sm:w-[340px] md:w-[560px]"
         />
@@ -204,8 +206,9 @@ export default function SignatureSection({
               <Image
                 src="/logos/logo-gold.png"
                 alt=""
-                width={967}
-                height={1160}
+                width={460}
+                height={552}
+                sizes="(max-width: 640px) 320px, (max-width: 768px) 380px, 460px"
                 aria-hidden="true"
                 className="pointer-events-none absolute left-1/2 top-1/2 w-[320px] -translate-x-1/2 -translate-y-1/2 opacity-[0.07] sm:w-[380px] md:w-[460px]"
               />
