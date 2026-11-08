@@ -140,6 +140,29 @@ Chaque page expose : `canonical`, `meta description`, Open Graph, Twitter Card
 marque générée (`opengraph-image` / `twitter-image`) et des données structurées
 JSON-LD (`FinancialService`, `Article`, `BreadcrumbList`).
 
+## Déploiement (Coolify)
+
+Le site est construit sur le même VPS qui le sert. Un build trop gourmand
+peut priver le site de mémoire et le rendre injoignable (504) pendant le
+déploiement. Réglages recommandés :
+
+1. **Build pack : `Dockerfile`** (Configuration > General), **Ports Exposes :
+   `3000`**. Le [`Dockerfile`](Dockerfile) évite Nix, plafonne la mémoire du
+   build (`BUILD_MAX_OLD_SPACE_MB`, 2048 Mo par défaut) et produit une image
+   « standalone » légère, avec un healthcheck. Tant que le build pack reste
+   « Nixpacks », [`nixpacks.toml`](nixpacks.toml) applique le même plafond.
+2. **Variables cochées « Build Variable »** : `SITE_INDEXABLE`,
+   `SANITY_API_READ_TOKEN` et les `NEXT_PUBLIC_*`. Les variables `N8N_*` ne
+   servent qu'à l'exécution. `SANITY_API_WRITE_TOKEN` n'a rien à faire en
+   production (il ne sert qu'à `npm run seed`, en local).
+3. **Swap sur le serveur** (au moins 4 Go si le VPS a peu de RAM) :
+   ```
+   fallocate -l 4G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile
+   echo '/swapfile none swap sw 0 0' >> /etc/fstab
+   ```
+4. Après chaque déploiement : la page d'accueil répond 200 et contient
+   `index, follow` (sinon `SITE_INDEXABLE` n'était pas disponible au build).
+
 ## Mesure d'audience (GTM / GA4)
 
 Google Tag Manager, Google Analytics 4, Consent Mode v2 et les événements de

@@ -159,6 +159,17 @@ const studioHeaders = [
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Image Docker (voir Dockerfile) : serveur autonome minimal lancé par
+  // `node server.js`. Activé uniquement par la variable du Dockerfile, pour
+  // que `next start` (développement, Nixpacks) continue de fonctionner.
+  ...(process.env.NEXT_OUTPUT === 'standalone' ? { output: 'standalone' } : {}),
+  // Le site est construit sur le même petit VPS qui le sert : un build trop
+  // gourmand gelait le serveur (504). On limite la génération statique à un
+  // seul processus et on active les optimisations mémoire de webpack.
+  experimental: {
+    cpus: 1,
+    webpackMemoryOptimizations: true,
+  },
   // Métadonnées complètes dans le <head> pour TOUS les robots, Googlebot
   // compris. Sans cela, Next.js (>= 15.2) diffuse les métadonnées des pages
   // dynamiques dans le <body> : Google ignore alors le rel=canonical, qu'il

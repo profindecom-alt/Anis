@@ -1,0 +1,12 @@
+# Contexte de build Docker : uniquement le code source.
+.git
+node_modules
+.next
+out
+docs
+*.tsbuildinfo
+npm-debug.log*
+
+# Jamais de secrets locaux dans l'image.
+.env
+.env*.local

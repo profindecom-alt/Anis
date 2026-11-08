@@ -1,0 +1,8 @@
+# Utilisé seulement tant que Coolify reste en build pack « Nixpacks ».
+# Le Dockerfile (build pack « Dockerfile ») est plus léger et recommandé.
+#
+# Plafond mémoire du build : un manque de RAM fait échouer le build au lieu
+# de geler le serveur. S'applique aussi au serveur `next start`.
+[variables]
+NEXT_TELEMETRY_DISABLED = "1"
+NODE_OPTIONS = "--max-old-space-size=2048"
